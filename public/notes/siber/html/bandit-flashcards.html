@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandit Flashcard'lar - OverTheWire</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Bandit Flashcard'lar</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">💡</div>
+            <h1>OverTheWire Bandit - Flashcard Koleksiyonu</h1>
+            <p>Linux komut satırı komutlarını interaktif kartlarla öğrenin</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">40</div>
+                <div class="stat-label">Toplam Flashcard</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="viewed-count">0</div>
+                <div class="stat-label">İncelenen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="progress-percent">0%</div>
+                <div class="stat-label">İlerleme</div>
+            </div>
+        </div>
+
+        <div class="control-buttons">
+            <button class="btn" onclick="shuffleCards()">🔀 Kartları Karıştır</button>
+            <button class="btn" onclick="resetProgress()">🔄 İlerlemeyi Sıfırla</button>
+            <a href="modul8-bandit.html" class="btn">← Modül 8'e Dön</a>
+        </div>
+
+        <!-- TEMEL KOMUTLAR -->
+        <div class="section">
+            <h2>📂 Temel Dosya İşlemleri</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Dosya Okuma</div>
+                            <div class="card-question">cat komutu ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Concatenate - Dosya içeriğini ekrana yazdırır.<br><code>cat dosya.txt</code></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Dosya Listeleme</div>
+                            <div class="card-question">ls -la parametreleri ne anlama gelir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>-l</strong>: Long format (detaylı liste)<br><strong>-a</strong>: All (gizli dosyalar dahil)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Dizin Değiştirme</div>
+                            <div class="card-question">cd .. komutu ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir üst dizine çıkar (parent directory)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Mevcut Dizin</div>
+                            <div class="card-question">pwd komutu neyi gösterir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Print Working Directory - Mevcut dizinin tam yolunu gösterir</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Gizli Dosyalar</div>
+                            <div class="card-question">Linux'ta gizli dosyalar nasıl adlandırılır?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Nokta (.) ile başlar. Örnek: .hidden, .bashrc</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Dosya Tipi</div>
+                            <div class="card-question">file komutu ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Dosyanın tipini belirler (ASCII text, binary data, executable vb.)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIND KOMUTU -->
+        <div class="section">
+            <h2>🔍 Dosya Arama - Find</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Find Temel</div>
+                            <div class="card-question">find -type f ne demek?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>-type f</strong>: Sadece dosyaları ara (file, dizinler hariç)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Find Boyut</div>
+                            <div class="card-question">find -size 1033c 'c' harfi ne anlama gelir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>c</strong> = bytes (characters)<br>Diğer: k=KB, M=MB, G=GB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Find Sahiplik</div>
+                            <div class="card-question">find -user bandit7 ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Sahibi bandit7 olan dosyaları bulur</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Find NOT</div>
+                            <div class="card-question">! -executable ne anlama gelir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>!</strong> (NOT operatörü): Çalıştırılabilir OLMAYAN dosyalar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Find Exec</div>
+                            <div class="card-question">-exec file {} \; ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bulunan her dosya için file komutunu çalıştırır<br>{} = bulunan dosya adı</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GREP VE ARAMA -->
+        <div class="section">
+            <h2>📝 Metin Arama - Grep</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Grep Temel</div>
+                            <div class="card-question">grep "kelime" dosya ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Dosyada "kelime" içeren satırları arar ve gösterir</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Grep -i</div>
+                            <div class="card-question">grep -i parametresi ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>i</strong> (ignore case): Büyük/küçük harf duyarsız arama</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Grep -v</div>
+                            <div class="card-question">grep -v ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>v</strong> (invert): Eşleşmeyenleri göster (tersini al)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Grep -n</div>
+                            <div class="card-question">grep -n ne gösterir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>n</strong> (number): Satır numaralarını gösterir</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Regex ^</div>
+                            <div class="card-question">grep "^#" ne arar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>^</strong> (caret): Satır başı<br># ile başlayan satırları bulur (yorumlar)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Regex $</div>
+                            <div class="card-question">grep "txt$" ne arar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>$</strong> (dollar): Satır sonu<br>txt ile biten satırları bulur</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SORT VE UNIQ -->
+        <div class="section">
+            <h2>🔄 Sıralama ve Benzersizlik</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Sort Temel</div>
+                            <div class="card-question">sort komutu ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Satırları alfabetik olarak sıralar (A-Z)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Sort -n</div>
+                            <div class="card-question">sort -n neden gereklidir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>n</strong> (numeric): Sayısal sıralama<br>1, 2, 10 şeklinde (10, 2, 1 değil)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Uniq Temel</div>
+                            <div class="card-question">uniq komutu ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Ardışık tekrarlanan satırları kaldırır (1 tane bırakır)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Uniq -u</div>
+                            <div class="card-question">uniq -u ne gösterir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>u</strong> (unique): Sadece benzersiz satırları göster (tekrar edilmeyenler)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Uniq -c</div>
+                            <div class="card-question">uniq -c ne gösterir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>c</strong> (count): Her satırın kaç kez geçtiğini sayar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Uniq Uyarısı</div>
+                            <div class="card-question">Uniq kullanmadan önce neden sort gerekir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Uniq sadece ARDIŞIK (yan yana) tekrarları tespit eder. Sort ile önce sıralamak şart!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STRINGS VE BINARY -->
+        <div class="section">
+            <h2>🔧 Binary Analiz</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Strings Temel</div>
+                            <div class="card-question">strings komutu ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Binary dosyalardaki okunabilir ASCII metinleri çıkarır</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Strings -n</div>
+                            <div class="card-question">strings -n 10 ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>n</strong>: Minimum karakter uzunluğunu belirler (varsayılan 4)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REDIRECTION -->
+        <div class="section">
+            <h2>⚡ Yönlendirme (Redirection)</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Stdout vs Stderr</div>
+                            <div class="card-question">1 ve 2 ne anlama gelir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>1</strong> = stdout (standart çıktı)<br><strong>2</strong> = stderr (standart hata)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">2>/dev/null</div>
+                            <div class="card-question">2>/dev/null ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Hata mesajlarını gizler (Permission denied vb.)<br>/dev/null = çöp kutusu</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Pipe |</div>
+                            <div class="card-question">Pipe (|) ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir komutun çıktısını bir sonraki komuta gönderir<br>Örnek: ls | grep "txt"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">> vs >></div>
+                            <div class="card-question">> ve >> arasındaki fark nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>></strong> üzerine yazar<br><strong>>></strong> sona ekler (append)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">2>&1</div>
+                            <div class="card-question">2>&1 ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">stderr'i stdout'a yönlendirir (hataları normal çıktıyla birleştirir)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SSH -->
+        <div class="section">
+            <h2>🔐 SSH Bağlantısı</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">SSH Temel</div>
+                            <div class="card-question">SSH ne demektir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Secure Shell - Güvenli uzak bağlantı protokolü</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">SSH Port</div>
+                            <div class="card-question">ssh -p 2220 ne yapar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer"><strong>-p</strong> (port): Port numarası belirtir (varsayılan 22)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">SSH Sözdizimi</div>
+                            <div class="card-question">user@host formatı ne demektir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">kullanıcı_adı@sunucu_adresi<br>Örnek: bandit0@bandit.labs.overthewire.org</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ÖZELİŞLEMLER -->
+        <div class="section">
+            <h2>⚙️ Özel Durumlar</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Tire Dosyası</div>
+                            <div class="card-question">"-" adlı dosyayı nasıl okursun?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">cat ./- veya cat < -<br>(./prefix özel karakter sorununu çözer)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Boşluklu Dosya</div>
+                            <div class="card-question">Boşluk içeren dosya adını nasıl kullanırsın?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">3 yöntem:<br>1. "dosya adı"<br>2. dosya\ adı<br>3. TAB completion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Wildcard</div>
+                            <div class="card-question">* karakteri ne işe yarar?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Wildcard - Tüm dosyaları temsil eder<br>Örnek: file * (tüm dosyaların tipi)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../../common.js"></script>
+    <script>
+        // Flashcard flip fonksiyonu
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+            updateProgress();
+        }
+
+        // İlerleme güncelleme
+        function updateProgress() {
+            const total = document.querySelectorAll('.flashcard').length;
+            const viewed = document.querySelectorAll('.flashcard.flipped').length;
+            const percent = Math.round((viewed / total) * 100);
+            
+            document.getElementById('viewed-count').textContent = viewed;
+            document.getElementById('progress-percent').textContent = percent + '%';
+        }
+
+        // Kartları karıştır
+        function shuffleCards() {
+            const containers = document.querySelectorAll('.flashcard-container');
+            containers.forEach(container => {
+                const cards = Array.from(container.children);
+                cards.sort(() => Math.random() - 0.5);
+                cards.forEach(card => container.appendChild(card));
+            });
+        }
+
+        // İlerlemeyi sıfırla
+        function resetProgress() {
+            document.querySelectorAll('.flashcard').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            updateProgress();
+        }
+    </script>
+</body>
+</html>

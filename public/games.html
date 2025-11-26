@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyunlar - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: 0.5 },
+                            '50%': { opacity: 1 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(34, 197, 94, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-icon-wrapper {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="relative z-10 pt-20 pb-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-block mb-6 relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75 animate-pulse"></div>
+                <div class="relative bg-gray-900 rounded-full p-4 border border-gray-700">
+                    <i class="fas fa-gamepad text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"></i>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+                Oyun Merkezi
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Boş zamanlarınızı değerlendirebileceğiniz, yeteneklerinizi test edebileceğiniz eğlenceli mini oyunlar koleksiyonu.
+            </p>
+            <a href="https://alienes.me" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full transition-all hover:scale-105 group">
+                <i class="fas fa-arrow-left text-gray-400 group-hover:text-white transition-colors"></i>
+                <span>Ana Sayfaya Dön</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Games Grid -->
+    <main class="flex-grow container mx-auto px-4 py-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            <!-- 2048 -->
+            <a href="/2048" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🔢
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-md border border-blue-500/30">Zeka</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">2048</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Karoları birleştirerek 2048 sayısına ulaşmaya çalışın! Stratejik düşünme gerektirir.
+                </p>
+                <div class="flex items-center text-sm text-blue-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Snake -->
+            <a href="/snake" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🐍
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-md border border-green-500/30">Klasik</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">Snake</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Klasik yılan oyunu. Elmaları yiyin, büyüyün ve kendinize çarpmamaya dikkat edin!
+                </p>
+                <div class="flex items-center text-sm text-green-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Flappy Bird -->
+            <a href="/flappy-bird" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🐦
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-md border border-cyan-500/30">Arcade</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Flappy Bird</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Kuşu uçurun ve borulardan geçmeye çalışın! Sinirlerinize hakim olun.
+                </p>
+                <div class="flex items-center text-sm text-cyan-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Memory Card -->
+            <a href="/memory-card" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🧠
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-md border border-purple-500/30">Hafıza</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Memory Card</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Eşleşen kartları bulun ve hafızanızı test edin! En kısa sürede bitirmeye çalışın.
+                </p>
+                <div class="flex items-center text-sm text-purple-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Tic Tac Toe -->
+            <a href="/tic-tac-toe" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        ⭕
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-md border border-orange-500/30">Strateji</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">Tic Tac Toe</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    XOX oyunu. Bilgisayara karşı veya arkadaşınızla oynayın.
+                </p>
+                <div class="flex items-center text-sm text-orange-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Quiz -->
+            <a href="/quiz" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        ❓
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-teal-500/20 text-teal-300 text-xs rounded-md border border-teal-500/30">Bilgi</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-teal-400 transition-colors">Quiz</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Programlama bilginizi test edin! 10 soruluk mini test.
+                </p>
+                <div class="flex items-center text-sm text-teal-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Breakout -->
+            <a href="/breakout" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🧱
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-300 text-xs rounded-md border border-indigo-500/30">Arcade</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Breakout</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Tuğlaları kırın! Topu düşürmeden tüm tuğlaları yok etmeye çalışın.
+                </p>
+                <div class="flex items-center text-sm text-indigo-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Color Matcher -->
+            <a href="/color-matcher" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🎨
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-pink-500/20 text-pink-300 text-xs rounded-md border border-pink-500/30">Yaratıcı</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">Color Matcher</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    RGB değerlerini ayarlayarak hedef rengi bulmaya çalışın.
+                </p>
+                <div class="flex items-center text-sm text-pink-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Typing Speed -->
+            <a href="/typing-speed" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        ⌨️
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded-md border border-yellow-500/30">Hız</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">Typing Speed</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Yazma hızınızı ve doğruluğunuzu test edin! Ne kadar hızlısınız?
+                </p>
+                <div class="flex items-center text-sm text-yellow-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- Math Quiz -->
+            <a href="/math-quiz" class="glass-card rounded-2xl p-6 transition-all duration-300 group">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="game-icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+                        🧮
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="px-2 py-1 bg-red-500/20 text-red-300 text-xs rounded-md border border-red-500/30">Matematik</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">Math Quiz</h3>
+                <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+                    Matematik işlemlerini en hızlı şekilde çözmeye çalışın.
+                </p>
+                <div class="flex items-center text-sm text-red-400 font-medium">
+                    <span>Oyna</span>
+                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Stats Section -->
+        <div class="mt-20 glass-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+            <h2 class="text-3xl font-bold text-white mb-4">İstatistikler</h2>
+            <p class="text-gray-400 mb-10 max-w-2xl mx-auto">
+                Platformumuzda bulunan oyunlar ve özellikler hakkında kısa bilgiler.
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">10+</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Oyun</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-purple-400 mb-2">∞</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Eğlence</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-pink-400 mb-2">100%</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Ücretsiz</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-green-400 mb-2">7/24</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-wider">Aktif</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 bg-gray-900/50 backdrop-blur-sm mt-12 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500">
+                &copy; 2024 <a href="https://alienes.me" class="text-blue-400 hover:text-blue-300 transition-colors">Alienes</a>. Tüm hakları saklıdır.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

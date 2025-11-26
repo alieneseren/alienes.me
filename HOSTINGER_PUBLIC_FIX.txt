@@ -1,0 +1,38 @@
+# HOSTINGER SSH'DE ÇALIŞTIRIN - Public Symlink Düzeltme
+# Bu komutları sırayla kopyalayıp Hostinger SSH'de çalıştırın
+
+# 1. Proje dizinine gidin
+cd /home/u233064020/domains/alienes.me
+
+# 2. Mevcut public durumunu kontrol edin
+ls -la | grep public
+
+# 3. Eğer public bir klasörse (symlink değilse), aşağıdaki komutları çalıştırın:
+
+# a. public/build klasörünü public_html'e kopyalayın
+mkdir -p public_html/build
+if [ -d "public/build" ]; then cp -r public/build/* public_html/build/; fi
+
+# b. public klasörünü yedekle
+mv public public_backup_$(date +%Y%m%d_%H%M%S)
+
+# c. Symlink oluştur
+ln -s public_html public
+
+# 4. İzinleri düzeltin
+chmod -R 755 public_html/build
+
+# 5. Cache'leri temizleyin
+php artisan view:clear
+php artisan config:cache
+php artisan route:clear
+
+# 6. Build klasörünü kontrol edin
+ls -la public_html/build/
+
+# Beklenen çıktı:
+# - manifest.json dosyası olmalı
+# - assets klasörü olmalı
+# - Her dosya 755 izinleriyle erişilebilir olmalı
+
+echo "✓ public symlink düzeltildi!"

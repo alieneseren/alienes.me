@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandit Test - OverTheWire</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Bandit Test</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">📝</div>
+            <h1>OverTheWire Bandit - Test Merkezi</h1>
+            <p>Linux komut satırı bilginizi test edin!</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="total-questions">30</div>
+                <div class="stat-label">Toplam Soru</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="answered-count">0</div>
+                <div class="stat-label">Cevaplanan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="correct-score">0</div>
+                <div class="stat-label">Doğru Sayısı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="success-rate">0%</div>
+                <div class="stat-label">Başarı Oranı</div>
+            </div>
+        </div>
+
+        <div class="control-buttons">
+            <button class="btn" onclick="checkAllAnswers()">✓ Cevapları Kontrol Et</button>
+            <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+            <a href="modul8-bandit.html" class="btn">← Modül 8'e Dön</a>
+        </div>
+
+        <!-- DOSYA İŞLEMLERİ -->
+        <div class="section">
+            <h2>📂 Dosya İşlemleri</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>1. cat komutu ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="a"> a) Dosya siler </label>
+                        <label><input type="radio" name="q1" value="b"> b) Dosya içeriğini gösterir </label>
+                        <label><input type="radio" name="q1" value="c"> c) Dosya kopyalar </label>
+                        <label><input type="radio" name="q1" value="d"> d) Dosya taşır </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        cat (concatenate) dosya içeriğini ekrana yazdırır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>2. ls -la komutunda -l parametresi ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="a"> a) List (listele) </label>
+                        <label><input type="radio" name="q2" value="b"> b) Long format (detaylı liste) </label>
+                        <label><input type="radio" name="q2" value="c"> c) Link (bağlantı) </label>
+                        <label><input type="radio" name="q2" value="d"> d) Local (yerel) </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -l long format anlamına gelir: izinler, sahip, boyut, tarih gibi detayları gösterir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>3. Linux'ta gizli dosyalar nasıl adlandırılır?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="a"> a) _ ile başlar </label>
+                        <label><input type="radio" name="q3" value="b"> b) . ile başlar </label>
+                        <label><input type="radio" name="q3" value="c"> c) # ile başlar </label>
+                        <label><input type="radio" name="q3" value="d"> d) ~ ile başlar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Gizli dosyalar nokta (.) ile başlar. Örnek: .hidden, .bashrc
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>4. cd .. komutu ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="a"> a) Home dizinine gider </label>
+                        <label><input type="radio" name="q4" value="b"> b) Root dizinine gider </label>
+                        <label><input type="radio" name="q4" value="c"> c) Bir üst dizine çıkar </label>
+                        <label><input type="radio" name="q4" value="d"> d) Önceki dizine döner </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        cd .. komutu parent directory'ye (bir üst dizine) çıkar.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>5. file komutu ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="a"> a) Dosya boyutunu gösterir </label>
+                        <label><input type="radio" name="q5" value="b"> b) Dosya tipini belirler </label>
+                        <label><input type="radio" name="q5" value="c"> c) Dosya izinlerini değiştirir </label>
+                        <label><input type="radio" name="q5" value="d"> d) Dosya oluşturur </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        file komutu dosyanın tipini belirler (ASCII text, binary data vb.).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIND KOMUTU -->
+        <div class="section">
+            <h2>🔍 Find Komutu</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>6. find -type f komutunda 'f' ne demektir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q6" value="a"> a) Folder (dizin) </label>
+                        <label><input type="radio" name="q6" value="b"> b) File (dosya) </label>
+                        <label><input type="radio" name="q6" value="c"> c) Fast (hızlı) </label>
+                        <label><input type="radio" name="q6" value="d"> d) Filter (filtre) </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -type f sadece dosyaları arar (file), dizinleri aramaz.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>7. find -size 1033c komutunda 'c' harfi ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q7" value="a"> a) Characters (bytes) </label>
+                        <label><input type="radio" name="q7" value="b"> b) Count (sayı) </label>
+                        <label><input type="radio" name="q7" value="c"> c) Cache (önbellek) </label>
+                        <label><input type="radio" name="q7" value="d"> d) Create (oluştur) </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: a</strong><br>
+                        c = characters/bytes. Diğer: k=KB, M=MB, G=GB
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>8. ! -executable ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q8" value="a"> a) Çalıştırılabilir dosyalar </label>
+                        <label><input type="radio" name="q8" value="b"> b) Çalıştırılabilir OLMAYAN dosyalar </label>
+                        <label><input type="radio" name="q8" value="c"> c) Sadece script dosyaları </label>
+                        <label><input type="radio" name="q8" value="d"> d) Binary dosyalar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        ! (NOT operatörü) çalıştırılabilir OLMAYAN dosyaları bulur.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>9. find / ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q9" value="a"> a) Sadece home dizininde arar </label>
+                        <label><input type="radio" name="q9" value="b"> b) Root dizinden başlayarak tüm sistemi tarar </label>
+                        <label><input type="radio" name="q9" value="c"> c) Sadece mevcut dizinde arar </label>
+                        <label><input type="radio" name="q9" value="d"> d) Bölü işlemi yapar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        / root (kök) dizini anlamına gelir, tüm sistemi tarar.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>10. find -user bandit7 ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q10" value="a"> a) bandit7 adlı dosyaları bulur </label>
+                        <label><input type="radio" name="q10" value="b"> b) Sahibi bandit7 olan dosyaları bulur </label>
+                        <label><input type="radio" name="q10" value="c"> c) bandit7 kullanıcısını siler </label>
+                        <label><input type="radio" name="q10" value="d"> d) bandit7 kullanıcısı oluşturur </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -user bandit7 sahibi bandit7 olan dosyaları filtreler.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GREP -->
+        <div class="section">
+            <h2>📝 Grep Komutu</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>11. grep "kelime" dosya.txt ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q11" value="a"> a) Dosyada "kelime" arar ve içeren satırları gösterir </label>
+                        <label><input type="radio" name="q11" value="b"> b) Dosyadan "kelime" yi siler </label>
+                        <label><input type="radio" name="q11" value="c"> c) Dosyaya "kelime" ekler </label>
+                        <label><input type="radio" name="q11" value="d"> d) Dosya adını değiştirir </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: a</strong><br>
+                        grep metin arama komutu, "kelime" içeren satırları gösterir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>12. grep -i ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q12" value="a"> a) Sadece sayıları arar </label>
+                        <label><input type="radio" name="q12" value="b"> b) Büyük/küçük harf duyarsız arama </label>
+                        <label><input type="radio" name="q12" value="c"> c) Satır numaralarını gösterir </label>
+                        <label><input type="radio" name="q12" value="d"> d) Ters arama yapar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -i (ignore case) ERROR, error, Error hepsini bulur.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>13. grep -v ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q13" value="a"> a) Verbose (detaylı) mod </label>
+                        <label><input type="radio" name="q13" value="b"> b) Version bilgisi gösterir </label>
+                        <label><input type="radio" name="q13" value="c"> c) Eşleşmeyenleri gösterir (invert) </label>
+                        <label><input type="radio" name="q13" value="d"> d) Değişkenleri arar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        -v (invert) eşleşmeyenleri gösterir, tersini alır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>14. grep "^#" ne arar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q14" value="a"> a) # içeren tüm satırlar </label>
+                        <label><input type="radio" name="q14" value="b"> b) # ile başlayan satırlar </label>
+                        <label><input type="radio" name="q14" value="c"> c) # ile biten satırlar </label>
+                        <label><input type="radio" name="q14" value="d"> d) # olmayan satırlar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        ^ (caret) satır başı demektir, # ile başlayan satırları bulur (yorumlar).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>15. grep -n ne gösterir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q15" value="a"> a) Sadece dosya adını </label>
+                        <label><input type="radio" name="q15" value="b"> b) Satır numaralarını </label>
+                        <label><input type="radio" name="q15" value="c"> c) Eşleşme sayısını </label>
+                        <label><input type="radio" name="q15" value="d"> d) Hiçbir şey göstermez </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -n (number) eşleşen satırların numaralarını gösterir.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SORT VE UNIQ -->
+        <div class="section">
+            <h2>🔄 Sort ve Uniq</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>16. sort komutu varsayılan olarak nasıl sıralar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q16" value="a"> a) Alfabetik (A-Z) </label>
+                        <label><input type="radio" name="q16" value="b"> b) Sayısal (1-9) </label>
+                        <label><input type="radio" name="q16" value="c"> c) Ters alfabetik (Z-A) </label>
+                        <label><input type="radio" name="q16" value="d"> d) Rastgele </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: a</strong><br>
+                        sort varsayılan olarak alfabetik sıralar (A-Z).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>17. sort -n neden kullanılır?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q17" value="a"> a) Ters sıralama için </label>
+                        <label><input type="radio" name="q17" value="b"> b) Sayısal sıralama için (1,2,10 doğru sırayla) </label>
+                        <label><input type="radio" name="q17" value="c"> c) Satır sayısını göstermek için </label>
+                        <label><input type="radio" name="q17" value="d"> d) Null değerleri filtrelemek için </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -n (numeric) sayısal sıralama yapar: 1, 2, 10 (10, 2, 1 değil).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>18. uniq komutu ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q18" value="a"> a) Tüm satırları siler </label>
+                        <label><input type="radio" name="q18" value="b"> b) Ardışık tekrarlanan satırları kaldırır </label>
+                        <label><input type="radio" name="q18" value="c"> c) Dosyayı kopyalar </label>
+                        <label><input type="radio" name="q18" value="d"> d) Satırları tersine çevirir </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        uniq ardışık (yan yana) tekrarlanan satırları kaldırır, 1 tane bırakır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>19. uniq -u ne gösterir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q19" value="a"> a) Tüm satırları </label>
+                        <label><input type="radio" name="q19" value="b"> b) Sadece tekrar edenleri </label>
+                        <label><input type="radio" name="q19" value="c"> c) Sadece benzersiz olanları (tekrar edilmeyenler) </label>
+                        <label><input type="radio" name="q19" value="d"> d) Uppercase harfleri </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        -u (unique) sadece bir kez geçen satırları gösterir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>20. uniq kullanmadan önce neden sort gerekir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q20" value="a"> a) Zorunlu değil </label>
+                        <label><input type="radio" name="q20" value="b"> b) uniq sadece ardışık tekrarları tespit eder </label>
+                        <label><input type="radio" name="q20" value="c"> c) Daha hızlı çalışır </label>
+                        <label><input type="radio" name="q20" value="d"> d) Bellek tasarrufu sağlar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        uniq sadece YAN YANA olan tekrarları tespit eder, o yüzden önce sort şart!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REDIRECTION -->
+        <div class="section">
+            <h2>⚡ Yönlendirme (Redirection)</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>21. 2>/dev/null ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q21" value="a"> a) Tüm çıktıyı siler </label>
+                        <label><input type="radio" name="q21" value="b"> b) Hata mesajlarını gizler </label>
+                        <label><input type="radio" name="q21" value="c"> c) 2 numaralı dosyayı siler </label>
+                        <label><input type="radio" name="q21" value="d"> d) Çıktıyı dosyaya yazar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        2 = stderr (hata mesajları), /dev/null = çöp kutusu. Hataları gizler.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>22. Pipe (|) karakteri ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q22" value="a"> a) Dosyaları birleştirir </label>
+                        <label><input type="radio" name="q22" value="b"> b) Bir komutun çıktısını diğerine gönderir </label>
+                        <label><input type="radio" name="q22" value="c"> c) VEYA operatörü </label>
+                        <label><input type="radio" name="q22" value="d"> d) Bölme işlemi yapar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Pipe (|) bir komutun çıktısını bir sonraki komuta input olarak gönderir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>23. > ve >> arasındaki fark nedir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q23" value="a"> a> Hiçbir fark yok </label>
+                        <label><input type="radio" name="q23" value="b"> b> > üzerine yazar, >> sona ekler </label>
+                        <label><input type="radio" name="q23" value="c"> c> > daha hızlıdır </label>
+                        <label><input type="radio" name="q23" value="d"> d> >> yeni dosya oluşturur </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        > (overwrite) üzerine yazar, >> (append) sona ekler.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>24. 1 ve 2 ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q24" value="a"> a) Dosya numaraları </label>
+                        <label><input type="radio" name="q24" value="b"> b) 1=stdout (normal çıktı), 2=stderr (hata çıktısı) </label>
+                        <label><input type="radio" name="q24" value="c"> c) İzin seviyeleri </label>
+                        <label><input type="radio" name="q24" value="d"> d> Satır numaraları </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        1 = stdout (standart çıktı), 2 = stderr (standart hata).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>25. 2>&1 ne yapar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q25" value="a"> a) 2 dosyasını 1 dosyasına kopyalar </label>
+                        <label><input type="radio" name="q25" value="b"> b> stderr'i stdout'a yönlendirir </label>
+                        <label><input type="radio" name="q25" value="c"> c> 2 ve 1'i toplar </label>
+                        <label><input type="radio" name="q25" value="d"> d> Hiçbir şey yapmaz </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        2>&1 hataları normal çıktıyla birleştirir.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DİĞER -->
+        <div class="section">
+            <h2>🔧 Diğer Komutlar</h2>
+            
+            <div class="test-container">
+                <div class="question">
+                    <h4>26. strings komutu ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q26" value="a"> a) String değişkenleri oluşturur </label>
+                        <label><input type="radio" name="q26" value="b"> b> Binary dosyalardaki okunabilir metinleri çıkarır </label>
+                        <label><input type="radio" name="q26" value="c"> c) Dosyaları birleştirir </label>
+                        <label><input type="radio" name="q26" value="d"> d> Metinleri sıralar </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        strings binary dosyalardaki ASCII metinleri çıkarır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>27. SSH ne demektir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q27" value="a"> a) Super Secure Host </label>
+                        <label><input type="radio" name="q27" value="b"> b> Secure Shell </label>
+                        <label><input type="radio" name="q27" value="c"> c> System Shell </label>
+                        <label><input type="radio" name="q27" value="d"> d> Safe Server Host </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        SSH = Secure Shell (Güvenli Kabuk).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>28. ssh -p 2220 'p' parametresi ne belirtir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q28" value="a"> a> Password (şifre) </label>
+                        <label><input type="radio" name="q28" value="b"> b> Port numarası </label>
+                        <label><input type="radio" name="q28" value="c"> c> Protocol (protokol) </label>
+                        <label><input type="radio" name="q28" value="d"> d> Path (yol) </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        -p port numarasını belirtir (varsayılan 22).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>29. "-" adlı bir dosyayı nasıl okursunuz?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q29" value="a"> a> cat - </label>
+                        <label><input type="radio" name="q29" value="b"> b> cat ./- </label>
+                        <label><input type="radio" name="q29" value="c"> c> cat -- </label>
+                        <label><input type="radio" name="q29" value="d"> d> Okunamaz </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        cat ./- veya cat < - kullanılır. ./ prefix özel karakter sorununu çözer.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>30. * (wildcard) karakteri ne işe yarar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q30" value="a"> a> Çarpma işlemi </label>
+                        <label><input type="radio" name="q30" value="b"> b> Tüm dosyaları temsil eder </label>
+                        <label><input type="radio" name="q30" value="c"> c> Yorum satırı </label>
+                        <label><input type="radio" name="q30" value="d"> d> Özel karakter </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        * (wildcard/asterisk) tüm dosyaları temsil eder. Örnek: file *
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../../common.js"></script>
+    <script>
+        let totalQuestions = 30;
+        let correctAnswers = {
+            q1: 'b', q2: 'b', q3: 'b', q4: 'c', q5: 'b',
+            q6: 'b', q7: 'a', q8: 'b', q9: 'b', q10: 'b',
+            q11: 'a', q12: 'b', q13: 'c', q14: 'b', q15: 'b',
+            q16: 'a', q17: 'b', q18: 'b', q19: 'c', q20: 'b',
+            q21: 'b', q22: 'b', q23: 'b', q24: 'b', q25: 'b',
+            q26: 'b', q27: 'b', q28: 'b', q29: 'b', q30: 'b'
+        };
+
+        function checkAllAnswers() {
+            let answered = 0;
+            let correct = 0;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const question = `q${i}`;
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                const answerDiv = document.querySelector(`input[name="${question}"]`).closest('.question').querySelector('.answer');
+
+                if (selected) {
+                    answered++;
+                    answerDiv.style.display = 'block';
+
+                    if (selected.value === correctAnswers[question]) {
+                        correct++;
+                        answerDiv.style.background = '#d4edda';
+                        answerDiv.style.borderLeft = '4px solid #28a745';
+                    } else {
+                        answerDiv.style.background = '#f8d7da';
+                        answerDiv.style.borderLeft = '4px solid #dc3545';
+                    }
+                }
+            }
+
+            const successRate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+
+            document.getElementById('answered-count').textContent = answered;
+            document.getElementById('correct-score').textContent = correct;
+            document.getElementById('success-rate').textContent = successRate + '%';
+        }
+
+        function resetTest() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.style.display = 'none';
+                answer.style.background = '';
+                answer.style.borderLeft = '';
+            });
+            document.getElementById('answered-count').textContent = '0';
+            document.getElementById('correct-score').textContent = '0';
+            document.getElementById('success-rate').textContent = '0%';
+        }
+    </script>
+</body>
+</html>

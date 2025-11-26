@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Testler - Otomata Teorisi</title>
+    <link rel="stylesheet" href="../style.css?v=1762791517">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Tüm Testler</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">📝</div>
+            <h1>Otomata Teorisi - Kapsamlı Test Merkezi</h1>
+            <p>Tüm modüllerdeki test sorularını tek sayfada çözün ve ilerlemenizi takip edin</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="total-questions">50</div>
+                <div class="stat-label">Toplam Soru</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="answered-count">0</div>
+                <div class="stat-label">Cevaplanan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="correct-score">0</div>
+                <div class="stat-label">Doğru Sayısı</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="success-rate">0%</div>
+                <div class="stat-label">Başarı Oranı</div>
+            </div>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterModule('all')">Tümü</button>
+            <button class="filter-btn" onclick="filterModule('modul1')">Modül 1</button>
+            <button class="filter-btn" onclick="filterModule('modul2')">Modül 2</button>
+            <button class="filter-btn" onclick="filterModule('modul3')">Modül 3</button>
+            <button class="filter-btn" onclick="filterModule('modul4')">Modül 4</button>
+        </div>
+
+        <div class="section">
+            <h2>📚 Modül 1: Giriş ve Temel Kavramlar</h2>
+            
+            <div class="test-container modul1">
+                <div class="question">
+                    <h4>1. Otomata teorisi aşağıdaki alanlardan hangisiyle ilgilidir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1_1" value="a"> a) Sadece matematik </label>
+                        <label><input type="radio" name="q1_1" value="b"> b) Sadece bilgisayar bilimi </label>
+                        <label><input type="radio" name="q1_1" value="c"> c) Matematik ve bilgisayar bilimi </label>
+                        <label><input type="radio" name="q1_1" value="d"> d) Sadece fizik </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        Otomata teorisi hem matematik hem de bilgisayar biliminin kesişim alanındadır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>2. Alfabe (Σ) nedir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1_2" value="a"> a) Sadece harfler </label>
+                        <label><input type="radio" name="q1_2" value="b"> b) Kelimelerin üretiminde kullanılan birimlerin sonlu kümesi </label>
+                        <label><input type="radio" name="q1_2" value="c"> c) Sadece sayılar </label>
+                        <label><input type="radio" name="q1_2" value="d"> d) Sonsuz sembol kümesi </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Alfabe, kelimelerin üretiminde kullanılan birimlerin sonlu kümesidir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>3. Boş kelime nasıl gösterilir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1_3" value="a"> a) 0 </label>
+                        <label><input type="radio" name="q1_3" value="b"> b) ∅ </label>
+                        <label><input type="radio" name="q1_3" value="c"> c) ε (epsilon) </label>
+                        <label><input type="radio" name="q1_3" value="d"> d) λ (lambda) </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        Boş kelime ε (epsilon) sembolü ile gösterilir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>4. Biçimsel dil (formal language) nedir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1_4" value="a"> a) Sadece İngilizce </label>
+                        <label><input type="radio" name="q1_4" value="b"> b) Kuralları tanımlanmış kelimeler kümesi </label>
+                        <label><input type="radio" name="q1_4" value="c"> c) Doğal diller </label>
+                        <label><input type="radio" name="q1_4" value="d"> d) Programlama dilleri </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Biçimsel dil, üretim kuralları tanımlanmış kelimeler kümesidir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>5. Turing makinesi hangi dil sınıfını tanımlar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q1_5" value="a"> a) Regular languages </label>
+                        <label><input type="radio" name="q1_5" value="b"> b) Context-free languages </label>
+                        <label><input type="radio" name="q1_5" value="c"> c) Context-sensitive languages </label>
+                        <label><input type="radio" name="q1_5" value="d"> d) Recursively enumerable languages </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: d</strong><br>
+                        Turing makinesi tüm hesaplanabilir (recursively enumerable) dilleri tanımlar.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔄 Modül 2: Düzenli İfadeler</h2>
+            
+            <div class="test-container modul2">
+                <div class="question">
+                    <h4>6. Düzenli ifade (regular expression) ne tanımlar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2_1" value="a"> a) Fonksiyonlar </label>
+                        <label><input type="radio" name="q2_1" value="b"> b) Diller </label>
+                        <label><input type="radio" name="q2_1" value="c"> c) Algoritmalar </label>
+                        <label><input type="radio" name="q2_1" value="d"> d) Veri yapıları </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Düzenli ifadeler, düzenli dilleri tanımlar.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>7. Kleene Star (*) operatörü ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2_2" value="a"> a) Tam olarak bir kez </label>
+                        <label><input type="radio" name="q2_2" value="b"> b) En az bir kez </label>
+                        <label><input type="radio" name="q2_2" value="c"> c) 0 veya daha fazla kez </label>
+                        <label><input type="radio" name="q2_2" value="d"> d) En fazla bir kez </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        Kleene Star (*) operatörü 0 veya daha fazla tekrarı ifade eder.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>8. (a|b)* düzenli ifadesi hangi dili tanımlar?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2_3" value="a"> a) Sadece a içeren kelimeler </label>
+                        <label><input type="radio" name="q2_3" value="b"> b) Sadece b içeren kelimeler </label>
+                        <label><input type="radio" name="q2_3" value="c"> c) a ve b'den oluşan tüm kelimeler </label>
+                        <label><input type="radio" name="q2_3" value="d"> d) Boş dil </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        (a|b)* ifadesi Σ = {a,b} alfabesi üzerindeki tüm kelimeleri (Σ*) tanımlar.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>9. Düzenli diller hangi işlemlere kapalıdır?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2_4" value="a"> a) Sadece birleşim </label>
+                        <label><input type="radio" name="q2_4" value="b"> b) Birleşim, birleştirme, yıldız </label>
+                        <label><input type="radio" name="q2_4" value="c"> c) Hiçbiri </label>
+                        <label><input type="radio" name="q2_4" value="d"> d) Sadece yıldız </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Düzenli diller birleşim, birleştirme (concatenation) ve yıldız (Kleene star) işlemlerine kapalıdır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>10. a+ düzenli ifadesi ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q2_5" value="a"> a) a'nın 0 veya daha fazla tekrarı </label>
+                        <label><input type="radio" name="q2_5" value="b"> b) a'nın 1 veya daha fazla tekrarı </label>
+                        <label><input type="radio" name="q2_5" value="c"> c) a'nın tam olarak bir tekrarı </label>
+                        <label><input type="radio" name="q2_5" value="d"> d) Boş kelime </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        a+ ifadesi a'nın 1 veya daha fazla tekrarını ifade eder (aa* ile eşdeğerdir).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🤖 Modül 3: Sonlu Otomatlar</h2>
+            
+            <div class="test-container modul3">
+                <div class="question">
+                    <h4>11. DFA'da bir durumdan aynı girdi sembolü için kaç geçiş olabilir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3_1" value="a"> a) 0 veya daha fazla </label>
+                        <label><input type="radio" name="q3_1" value="b"> b) Tam olarak 1 </label>
+                        <label><input type="radio" name="q3_1" value="c"> c) 2 veya daha fazla </label>
+                        <label><input type="radio" name="q3_1" value="d"> d) Sınırsız </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        DFA'da deterministiklik gereği, her durum için her girdi sembolü için tam olarak bir geçiş olmalıdır.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>12. NFA'da ε-geçişleri ne anlama gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3_2" value="a"> a) Hata durumu </label>
+                        <label><input type="radio" name="q3_2" value="b"> b) Girdi olmadan geçiş </label>
+                        <label><input type="radio" name="q3_2" value="c"> c) Sonsuz döngü </label>
+                        <label><input type="radio" name="q3_2" value="d"> d) Kabul durumu </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        ε-geçişleri girdi sembolü olmadan, boş kelime ile gerçekleşen geçişlerdir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>13. DFA'nın biçimsel tanımında kaç bileşen vardır?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3_3" value="a"> a) 3 </label>
+                        <label><input type="radio" name="q3_3" value="b"> b) 4 </label>
+                        <label><input type="radio" name="q3_3" value="c"> c) 5 </label>
+                        <label><input type="radio" name="q3_3" value="d"> d) 6 </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        DFA = (Q, Σ, δ, s, F) - 5 bileşen.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>14. Her NFA'nın eşdeğer bir DFA'sı vardır. Bu doğru mudur?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3_4" value="a"> a) Hayır, hiçbir zaman </label>
+                        <label><input type="radio" name="q3_4" value="b"> b) Evet, her zaman </label>
+                        <label><input type="radio" name="q3_4" value="c"> c) Sadece sonlu alfabeler için </label>
+                        <label><input type="radio" name="q3_4" value="d"> d) Sadece ε-geçişsiz NFA'lar için </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Evet, her NFA'nın eşdeğer bir DFA'sı vardır (subset construction algoritması ile).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>15. Chomsky Hiyerarşisinde Type 3 hangi dillere karşılık gelir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q3_5" value="a"> a) Context-Free </label>
+                        <label><input type="radio" name="q3_5" value="b"> b) Regular </label>
+                        <label><input type="radio" name="q3_5" value="c"> c) Context-Sensitive </label>
+                        <label><input type="radio" name="q3_5" value="d"> d) Recursively Enumerable </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Chomsky Type 3 = Regular Languages (Düzenli Diller).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Modül 4: Pratik Örnekler</h2>
+            
+            <div class="test-container modul4">
+                <div class="question">
+                    <h4>16. Bir sayının 3'e bölünebilirliğini kontrol eden DFA'da kaç durum gereklidir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4_1" value="a"> a) 2 </label>
+                        <label><input type="radio" name="q4_1" value="b"> b) 3 </label>
+                        <label><input type="radio" name="q4_1" value="c"> c) 4 </label>
+                        <label><input type="radio" name="q4_1" value="d"> d) 5 </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        3 durum gerekir: kalan 0, kalan 1, kalan 2 (mod 3 değerleri).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>17. L = {w | w = aⁿbᵐ, n+m=3} dili için "abb" kelimesi kabul edilir mi?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4_2" value="a"> a) Evet </label>
+                        <label><input type="radio" name="q4_2" value="b"> b) Hayır </label>
+                        <label><input type="radio" name="q4_2" value="c"> c) Sadece NFA için </label>
+                        <label><input type="radio" name="q4_2" value="d"> d) Belirsiz </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: a</strong><br>
+                        "abb" = a¹b² = 1+2=3, dolayısıyla kabul edilir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>18. "00" ve "11" içermeyen dizgileri kabul eden DFA'da "010" kabul edilir mi?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4_3" value="a"> a) Evet </label>
+                        <label><input type="radio" name="q4_3" value="b"> b) Hayır </label>
+                        <label><input type="radio" name="q4_3" value="c"> c) Sadece başlangıçta </label>
+                        <label><input type="radio" name="q4_3" value="d"> d) Sadece sonda </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: a</strong><br>
+                        "010" dizgisinde ne "00" ne de "11" alt dizgisi vardır, dolayısıyla kabul edilir.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>19. En çok iki 'a' içeren dizgileri kabul eden DFA'da kaç durum gerekir?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4_4" value="a"> a) 2 </label>
+                        <label><input type="radio" name="q4_4" value="b"> b) 3 </label>
+                        <label><input type="radio" name="q4_4" value="c"> c) 4 </label>
+                        <label><input type="radio" name="q4_4" value="d"> d) 5 </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: c</strong><br>
+                        4 durum: 0 adet a, 1 adet a, 2 adet a, 3+ adet a (red durumu).
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h4>20. Derleyicilerde lexical analysis aşamasında otomatlar ne için kullanılır?</h4>
+                    <div class="options">
+                        <label><input type="radio" name="q4_5" value="a"> a) Bellek yönetimi </label>
+                        <label><input type="radio" name="q4_5" value="b"> b) Token tanıma </label>
+                        <label><input type="radio" name="q4_5" value="c"> c) Optimizasyon </label>
+                        <label><input type="radio" name="q4_5" value="d"> d) Hata ayıklama </label>
+                    </div>
+                    <div class="answer" style="display: none;">
+                        <strong>Doğru Cevap: b</strong><br>
+                        Otomatlar, kaynak koddaki token'ları (anahtar kelimeler, değişkenler, sayılar vb.) tanımak için kullanılır.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-success" onclick="showAllAnswers()">Tüm Cevapları Göster</button>
+            <button class="btn" onclick="resetAllTests()">Tüm Testleri Sıfırla</button>
+            <button class="btn btn-primary" onclick="calculateScore()">Puanı Hesapla</button>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+            <a href="flashcards.html" class="btn btn-next">💡 Tüm Flashcard'lar →</a>
+        </div>
+    </div>
+
+    <script>
+        function filterModule(module) {
+            const allQuestions = document.querySelectorAll('.test-container');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (module === 'all') {
+                allQuestions.forEach(q => q.style.display = 'block');
+            } else {
+                allQuestions.forEach(q => {
+                    if (q.classList.contains(module)) {
+                        q.style.display = 'block';
+                    } else {
+                        q.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function showAllAnswers() {
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.style.display = 'block';
+            });
+        }
+
+        function resetAllTests() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.style.display = 'none';
+            });
+            updateStats();
+        }
+
+        function calculateScore() {
+            const answers = {
+                'q1_1': 'c', 'q1_2': 'b', 'q1_3': 'c', 'q1_4': 'b', 'q1_5': 'd',
+                'q2_1': 'b', 'q2_2': 'c', 'q2_3': 'c', 'q2_4': 'b', 'q2_5': 'b',
+                'q3_1': 'b', 'q3_2': 'b', 'q3_3': 'c', 'q3_4': 'b', 'q3_5': 'b',
+                'q4_1': 'b', 'q4_2': 'a', 'q4_3': 'a', 'q4_4': 'c', 'q4_5': 'b'
+            };
+
+            let correct = 0;
+            let answered = 0;
+
+            Object.keys(answers).forEach(questionName => {
+                const selected = document.querySelector(`input[name="${questionName}"]:checked`);
+                if (selected) {
+                    answered++;
+                    if (selected.value === answers[questionName]) {
+                        correct++;
+                    }
+                }
+            });
+
+            document.getElementById('answered-count').textContent = answered;
+            document.getElementById('correct-score').textContent = correct;
+            
+            const rate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            document.getElementById('success-rate').textContent = rate + '%';
+
+            showAllAnswers();
+            
+            alert(`Test Sonucu:\nCevaplanan: ${answered}/20\nDoğru: ${correct}\nBaşarı Oranı: ${rate}%`);
+        }
+
+        function updateStats() {
+            document.getElementById('answered-count').textContent = '0';
+            document.getElementById('correct-score').textContent = '0';
+            document.getElementById('success-rate').textContent = '0%';
+        }
+
+        // Auto-update stats when radio buttons change
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                const allRadios = document.querySelectorAll('input[type="radio"]:checked');
+                document.getElementById('answered-count').textContent = allRadios.length;
+            }
+        });
+    </script>
+
+    <style>
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .test-container {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .question {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .question h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .options label:hover {
+            background-color: #f8f9fa;
+            border-color: #667eea;
+        }
+
+        .options input[type="radio"]:checked + label {
+            background-color: #e8f0fe;
+            border-color: #667eea;
+        }
+
+        .answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #d4edda;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .section h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin: 40px 0 20px 0;
+        }
+    </style>
+</body>
+</html>

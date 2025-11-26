@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2 - Parçacık Sürü Optimizasyonu (PSO)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: #e9ecef;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-content h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .theory-content h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .theory-content p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-content ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .theory-content li {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-question h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .test-options li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .flashcards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .flashcard-back {
+            background: white;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 2px solid #667eea;
+            text-align: center;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flashcards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transform: translateX(10px);
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Ana Sayfaya Dön</a>
+        
+        <div class="header">
+            <h1>🐦 Modül 2: Parçacık Sürü Optimizasyonu (PSO)</h1>
+            <p>Sürü zekası, PSO algoritması ve parçacık davranışları</p>
+        </div>
+
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('teori')">📚 Teori</button>
+                <button class="tab-button" onclick="showTab('test')">✍️ Test</button>
+                <button class="tab-button" onclick="showTab('flashcards')">🎴 Flashcards</button>
+            </div>
+
+            <!-- Teori Sekmesi -->
+            <div id="teori" class="tab-content active">
+                <div class="theory-content">
+                    <h2>🦅 Sürü Zekası Nedir?</h2>
+                    <p>Doğada bulunan hayvan ve böcek sürülerinin davranışları uzun yıllardır insanların dikkatini çekmiştir. Kuş sürülerinin farklı şekiller alarak havada süzülmesi, karıncaların yiyecek ararken izledikleri yol, balık sürülerinin beraberce yüzmesi bu sürü davranışlarından sadece birkaçıdır.</p>
+
+                    <div class="highlight-box">
+                        <strong>Sürü Zekası:</strong> Bazen tek başlarına hiçbir iş yapamayan varlıklar, toplu hareket ettiklerinde çok zekice davranışlar sergileyebilmektedir. Bir topluluğa ait bireyler, en iyi bireyin davranışından ya da diğer bireylerin davranışlarından ve kendi deneyimlerinden yararlanarak yorum yapmakta ve bu bilgileri ileride karşılaşacakları problemlerin çözümleri için araç olarak kullanmaktadırlar.
+                    </div>
+
+                    <h3>🔑 Sürü Sistemlerinin Özellikleri</h3>
+                    <ul>
+                        <li><strong>Dağınık Yapı:</strong> Birbirleriyle etkileşen dağınık yapılı bireyler yığını</li>
+                        <li><strong>Ortak Amaç:</strong> N adet temsilci bir amaca yönelik davranışı gerçekleştirmek için birlikte çalışır</li>
+                        <li><strong>Basit Kurallar:</strong> Temsilciler faaliyetlerini idare etmek için basit bireysel kurallar kullanır</li>
+                        <li><strong>Kendini Örgütleme:</strong> Grup faaliyetlerinin toplamından bir çeşit kendini örgütleme doğar</li>
+                    </ul>
+
+                    <h3>🌟 Popüler Sürü Zekası Algoritmaları</h3>
+                    <ul>
+                        <li>Parçacık Sürü Optimizasyonu (PSO)</li>
+                        <li>Karınca Kolonisi Optimizasyonu</li>
+                        <li>Yapay Arı Kolonisi Algoritması</li>
+                        <li>Yapay Balık Sürüsü Algoritması</li>
+                        <li>Bakteriyel Besin Arama Optimizasyonu</li>
+                        <li>Kurt Kolonisi Algoritması</li>
+                    </ul>
+
+                    <h2>🎯 Parçacık Sürü Optimizasyonu (PSO)</h2>
+                    <p>Parçacık sürü optimizasyonu, kuş ve balık sürülerinden esinlenerek geliştirilmiş populasyon tabanlı arama ve optimizasyon algoritmasıdır. İlk olarak <strong>Kennedy ve Eberhart</strong> tarafından <strong>1995 yılında</strong> ortaya atılmıştır.</p>
+
+                    <div class="highlight-box">
+                        <strong>PSO'nun Avantajları:</strong>
+                        <ul>
+                            <li>Fazla hafıza gerektirmez</li>
+                            <li>Hesapsal olarak etkili</li>
+                            <li>Uygulanması kolay</li>
+                            <li>Hızlı yakınsama özelliği</li>
+                            <li>Az parametre gerektirir</li>
+                            <li>Etkili global arama algoritması</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔬 PSO'nun Temel Mantığı</h3>
+                    <p>PSO, parçacıklar arasındaki <strong>sosyal bilgi paylaşımına</strong> dayanmaktadır:</p>
+                    <ul>
+                        <li><strong>Parçacık:</strong> Her bireye parçacık denir, optimize edilen problemin bir aday çözümünü temsil eder</li>
+                        <li><strong>Sürü:</strong> Parçacıklardan oluşan popülasyona sürü denir</li>
+                        <li><strong>Amaç:</strong> Sürüdeki en iyi parçacığın konumunu belirlemek</li>
+                        <li><strong>Öğrenme:</strong> Parçacıklar bir sonraki konumunu geçmiş tecrübelerine ve sürüdeki en iyi bireye dayanarak iyileştirmeye çalışır</li>
+                    </ul>
+
+                    <h3>📐 PSO Algoritmasının Matematiksel Formülü</h3>
+                    <div class="highlight-box">
+                        <p><strong>Hız Güncellemesi:</strong></p>
+                        <p>v<sub>i</sub>(t+1) = w·v<sub>i</sub>(t) + c₁·r₁·(pbest<sub>i</sub> - x<sub>i</sub>(t)) + c₂·r₂·(gbest - x<sub>i</sub>(t))</p>
+                        
+                        <p><strong>Konum Güncellemesi:</strong></p>
+                        <p>x<sub>i</sub>(t+1) = x<sub>i</sub>(t) + v<sub>i</sub>(t+1)</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Parametreler:</strong></p>
+                        <ul>
+                            <li><strong>w:</strong> Atalet ağırlığı (inertia weight)</li>
+                            <li><strong>c₁:</strong> Bilişsel öğrenme katsayısı</li>
+                            <li><strong>c₂:</strong> Sosyal öğrenme katsayısı</li>
+                            <li><strong>r₁, r₂:</strong> [0,1] arasında rastgele sayılar</li>
+                            <li><strong>pbest:</strong> Parçacığın kendi en iyi konumu</li>
+                            <li><strong>gbest:</strong> Sürünün global en iyi konumu</li>
+                        </ul>
+                    </div>
+
+                    <h3>⚙️ PSO Algoritması Adımları</h3>
+                    <ol>
+                        <li><strong>Başlatma:</strong> Parçacıkların konumları ve hızları rastgele başlatılır</li>
+                        <li><strong>Değerlendirme:</strong> Her parçacığın fitness değeri hesaplanır</li>
+                        <li><strong>pbest Güncelleme:</strong> Her parçacığın kendi en iyi konumu güncellenir</li>
+                        <li><strong>gbest Güncelleme:</strong> Sürünün global en iyi konumu güncellenir</li>
+                        <li><strong>Hız ve Konum Güncelleme:</strong> Formüllere göre hızlar ve konumlar güncellenir</li>
+                        <li><strong>Durdurma Kriteri:</strong> Maksimum iterasyon veya hedef değer kontrolü</li>
+                        <li><strong>Tekrar:</strong> Durdurma kriteri sağlanana kadar 2-6 arası adımlar tekrarlanır</li>
+                    </ol>
+
+                    <div class="highlight-box">
+                        <strong>💡 Önemli Not:</strong> PSO'da parçacıklar hem kendi deneyimlerinden (bilişsel bileşen) hem de sürünün en iyi deneyiminden (sosyal bileşen) öğrenir. Bu iki bileşenin dengesi, algoritmanın keşif (exploration) ve sömürü (exploitation) dengesini belirler.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Sekmesi -->
+            <div id="test" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">✍️ Test Soruları</h2>
+                
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 1: PSO algoritması hangi doğal davranıştan esinlenmiştir?</h3>
+                    <ul class="test-options">
+                        <li>A) Karınca kolonileri</li>
+                        <li>B) Kuş ve balık sürüleri</li>
+                        <li>C) Arı kolonileri</li>
+                        <li>D) Kurt sürüleri</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 2: PSO algoritmasını kim ve ne zaman geliştirdi?</h3>
+                    <ul class="test-options">
+                        <li>A) Dorigo, 1992</li>
+                        <li>B) Kennedy ve Eberhart, 1995</li>
+                        <li>C) Holland, 1975</li>
+                        <li>D) Karaboğa, 2005</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 3: PSO'da "parçacık" neyi temsil eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Algoritmanın parametresi</li>
+                        <li>B) Problemin bir aday çözümü</li>
+                        <li>C) Fitness fonksiyonu</li>
+                        <li>D) Kısıt değeri</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 4: pbest ne anlama gelir?</h3>
+                    <ul class="test-options">
+                        <li>A) Problem best</li>
+                        <li>B) Population best</li>
+                        <li>C) Personal best - Parçacığın kendi en iyi konumu</li>
+                        <li>D) Previous best</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="A">
+                    <h3>Soru 5: gbest ne anlama gelir?</h3>
+                    <ul class="test-options">
+                        <li>A) Good best</li>
+                        <li>B) Global best - Sürünün en iyi konumu</li>
+                        <li>C) Group best</li>
+                        <li>D) General best</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 6: PSO'da atalet ağırlığı (w) neyi kontrol eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Parçacık sayısını</li>
+                        <li>B) Önceki hızın etkisini</li>
+                        <li>C) Fitness değerini</li>
+                        <li>D) Iterasyon sayısını</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 7: PSO'nun avantajı hangisidir?</h3>
+                    <ul class="test-options">
+                        <li>A) Çok fazla parametre gerektirir</li>
+                        <li>B) Yavaş yakınsar</li>
+                        <li>C) Uygulanması kolay ve hızlı yakınsama</li>
+                        <li>D) Sadece doğrusal problemlere uygulanır</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 8: Sürü zekasının temel özelliği nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Merkezi kontrol sistemi</li>
+                        <li>B) Tek bir lider tarafından yönetilme</li>
+                        <li>C) Bireyler arası etkileşim ve kolektif zeka</li>
+                        <li>D) Karmaşık bireysel kurallar</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 9: PSO'da c₁ ve c₂ parametreleri neyi temsil eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Parçacık sayısı ve iterasyon sayısı</li>
+                        <li>B) Bilişsel ve sosyal öğrenme katsayıları</li>
+                        <li>C) Hız ve konum değerleri</li>
+                        <li>D) Fitness değerleri</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 10: PSO algoritmasında konum güncellemesi nasıl yapılır?</h3>
+                    <ul class="test-options">
+                        <li>A) Rastgele belirlenir</li>
+                        <li>B) Sadece pbest'e göre</li>
+                        <li>C) Sadece gbest'e göre</li>
+                        <li>D) Mevcut konum + güncellenen hız</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flashcards Sekmesi -->
+            <div id="flashcards" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎴 Flashcards - Tıklayarak Çevir</h2>
+                <div class="flashcards-container">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sürü Zekası</div>
+                        <div class="flashcard-back">Bireyler arası etkileşimle ortaya çıkan kolektif zeka, basit kurallarla karmaşık davranışlar</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">PSO</div>
+                        <div class="flashcard-back">Particle Swarm Optimization - Kuş ve balık sürülerinden esinlenen optimizasyon algoritması</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Parçacık</div>
+                        <div class="flashcard-back">PSO'da problemin bir aday çözümünü temsil eden birey, konum ve hız bilgisine sahip</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sürü (Swarm)</div>
+                        <div class="flashcard-back">Parçacıkların oluşturduğu popülasyon, birlikte hareket eden grup</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">pbest</div>
+                        <div class="flashcard-back">Personal best - Her parçacığın şimdiye kadar bulduğu en iyi konum</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">gbest</div>
+                        <div class="flashcard-back">Global best - Tüm sürünün bulduğu en iyi konum</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Hız (Velocity)</div>
+                        <div class="flashcard-back">Parçacığın hareket yönü ve büyüklüğü, her iterasyonda güncellenir</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Konum (Position)</div>
+                        <div class="flashcard-back">Parçacığın çözüm uzayındaki konumu, problemin bir çözümünü temsil eder</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Atalet Ağırlığı (w)</div>
+                        <div class="flashcard-back">Önceki hızın mevcut hız üzerindeki etkisini kontrol eden parametre</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">c₁ Katsayısı</div>
+                        <div class="flashcard-back">Bilişsel öğrenme katsayısı, parçacığın kendi deneyiminin etkisi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">c₂ Katsayısı</div>
+                        <div class="flashcard-back">Sosyal öğrenme katsayısı, sürünün en iyi deneyiminin etkisi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Kennedy ve Eberhart</div>
+                        <div class="flashcard-back">PSO algoritmasını 1995 yılında geliştiren araştırmacılar</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Bilişsel Bileşen</div>
+                        <div class="flashcard-back">Parçacığın kendi deneyiminden öğrenme, pbest'e doğru hareket</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sosyal Bileşen</div>
+                        <div class="flashcard-back">Sürünün en iyi deneyiminden öğrenme, gbest'e doğru hareket</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">PSO Avantajları</div>
+                        <div class="flashcard-back">Az parametre, kolay uygulama, hızlı yakınsama, az hafıza gereksinimi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="module-nav">
+            <a href="modul1-optimizasyon.html" class="nav-button">← Önceki Modül</a>
+            <a href="modul3-abc.html" class="nav-button">Sonraki Modül →</a>
+        </div>
+</div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

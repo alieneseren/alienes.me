@@ -1,0 +1,417 @@
+#!/usr/bin/env python3
+import os
+
+# Modül 4-8 için tam içerikler
+modules_content = {
+    "modul4-mimariler.html": """<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 4: Mikroişlemci Mimarileri</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 4</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">🏛️</div>
+            <h1>Modül 4: Mikroişlemci Mimarileri</h1>
+            <p>Von Neumann, Harvard, RISC ve CISC Mimarileri</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (35 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🏛️ Mikroişlemci Mimarileri</h2>
+                    <div class="definition-box">
+                        <strong>Mimari:</strong> Bir mikroişlemcinin donanım organizasyonu, veri yolu yapısı, bellek yönetimi ve komut işleme tekniklerinin tamamıdır.
+                    </div>
+                    <h3>Mimari Sınıflandırma:</h3>
+                    <ul>
+                        <li><strong>Bellek Organizasyonuna Göre:</strong> Von Neumann, Harvard</li>
+                        <li><strong>Komut Setine Göre:</strong> RISC, CISC</li>
+                        <li><strong>Veri İşleme:</strong> SISD, SIMD, MISD, MIMD</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>🔷 Von Neumann Mimarisi</h2>
+                    <div class="definition-box">
+                        <strong>Von Neumann Mimarisi:</strong> Tümleşik tek bellek yapısı. Program ve veri aynı hafıza haritası üzerinde saklanır, ortak veri yolu kullanılır.
+                    </div>
+                    <h3>Temel Özellikleri:</h3>
+                    <ul>
+                        <li><strong>Tek Bellek:</strong> Program ve veri aynı bellekte</li>
+                        <li><strong>Ortak Veri Yolu:</strong> Tek yol kullanılır</li>
+                        <li><strong>Sıralı İşlem:</strong> Komut ve veri aynı anda aktarılamaz</li>
+                        <li><strong>Basit Tasarım:</strong> Daha az karmaşık</li>
+                    </ul>
+                    
+                    <div class="component-card">
+                        <h4>Von Neumann Bileşenleri:</h4>
+                        <ul>
+                            <li><strong>CPU:</strong> İşlemci birimi</li>
+                            <li><strong>Bellek:</strong> Program + Veri (ortak)</li>
+                            <li><strong>Veri Yolu:</strong> Tek ortak yol</li>
+                            <li><strong>I/O:</strong> Giriş/Çıkış birimleri</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="important-box">
+                        <h4>⚠️ Von Neumann Darboğazı</h4>
+                        <p>Komut ve verinin aynı yolu kullanması nedeniyle, aynı anda sadece biri aktarılabilir. Bu performans kaybına neden olur.</p>
+                        <p><strong>Örnek:</strong> CPU bir komutu çalıştırırken veri alamaz, beklemek zorundadır.</p>
+                    </div>
+                    
+                    <h3>Avantajları:</h3>
+                    <ul>
+                        <li>✅ Basit ve anlaşılır tasarım</li>
+                        <li>✅ Daha az donanım gerektirir</li>
+                        <li>✅ Düşük maliyet</li>
+                        <li>✅ Program belleğe kolayca yüklenebilir</li>
+                    </ul>
+                    
+                    <h3>Dezavantajları:</h3>
+                    <ul>
+                        <li>❌ Darboğaz problemi</li>
+                        <li>❌ Daha yavaş işlem</li>
+                        <li>❌ Paralel işlem yapılamaz</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>Von Neumann Kullanan Sistemler:</h4>
+                        <p><strong>PC ve Genel Amaçlı Bilgisayarlar:</strong> Intel x86, AMD</p>
+                        <p><strong>68HC11 Mikrodenetleyici</strong></p>
+                        <p><strong>ARM Cortex-A Serisi:</strong> Uygulama işlemcileri</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🔶 Harvard Mimarisi</h2>
+                    <div class="definition-box">
+                        <strong>Harvard Mimarisi:</strong> Ayrı program ve veri bellekleri. Her biri için ayrı veri yolu. Paralel erişim mümkün.
+                    </div>
+                    
+                    <h3>Temel Özellikleri:</h3>
+                    <ul>
+                        <li><strong>Ayrı Bellekler:</strong> Program belleği ≠ Veri belleği</li>
+                        <li><strong>Ayrı Veri Yolları:</strong> Her bellek için farklı yol</li>
+                        <li><strong>Paralel İşlem:</strong> Komut ve veri aynı anda</li>
+                        <li><strong>Hızlı Erişim:</strong> Darboğaz yok</li>
+                    </ul>
+                    
+                    <div class="component-card">
+                        <h4>Harvard Bileşenleri:</h4>
+                        <ul>
+                            <li><strong>CPU:</strong> İşlemci birimi</li>
+                            <li><strong>Program Belleği:</strong> Sadece komutlar (ROM genelde)</li>
+                            <li><strong>Veri Belleği:</strong> Sadece veriler (RAM)</li>
+                            <li><strong>Program Veri Yolu:</strong> Komut aktarımı</li>
+                            <li><strong>Veri Yolu:</strong> Veri aktarımı</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Avantajları:</h3>
+                    <ul>
+                        <li>✅ Yüksek hız (paralel erişim)</li>
+                        <li>✅ Darboğaz yok</li>
+                        <li>✅ Pipelining için ideal</li>
+                        <li>✅ Güvenlik (program değiştirilemez)</li>
+                    </ul>
+                    
+                    <h3>Dezavantajları:</h3>
+                    <ul>
+                        <li>❌ Daha karmaşık tasarım</li>
+                        <li>❌ Yüksek maliyet</li>
+                        <li>❌ Daha fazla donanım</li>
+                        <li>❌ Bellek yönetimi zor</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>Harvard Kullanan Sistemler:</h4>
+                        <p><strong>Mikrodenetleyiciler:</strong> AVR, PIC, 8051</p>
+                        <p><strong>ARM Cortex-M Serisi:</strong> Gömülü sistemler</p>
+                        <p><strong>DSP İşlemciler:</strong> Dijital sinyal işleme</p>
+                        <p><strong>ESP32:</strong> IoT mikrodenetleyici</p>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h4>💡 Not:</h4>
+                        <p>Modern sistemler genellikle <strong>Modified Harvard</strong> mimarisi kullanır: Çoğunlukla ayrı bellekler ama gerektiğinde erişim paylaşılabilir.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 Von Neumann vs Harvard Karşılaştırma</h2>
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>Von Neumann</th>
+                            <th>Harvard</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Bellek Yapısı</strong></td>
+                            <td>Tek tümleşik bellek</td>
+                            <td>Ayrı program ve veri bellekleri</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Veri Yolu</strong></td>
+                            <td>Tek ortak yol</td>
+                            <td>Ayrı yollar (her bellek için)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hız</strong></td>
+                            <td>Daha yavaş (darboğaz)</td>
+                            <td>Daha hızlı (paralel)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Karmaşıklık</strong></td>
+                            <td>Basit</td>
+                            <td>Karmaşık</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maliyet</strong></td>
+                            <td>Düşük</td>
+                            <td>Yüksek</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Esneklik</strong></td>
+                            <td>Yüksek</td>
+                            <td>Düşük</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kullanım</strong></td>
+                            <td>PC, genel amaçlı</td>
+                            <td>Gömülü sistemler, MCU</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Örnekler</strong></td>
+                            <td>x86, AMD, Cortex-A</td>
+                            <td>AVR, PIC, ARM Cortex-M</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>⚡ RISC Mimarisi</h2>
+                    <div class="definition-box">
+                        <strong>RISC (Reduced Instruction Set Computer):</strong> Azaltılmış komut seti. Basit, tek döngüde çalışan komutlar. Hızlı işlem.
+                    </div>
+                    
+                    <h3>RISC Felsefesi:</h3>
+                    <ul>
+                        <li>Az ama güçlü komut</li>
+                        <li>Her komut tek döngü</li>
+                        <li>Load/Store mimarisi</li>
+                        <li>Pipelining odaklı</li>
+                    </ul>
+                    
+                    <h3>RISC Özellikleri:</h3>
+                    <ul>
+                        <li>✅ Az sayıda komut (~100-150)</li>
+                        <li>✅ Basit komutlar</li>
+                        <li>✅ Her komut 1 clock cycle</li>
+                        <li>✅ Çok sayıda register</li>
+                        <li>✅ Sabit komut uzunluğu</li>
+                        <li>✅ Hardwired kontrol</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>RISC İşlemciler:</h4>
+                        <p><strong>ARM:</strong> Mobil cihazlar, gömülü sistemler</p>
+                        <p><strong>MIPS:</strong> Ağ cihazları, oyun konsolları</p>
+                        <p><strong>RISC-V:</strong> Açık kaynak, yeni nesil</p>
+                        <p><strong>PowerPC:</strong> Apple eski Mac'ler</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⚙️ CISC Mimarisi</h2>
+                    <div class="definition-box">
+                        <strong>CISC (Complex Instruction Set Computer):</strong> Karmaşık komut seti. Çok sayıda komut, değişken uzunluk. Donanımda daha fazla iş.
+                    </div>
+                    
+                    <h3>CISC Felsefesi:</h3>
+                    <ul>
+                        <li>Çok sayıda özelleşmiş komut</li>
+                        <li>Karmaşık işlemler tek komutta</li>
+                        <li>Donanım çok iş yapar</li>
+                        <li>Bellek erişimi her komutta</li>
+                    </ul>
+                    
+                    <h3>CISC Özellikleri:</h3>
+                    <ul>
+                        <li>✅ Çok sayıda komut (300+)</li>
+                        <li>✅ Karmaşık komutlar</li>
+                        <li>✅ Değişken cycle sayısı</li>
+                        <li>✅ Az register</li>
+                        <li>✅ Değişken komut uzunluğu</li>
+                        <li>✅ Microcode kontrol</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>CISC İşlemciler:</h4>
+                        <p><strong>Intel x86:</strong> PC'ler, dizüstüler</p>
+                        <p><strong>AMD:</strong> PC'ler, serverlar</p>
+                        <p><strong>Motorola 68000:</strong> Eski sistemler</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⚔️ RISC vs CISC</h2>
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>RISC</th>
+                            <th>CISC</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Komut Sayısı</strong></td>
+                            <td>Az (~100-150)</td>
+                            <td>Çok (300+)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Komut Karmaşıklığı</strong></td>
+                            <td>Basit</td>
+                            <td>Karmaşık</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cycle/Komut</strong></td>
+                            <td>1 cycle</td>
+                            <td>Çok cycle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Komut Uzunluğu</strong></td>
+                            <td>Sabit</td>
+                            <td>Değişken</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Register Sayısı</strong></td>
+                            <td>Çok (32+)</td>
+                            <td>Az (8-16)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipelining</strong></td>
+                            <td>Kolay</td>
+                            <td>Zor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Güç Tüketimi</strong></td>
+                            <td>Düşük</td>
+                            <td>Yüksek</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Örnek</strong></td>
+                            <td>ARM, MIPS, RISC-V</td>
+                            <td>Intel x86, AMD</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="modul3-sayi-sistemleri.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul5-hafiza.html" class="btn btn-next">Sonraki →</a>
+                </div>
+            </div>
+            
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 4 Testi - 35 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/35</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 18 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "Von Neumann mimarisinin temel özelliği nedir?", options: ["Ayrı bellekler", "Tek tümleşik bellek", "Sadece RISC için", "Çok çekirdekli"], correct: 1},
+            {q: "Harvard mimarisinde program ve veri bellekleri nasıldır?", options: ["Ortak", "Ayrı", "Yok", "Aynı"], correct: 1},
+            {q: "Von Neumann darboğazı nereden kaynaklanır?", options: ["CPU'dan", "Ortak veri yolu kullanımından", "RAM'den", "Hard diskten"], correct: 1},
+            {q: "Harvard mimarisinin avantajı nedir?", options: ["Ucuz", "Basit", "Paralel erişim - hızlı", "Küçük"], correct: 2},
+            {q: "PC'ler hangi mimariyi kullanır?", options: ["Harvard", "Von Neumann", "RISC", "Hibrit"], correct: 1},
+            {q: "Mikrodenetleyiciler genellikle hangi mimariyi kullanır?", options: ["Von Neumann", "Harvard", "CISC", "Hibrit"], correct: 1},
+            {q: "RISC'in açılımı nedir?", options: ["Reduced Instruction Set Computer", "Random Instruction Set Computer", "Real Instruction Set Computer", "Rapid Instruction Set Computer"], correct: 0},
+            {q: "CISC'in açılımı nedir?", options: ["Complex Instruction Set Computer", "Complete Instruction Set Computer", "Central Instruction Set Computer", "Combined Instruction Set Computer"], correct: 0},
+            {q: "RISC'de komut sayısı nasıldır?", options: ["Çok fazla", "Az (100-150)", "Yok", "Sonsuz"], correct: 1},
+            {q: "CISC'de komut sayısı nasıldır?", options: ["Az", "Çok fazla (300+)", "Yok", "Sadece 1"], correct: 1},
+            {q: "RISC'de her komut kaç cycle'da çalışır?", options: ["1 cycle", "10 cycle", "100 cycle", "Değişken"], correct: 0},
+            {q: "CISC'de komut cycle sayısı nasıldır?", options: ["Her zaman 1", "Değişken (çok cycle)", "Yok", "Sabit"], correct: 1},
+            {q: "ARM işlemciler hangi mimariyi kullanır?", options: ["CISC", "RISC", "Von Neumann", "Hibrit"], correct: 1},
+            {q: "Intel x86 hangi mimariyi kullanır?", options: ["RISC", "CISC", "Harvard", "Hibrit"], correct: 1},
+            {q: "RISC'de register sayısı nasıldır?", options: ["Çok az", "Çok fazla (32+)", "Yok", "Sadece 1"], correct: 1},
+            {q: "CISC'de register sayısı nasıldır?", options: ["Çok fazla", "Az (8-16)", "Sonsuz", "Yok"], correct: 1},
+            {q: "Pipelining hangi mimaride daha kolaydır?", options: ["CISC", "RISC", "Von Neumann", "Hiçbiri"], correct: 1},
+            {q: "Güç tüketimi hangi mimaride daha düşüktür?", options: ["CISC", "RISC", "İkisi eşit", "Hiçbiri"], correct: 1},
+            {q: "Von Neumann'da veri ve komut aynı anda transfer edilebilir mi?", options: ["Evet", "Hayır, sırayla", "Bazen", "Her zaman"], correct: 1},
+            {q: "Harvard'da veri ve komut aynı anda transfer edilebilir mi?", options: ["Hayır", "Evet, paralel olarak", "Bazen", "Asla"], correct: 1},
+            {q: "Modified Harvard mimarisi nedir?", options: ["Sadece Von Neumann", "Sadece Harvard", "İkisinin karışımı", "Hiçbiri"], correct: 2},
+            {q: "John von Neumann kimdir?", options: ["Transistör mucidi", "Bilgisayar mimarisi öncüsü", "Elektrik mucidi", "Telefon mucidi"], correct: 1},
+            {q: "RISC'de komut uzunluğu nasıldır?", options: ["Değişken", "Sabit", "Yok", "Rastgele"], correct: 1},
+            {q: "CISC'de komut uzunluğu nasıldır?", options: ["Sabit", "Değişken", "Yok", "Her zaman 32 bit"], correct: 1},
+            {q: "Load/Store mimarisi hangi mimariyle ilişkilidir?", options: ["CISC", "RISC", "Von Neumann", "Harvard"], correct: 1},
+            {q: "Hardwired kontrol hangi mimaride kullanılır?", options: ["CISC", "RISC", "Her ikisi", "Hiçbiri"], correct: 1},
+            {q: "Microcode kontrol hangi mimaride kullanılır?", options: ["RISC", "CISC", "Her ikisi", "Hiçbiri"], correct: 1},
+            {q: "AVR mikrodenetleyici hangi mimariyi kullanır?", options: ["Von Neumann", "Harvard", "CISC", "Hibrit"], correct: 1},
+            {q: "ESP32 hangi mimariyi kullanır?", options: ["Von Neumann", "Harvard (Modified)", "Sadece CISC", "Hibrit"], correct: 1},
+            {q: "RISC-V nedir?", options: ["CISC işlemci", "Açık kaynak RISC mimarisi", "Von Neumann mimarisi", "Harvard mimarisi"], correct: 1},
+            {q: "Hangi mimari daha basit tasarıma sahiptir?", options: ["Harvard", "Von Neumann", "CISC", "Hepsi eşit"], correct: 1},
+            {q: "Hangi mimari daha yüksek hıza sahiptir?", options: ["Von Neumann", "Harvard", "İkisi eşit", "Hiçbiri"], correct: 1},
+            {q: "x86 ailesi hangi komut mimarisine sahiptir?", options: ["RISC", "CISC", "Harvard", "Hibrit"], correct: 1},
+            {q: "Mobil cihazlarda hangi mimari daha yaygındır?", options: ["CISC", "RISC (ARM)", "Von Neumann", "Harvard"], correct: 1},
+            {q: "Gömülü sistemlerde hangi bellek mimarisi tercih edilir?", options: ["Von Neumann", "Harvard", "CISC", "Hibrit"], correct: 1}
+        ];
+        
+        const flashcards = [
+            {front: "Von Neumann Mimarisi", back: "Tek tümleşik bellek, ortak veri yolu, darboğaz var, basit tasarım, PC'lerde kullanılır"},
+            {front: "Harvard Mimarisi", back: "Ayrı program ve veri bellekleri, ayrı yollar, paralel erişim, hızlı, mikrodenetleyicilerde"},
+            {front: "Von Neumann Darboğazı", back: "Komut ve verinin aynı yolu kullanması nedeniyle aynı anda sadece biri aktarılabilir"},
+            {front: "RISC", back: "Reduced Instruction Set - Az komut, basit, 1 cycle/komut, çok register, ARM örnek"},
+            {front: "CISC", back: "Complex Instruction Set - Çok komut, karmaşık, çok cycle, az register, x86 örnek"},
+            {front: "RISC Avantajları", back: "Hızlı, basit, düşük güç, pipelining kolay, sabit komut uzunluğu"},
+            {front: "CISC Avantajları", back: "Karmaşık işlemler tek komutta, kod yoğunluğu yüksek, geriye uyumlu"},
+            {front: "Load/Store", back: "RISC mimarisi - Bellek işlemleri sadece LOAD ve STORE komutlarıyla"},
+            {front: "ARM", back: "RISC mimarisi, mobil cihazlar, düşük güç, yüksek performans"},
+            {front: "Intel x86", back: "CISC mimarisi, PC'ler, karmaşık komut seti, geriye uyumlu"},
+            {front: "Modified Harvard", back: "Genellikle ayrı bellekler ama gerektiğinde erişim paylaşılabilir"},
+            {front: "Pipelining", back: "Komut işleme aşamalarının paralel çalıştırılması, RISC'de daha kolay"},
+            {front: "Hardwired Kontrol", back: "RISC'de kullanılır, donanım mantık devreleri ile kontrol"},
+            {front: "Microcode", back: "CISC'de kullanılır, karmaşık komutları basit mikro-komutlara çevirir"},
+            {front: "Register File", back: "RISC çok register kullanır (32+), CISC az (8-16)"},
+            {front: "RISC-V", back: "Açık kaynak RISC mimarisi, ücretsiz, özelleştirilebilir"},
+            {front: "Von Neumann 1950", back: "John von Neumann bilgisayar mimarisini 1950'lerde biçimselleştirdi"},
+            {front: "ESP32 Mimarisi", back: "Xtensa LX6 (RISC benzeri), Modified Harvard, dual-core"}
+        ];
+        
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul4');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>"""
+}
+
+# Dosyayı yaz
+for filename, content in modules_content.items():
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print(f"✓ {filename} düzeltildi")
+
+print("\n✅ Modül 4 düzeltildi!")

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formül ve Özet Sayfası</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .formula-card {
+            background: white;
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .formula-title {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .formula-content {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        
+        .formula-example {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-ref-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .quick-ref-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .conversion-tool {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        
+        .conversion-tool input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        
+        .conversion-tool input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .result-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Formül & Özet</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">📐</div>
+            <h1>Formül ve Özet Sayfası</h1>
+            <p>Hızlı Referans ve Hesaplama Araçları</p>
+        </header>
+
+        <div class="content">
+            <!-- HAFIZA HESAPLAMALARI -->
+            <div class="section">
+                <h2>💾 Hafıza Hesaplama Formülleri</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-title">1. Adreslenebilir Hafıza Miktarı</div>
+                    <div class="formula-content">
+                        Hafıza Miktarı = 2^(Adres Bit Sayısı)
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnek:</strong><br>
+                        16 bitlik adres yolu → 2^16 = 65,536 byte = 64 KB<br>
+                        20 bitlik adres yolu → 2^20 = 1,048,576 byte = 1 MB<br>
+                        32 bitlik adres yolu → 2^32 = 4,294,967,296 byte = 4 GB
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">2. Gerekli Adres Bit Sayısı</div>
+                    <div class="formula-content">
+                        Adres Bit Sayısı = log₂(Hafıza Miktarı)<br>
+                        veya<br>
+                        Adres Bit Sayısı = ⌈log₂(Hafıza Miktarı)⌉ (yukarı yuvarla)
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnek:</strong><br>
+                        64 KB = 65,536 byte → log₂(65,536) = 16 bit<br>
+                        18 KB = 18,432 byte → log₂(18,432) = 14.17... → 15 bit (yukarı yuvarla)
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">3. Veri Transfer Hızı</div>
+                    <div class="formula-content">
+                        Transfer Hızı (bit/s) = Saat Frekansı (Hz) × Veri Yolu Genişliği (bit)
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnek:</strong><br>
+                        800 MHz saat, 16 bit veri yolu<br>
+                        = 800,000,000 × 16<br>
+                        = 12,800,000,000 bit/s<br>
+                        = 12.8 Gbit/s = 1.6 GB/s
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">4. Byte ↔ Bit Dönüşümü</div>
+                    <div class="formula-content">
+                        1 Byte = 8 bit<br>
+                        1 KB = 1024 Byte<br>
+                        1 MB = 1024 KB = 1,048,576 Byte<br>
+                        1 GB = 1024 MB = 1,073,741,824 Byte
+                    </div>
+                </div>
+            </div>
+
+            <!-- HESAPLAMA ARAÇLARI -->
+            <div class="section">
+                <h2>🧮 İnteraktif Hesaplama Araçları</h2>
+                
+                <div class="conversion-tool">
+                    <h3>Adreslenebilir Hafıza Hesaplama</h3>
+                    <label>Adres Bit Sayısı:</label>
+                    <input type="number" id="adresBit" placeholder="Örn: 16" onchange="hesaplaHafiza()">
+                    <div class="result-display" id="hafizaSonuc">Sonuç burada görünecek</div>
+                </div>
+
+                <div class="conversion-tool">
+                    <h3>Gerekli Adres Bit Hesaplama</h3>
+                    <label>Hafıza Miktarı (Byte):</label>
+                    <input type="number" id="hafizaMiktar" placeholder="Örn: 65536" onchange="hesaplaAdresBit()">
+                    <div class="result-display" id="adresBitSonuc">Sonuç burada görünecek</div>
+                </div>
+
+                <div class="conversion-tool">
+                    <h3>Veri Transfer Hızı Hesaplama</h3>
+                    <label>Saat Frekansı (MHz):</label>
+                    <input type="number" id="saatFrekansi" placeholder="Örn: 800" onchange="hesaplaTransfer()">
+                    <label>Veri Yolu Genişliği (bit):</label>
+                    <input type="number" id="veriYolu" placeholder="Örn: 16" onchange="hesaplaTransfer()">
+                    <div class="result-display" id="transferSonuc">Sonuç burada görünecek</div>
+                </div>
+            </div>
+
+            <!-- SAYI SİSTEMLERİ -->
+            <div class="section">
+                <h2>🔢 Sayı Sistemleri Tablosu</h2>
+                
+                <table class="quick-ref-table">
+                    <tr>
+                        <th>Decimal (10)</th>
+                        <th>Binary (2)</th>
+                        <th>Hexadecimal (16)</th>
+                        <th>Octal (8)</th>
+                    </tr>
+                    <tr><td>0</td><td>0000</td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>0001</td><td>1</td><td>1</td></tr>
+                    <tr><td>2</td><td>0010</td><td>2</td><td>2</td></tr>
+                    <tr><td>3</td><td>0011</td><td>3</td><td>3</td></tr>
+                    <tr><td>4</td><td>0100</td><td>4</td><td>4</td></tr>
+                    <tr><td>5</td><td>0101</td><td>5</td><td>5</td></tr>
+                    <tr><td>6</td><td>0110</td><td>6</td><td>6</td></tr>
+                    <tr><td>7</td><td>0111</td><td>7</td><td>7</td></tr>
+                    <tr><td>8</td><td>1000</td><td>8</td><td>10</td></tr>
+                    <tr><td>9</td><td>1001</td><td>9</td><td>11</td></tr>
+                    <tr><td>10</td><td>1010</td><td>A</td><td>12</td></tr>
+                    <tr><td>11</td><td>1011</td><td>B</td><td>13</td></tr>
+                    <tr><td>12</td><td>1100</td><td>C</td><td>14</td></tr>
+                    <tr><td>13</td><td>1101</td><td>D</td><td>15</td></tr>
+                    <tr><td>14</td><td>1110</td><td>E</td><td>16</td></tr>
+                    <tr><td>15</td><td>1111</td><td>F</td><td>17</td></tr>
+                    <tr><td>16</td><td>10000</td><td>10</td><td>20</td></tr>
+                    <tr><td>255</td><td>11111111</td><td>FF</td><td>377</td></tr>
+                </table>
+
+                <div class="conversion-tool">
+                    <h3>Sayı Sistemi Dönüştürücü</h3>
+                    <label>Decimal (10'luk):</label>
+                    <input type="number" id="decInput" placeholder="Örn: 255" onchange="convertFromDec()">
+                    <div class="result-display" id="conversionResult">Dönüşümler burada görünecek</div>
+                </div>
+            </div>
+
+            <!-- MİMARİ KARŞILAŞTIRMA -->
+            <div class="section">
+                <h2>🏛️ Mimari Karşılaştırma Tablosu</h2>
+                
+                <table class="quick-ref-table">
+                    <tr>
+                        <th>Özellik</th>
+                        <th>Von Neumann</th>
+                        <th>Harvard</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Bellek Yapısı</strong></td>
+                        <td>Tek bellek (Program + Veri)</td>
+                        <td>Ayrı bellekler</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Veri Yolu</strong></td>
+                        <td>Tek ortak yol</td>
+                        <td>Ayrı program ve veri yolları</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hız</strong></td>
+                        <td>Darboğaz var (daha yavaş)</td>
+                        <td>Paralel erişim (daha hızlı)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Karmaşıklık</strong></td>
+                        <td>Basit</td>
+                        <td>Daha karmaşık</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maliyet</strong></td>
+                        <td>Düşük</td>
+                        <td>Yüksek</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kullanım Alanı</strong></td>
+                        <td>PC, Genel amaçlı sistemler</td>
+                        <td>Mikrodenetleyiciler, DSP</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Örnekler</strong></td>
+                        <td>Intel x86, ARM Cortex-A</td>
+                        <td>PIC, AVR, ARM Cortex-M</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- CPU BİLEŞENLERİ ÖZET -->
+            <div class="section">
+                <h2>🧠 CPU Bileşenleri Özet</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-title">ALU (Arithmetic Logic Unit)</div>
+                    <ul>
+                        <li><strong>Aritmetik:</strong> +, -, ×, ÷</li>
+                        <li><strong>Mantıksal:</strong> AND, OR, NOT, XOR, NAND, NOR</li>
+                        <li><strong>Karşılaştırma:</strong> =, ≠, >, <, ≥, ≤</li>
+                        <li><strong>Shift:</strong> Sola/Sağa kaydırma</li>
+                    </ul>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">Kontrol Birimi</div>
+                    <ul>
+                        <li><strong>Fetch:</strong> Komutu bellekten çek</li>
+                        <li><strong>Decode:</strong> Komutu çözümle</li>
+                        <li><strong>Execute:</strong> Komutu çalıştır</li>
+                        <li><strong>Store:</strong> Sonucu sakla</li>
+                    </ul>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">Önemli Registerlar</div>
+                    <ul>
+                        <li><strong>PC (Program Counter):</strong> Sonraki komutun adresi</li>
+                        <li><strong>IR (Instruction Register):</strong> O anki komut</li>
+                        <li><strong>Accumulator:</strong> İşlem sonuçları</li>
+                        <li><strong>SP (Stack Pointer):</strong> Stack'in tepesi</li>
+                        <li><strong>MAR (Memory Address Register):</strong> Bellek adresi</li>
+                        <li><strong>MDR (Memory Data Register):</strong> Bellek verisi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- HIZLI NOTLAR -->
+            <div class="section">
+                <h2>📝 Vize İçin Önemli Noktalar</h2>
+                
+                <div class="important-box">
+                    <h3>⚠️ Mutlaka Bilinmesi Gerekenler:</h3>
+                    <ul>
+                        <li>Mikroişlemci ≠ Mikrobilgisayar</li>
+                        <li>Von Neumann: Tek bellek, tek yol → Darboğaz</li>
+                        <li>Harvard: Ayrı bellek, ayrı yol → Hızlı</li>
+                        <li>ALU = Hesaplama, Kontrol Birimi = Yönetim</li>
+                        <li>2^n formülü hafıza hesabında çok önemli</li>
+                        <li>1 Byte = 8 bit, 1 KB = 1024 Byte</li>
+                        <li>Yarıiletkenler: 4 valans elektronu (Si, Ge, C)</li>
+                        <li>İlk transistör: 1948, AT&T Bell Labs</li>
+                        <li>3 durumlu buffer: Ortak yol probleminin çözümü</li>
+                    </ul>
+                </div>
+
+                <div class="note-box">
+                    <h3>💡 Sınav İpuçları:</h3>
+                    <ul>
+                        <li>Hesaplama sorularında birimlere dikkat!</li>
+                        <li>Adres biti hesabında yukarı yuvarlama yapın</li>
+                        <li>MHz'i Hz'e çevirmeyi unutmayın (× 1,000,000)</li>
+                        <li>Binary hesaplamalar için 2'nin kuvvetlerini ezberleyin</li>
+                        <li>Mimari sorularında avantaj/dezavantaj soruluyor</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2'NİN KUVVETLERİ -->
+            <div class="section">
+                <h2>📊 2'nin Kuvvetleri Tablosu</h2>
+                <table class="quick-ref-table">
+                    <tr>
+                        <th>n</th>
+                        <th>2^n</th>
+                        <th>Hafıza Karşılığı</th>
+                    </tr>
+                    <tr><td>8</td><td>256</td><td>256 Byte</td></tr>
+                    <tr><td>10</td><td>1,024</td><td>1 KB</td></tr>
+                    <tr><td>12</td><td>4,096</td><td>4 KB</td></tr>
+                    <tr><td>14</td><td>16,384</td><td>16 KB</td></tr>
+                    <tr><td>16</td><td>65,536</td><td>64 KB</td></tr>
+                    <tr><td>20</td><td>1,048,576</td><td>1 MB</td></tr>
+                    <tr><td>24</td><td>16,777,216</td><td>16 MB</td></tr>
+                    <tr><td>30</td><td>1,073,741,824</td><td>1 GB</td></tr>
+                    <tr><td>32</td><td>4,294,967,296</td><td>4 GB</td></tr>
+                </table>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Yazdır</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        function hesaplaHafiza() {
+            const adresBit = parseInt(document.getElementById('adresBit').value);
+            if (isNaN(adresBit) || adresBit < 1) {
+                document.getElementById('hafizaSonuc').textContent = 'Lütfen geçerli bir sayı girin';
+                return;
+            }
+            
+            const hafiza = Math.pow(2, adresBit);
+            let birim = 'Byte';
+            let deger = hafiza;
+            
+            if (hafiza >= 1073741824) {
+                deger = hafiza / 1073741824;
+                birim = 'GB';
+            } else if (hafiza >= 1048576) {
+                deger = hafiza / 1048576;
+                birim = 'MB';
+            } else if (hafiza >= 1024) {
+                deger = hafiza / 1024;
+                birim = 'KB';
+            }
+            
+            document.getElementById('hafizaSonuc').innerHTML = `
+                <strong>Sonuç:</strong><br>
+                2^${adresBit} = ${hafiza.toLocaleString()} Byte<br>
+                = ${deger.toFixed(2)} ${birim}
+            `;
+        }
+
+        function hesaplaAdresBit() {
+            const hafiza = parseInt(document.getElementById('hafizaMiktar').value);
+            if (isNaN(hafiza) || hafiza < 1) {
+                document.getElementById('adresBitSonuc').textContent = 'Lütfen geçerli bir sayı girin';
+                return;
+            }
+            
+            const adresBit = Math.ceil(Math.log2(hafiza));
+            
+            document.getElementById('adresBitSonuc').innerHTML = `
+                <strong>Sonuç:</strong><br>
+                ${hafiza.toLocaleString()} Byte için<br>
+                <strong>${adresBit} bit</strong> adres yolu gereklidir<br>
+                (log₂(${hafiza}) = ${Math.log2(hafiza).toFixed(2)} → ${adresBit} bit)
+            `;
+        }
+
+        function hesaplaTransfer() {
+            const saat = parseFloat(document.getElementById('saatFrekansi').value);
+            const veri = parseInt(document.getElementById('veriYolu').value);
+            
+            if (isNaN(saat) || isNaN(veri) || saat < 1 || veri < 1) {
+                document.getElementById('transferSonuc').textContent = 'Lütfen geçerli sayılar girin';
+                return;
+            }
+            
+            const hz = saat * 1000000; // MHz to Hz
+            const bitPerSec = hz * veri;
+            const bytePerSec = bitPerSec / 8;
+            
+            let hizBirim = 'bit/s';
+            let hizDeger = bitPerSec;
+            
+            if (bitPerSec >= 1000000000) {
+                hizDeger = bitPerSec / 1000000000;
+                hizBirim = 'Gbit/s';
+            } else if (bitPerSec >= 1000000) {
+                hizDeger = bitPerSec / 1000000;
+                hizBirim = 'Mbit/s';
+            }
+            
+            let byteBirim = 'Byte/s';
+            let byteDeger = bytePerSec;
+            
+            if (bytePerSec >= 1073741824) {
+                byteDeger = bytePerSec / 1073741824;
+                byteBirim = 'GB/s';
+            } else if (bytePerSec >= 1048576) {
+                byteDeger = bytePerSec / 1048576;
+                byteBirim = 'MB/s';
+            }
+            
+            document.getElementById('transferSonuc').innerHTML = `
+                <strong>Sonuç:</strong><br>
+                ${saat} MHz × ${veri} bit = ${hizDeger.toFixed(2)} ${hizBirim}<br>
+                = ${byteDeger.toFixed(2)} ${byteBirim}
+            `;
+        }
+
+        function convertFromDec() {
+            const dec = parseInt(document.getElementById('decInput').value);
+            if (isNaN(dec) || dec < 0) {
+                document.getElementById('conversionResult').textContent = 'Lütfen geçerli bir sayı girin';
+                return;
+            }
+            
+            const bin = dec.toString(2);
+            const hex = dec.toString(16).toUpperCase();
+            const oct = dec.toString(8);
+            
+            document.getElementById('conversionResult').innerHTML = `
+                <strong>Dönüşümler:</strong><br>
+                Binary (2'lik): ${bin}<br>
+                Hexadecimal (16'lık): ${hex}<br>
+                Octal (8'lik): ${oct}
+            `;
+        }
+    </script>
+</body>
+</html>

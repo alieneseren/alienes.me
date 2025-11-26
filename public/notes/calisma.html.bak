@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikroişlemciler - İnteraktif Çalışma Platformu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e0e0e0;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            list-style: none;
+        }
+
+        .quiz-options li {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-options li:hover {
+            background: #e0e0e0;
+            transform: translateX(5px);
+        }
+
+        .quiz-options li.correct {
+            background: #4caf50;
+            color: white;
+        }
+
+        .quiz-options li.incorrect {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .flashcard {
+            background: white;
+            padding: 30px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.02);
+        }
+
+        .flashcard.flipped {
+            background: #667eea;
+            color: white;
+        }
+
+        .flashcard-front, .flashcard-back {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .important {
+            background: #f8d7da;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 2em;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Mikroişlemciler</h1>
+            <p>İnteraktif Çalışma ve Test Platformu - 2025/2026 Güz Dönemi</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('ozet')">📚 Ders Özeti</button>
+            <button class="tab" onclick="showTab('quiz')">✅ Test</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+            <button class="tab" onclick="showTab('practice')">🔧 Pratik Sorular</button>
+        </div>
+
+        <div class="content">
+            <!-- DERS ÖZETİ -->
+            <div id="ozet" class="tab-content active">
+                <div class="section">
+                    <h2>📖 Ders İçeriği ve Öğrenme Çıktıları</h2>
+                    <ul>
+                        <li><strong>Mikroişlemci kavramlarını bilme</strong></li>
+                        <li><strong>Hafıza Temelleri, Adresleme ve Ortak veri yolu kavramlarını bilme</strong></li>
+                        <li><strong>C Derleyicileri ve Proteus, Wokwi gibi simulasyon programlarını kullanabilme</strong></li>
+                        <li><strong>Mikrodenetleyici programlayabilme</strong></li>
+                    </ul>
+                    
+                    <h3>Değerlendirme Kriterleri</h3>
+                    <table>
+                        <tr>
+                            <th>Değerlendirme</th>
+                            <th>Yüzde (%)</th>
+                        </tr>
+                        <tr>
+                            <td>Ara Sınavlar</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td>Ödevler</td>
+                            <td>10%</td>
+                        </tr>
+                        <tr>
+                            <td>Uygulama Ödevi (Dönem Sonu)</td>
+                            <td>40%</td>
+                        </tr>
+                        <tr>
+                            <td>Dönem Sonu Sınavı</td>
+                            <td>30%</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2>🔌 Mikroişlemci ve Mikrobilgisayar</h2>
+                    
+                    <h3>Temel Tanımlar</h3>
+                    <div class="note">
+                        <strong>Mikrobilgisayar:</strong> Bir tüm devre (chip) üzerinde üretilen bilgisayardır. Mikrokontroller veya Mikrodenetleyici olarak da adlandırılır.
+                    </div>
+                    
+                    <h3>Temel Bileşenler</h3>
+                    <ul>
+                        <li><strong>CPU (Central Processing Unit):</strong> Hafızaya yüklü programın çalışmasını sağlayan birim</li>
+                        <li><strong>ALU (Arithmetic Logic Unit):</strong> CPU içerisindeki matematiksel işlemlerin yapıldığı birim</li>
+                        <li><strong>Kontrol Birimi:</strong> Tüm işlemlerin sırasını belirler ve gerekli denetim işaretlerini üretir</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>🏛️ Mikroişlemci Mimarileri</h2>
+                    
+                    <h3>Von Neumann Mimarisi</h3>
+                    <ul>
+                        <li>Tümleşik tek bellek bulunur</li>
+                        <li>Veri ve program alanı aynı hafıza haritası üzerinde bulunur</li>
+                        <li>80X86, 68HC11 gibi işlemcilerde kullanılmıştır</li>
+                        <li>PC (Kişisel Bilgisayarlar) arasında standarttır</li>
+                        <li>Komut ve veri için aynı bellek ve aynı yol kullanılır</li>
+                    </ul>
+                    
+                    <div class="important">
+                        <strong>Önemli Not:</strong> Von Neumann mimarisinde komut ve verinin iletilmesi gerektiğinde, veri iletişimi komut iletişimini beklemek zorundadır (darboğaz).
+                    </div>
+
+                    <h3>Harvard Mimarisi</h3>
+                    <ul>
+                        <li>Veri ve komutları iletmek için kullanılan yollar birbirinden bağımsızdır</li>
+                        <li>Aynı anda veri ve komut iletilebilir</li>
+                        <li>Komut kod bellekten okunurken, veri belleğinden de okuma yapılabilir</li>
+                        <li>1970'li yılların sonundan itibaren mikrodenetleyici tasarımında standart hale gelmiştir</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>💾 Hafıza ve Adresleme</h2>
+                    
+                    <h3>Ortak Veri Yolu Problemi</h3>
+                    <p>Mikroişlemcili sistemlerde birimler arası veri transferinin gerçekleştirilebilmesi için tüm birimler veriyoluna bağlanmak zorundadır. Bu problem <strong>3 durumlu buffer'lar</strong> ile çözülmektedir.</p>
+                    
+                    <h3>Hafıza Hesaplamaları</h3>
+                    <div class="code-block">
+// Adreslenebilir Hafıza Miktarı Formülü:
+Hafıza Miktarı = 2^(Adres Bit Sayısı)
+
+// Örnek: 16 bitlik adres yolu
+Hafıza = 2^16 = 64 KB
+
+// Saniyede Aktarılabilir Veri
+Veri/Saniye = Saat Frekansı × Veri Yolu Genişliği
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🔬 Yarıiletken ve Transistörler</h2>
+                    
+                    <div class="note">
+                        <strong>Yarıiletken Maddeler:</strong> Elektrik akımına karşı ne iyi bir iletken ne de iyi bir yalıtkan özelliği gösterirler. Elektronik endüstrisinin temelini oluştururlar.
+                    </div>
+                    
+                    <h3>Önemli Yarıiletken Elementler</h3>
+                    <ul>
+                        <li>Silisyum (Si)</li>
+                        <li>Germanyum (Ge)</li>
+                        <li>Karbon (C)</li>
+                    </ul>
+                    <p>Bu elementler son yörüngelerinde <strong>4 adet valans elektron</strong> bulundururlar.</p>
+                    
+                    <h3>Transistörlerin Tarihi</h3>
+                    <ul>
+                        <li>1948 yılında AT&T Bell laboratuarlarında geliştirildi</li>
+                        <li>Geliştiriciler: John Bardeen, Walter Brittain ve William Shockley</li>
+                        <li>Vakum tüplerinin yerini aldı</li>
+                        <li>Bilgisayarların boyutlarını küçülttü</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2>🤖 ESP32 Örnek Uygulamaları</h2>
+                    <ul>
+                        <li>ESP32 Web Uygulamaları</li>
+                        <li>ESP32 ile Robot Kol</li>
+                        <li>Face Detection (Yüz Tanıma)</li>
+                        <li>Blynk üzerinden M2M Uygulaması (Endüstri 4.0)</li>
+                        <li>NTP Server - İnternet Saat ve Termometre</li>
+                        <li>ESP32 Hexapod</li>
+                        <li>ESP32 Su Seviyesi Ölçümü</li>
+                        <li>AWS IoT Lamp - Röle/LED Kontrolü</li>
+                        <li>ESP32 ile WhatsApp Entegrasyonu</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TEST BÖLÜMÜ -->
+            <div id="quiz" class="tab-content">
+                <div class="section">
+                    <h2>✅ Test - Bilginizi Ölçün</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quizProgress" style="width: 0%">0%</div>
+                    </div>
+                    <div id="quizContainer"></div>
+                    <div id="quizScore" class="score-display" style="display: none;"></div>
+                    <button class="btn" onclick="resetQuiz()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+
+            <!-- FLASHCARDS -->
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - Kavramları Öğrenin</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                        Kartlara tıklayarak cevapları görebilirsiniz
+                    </p>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+
+            <!-- PRATİK SORULAR -->
+            <div id="practice" class="tab-content">
+                <div class="section">
+                    <h2>🔧 Pratik Sorular ve Çözümleri</h2>
+                    
+                    <div class="quiz-question">
+                        <h3>Soru 1: Hafıza Adresleme</h3>
+                        <p><strong>Soru:</strong> 8 bitlik veri yolu ve 16 bitlik adres yolu olan bir mikroişlemcili sistemin adresleyebileceği hafıza miktarı nedir?</p>
+                        <button class="btn" onclick="toggleSolution('sol1')">💡 Çözümü Göster</button>
+                        <div id="sol1" style="display: none; margin-top: 15px; padding: 15px; background: #e8f5e9; border-radius: 5px;">
+                            <strong>Çözüm:</strong><br>
+                            Adreslenebilir hafıza miktarı = 2^(Adres bit sayısı)<br>
+                            = 2^16<br>
+                            = 65,536 byte<br>
+                            = <strong>64 KB</strong>
+                            <div class="note" style="margin-top: 10px;">
+                                Not: Veri yolu genişliği (8 bit) adreslenebilir hafıza miktarını etkilemez, sadece bir seferde ne kadar veri aktarılabileceğini belirler.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3>Soru 2: Adres Biti Hesabı</h3>
+                        <p><strong>Soru:</strong> 8 bit 18K'lık bir hafıza birimini adresleyebilmek için kaç adres bitine ihtiyaç vardır?</p>
+                        <button class="btn" onclick="toggleSolution('sol2')">💡 Çözümü Göster</button>
+                        <div id="sol2" style="display: none; margin-top: 15px; padding: 15px; background: #e8f5e9; border-radius: 5px;">
+                            <strong>Çözüm:</strong><br>
+                            18K = 18 × 1024 = 18,432 byte<br>
+                            2^14 = 16,384 byte (yetersiz)<br>
+                            2^15 = 32,768 byte (yeterli)<br>
+                            Cevap: <strong>15 adres biti</strong>
+                            <div class="note" style="margin-top: 10px;">
+                                Not: Adres bit sayısı her zaman yukarı yuvarlanmalıdır, çünkü tüm hafıza alanını adresleyebilmeliyiz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3>Soru 3: Veri Transfer Hızı</h3>
+                        <p><strong>Soru:</strong> 800MHz'lik saat girişine sahip ve 16 bit veri yolu olan 64KB'lık bir RAM modülünden ortak veri yolu üzerinden saniyede kaç bit veri okunabilir?</p>
+                        <button class="btn" onclick="toggleSolution('sol3')">💡 Çözümü Göster</button>
+                        <div id="sol3" style="display: none; margin-top: 15px; padding: #e8f5e9; border-radius: 5px;">
+                            <strong>Çözüm:</strong><br>
+                            Saniyede Aktarılabilir Veri = Saat Frekansı × Veri Yolu Genişliği<br>
+                            = 800,000,000 Hz × 16 bit<br>
+                            = 12,800,000,000 bit/saniye<br>
+                            = <strong>12.8 Gbit/s veya 1.6 GB/s</strong>
+                            <div class="note" style="margin-top: 10px;">
+                                Not: Bu teorik maksimum hızdır. Gerçek uygulamalarda çeşitli gecikmeler nedeniyle bu hıza ulaşılamaz.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3>Soru 4: Mimari Karşılaştırma</h3>
+                        <p><strong>Soru:</strong> Von Neumann ve Harvard mimarileri arasındaki temel farklar nelerdir? Hangi durumda hangi mimari tercih edilmelidir?</p>
+                        <button class="btn" onclick="toggleSolution('sol4')">💡 Çözümü Göster</button>
+                        <div id="sol4" style="display: none; margin-top: 15px; padding: 15px; background: #e8f5e9; border-radius: 5px;">
+                            <strong>Çözüm:</strong><br>
+                            <table>
+                                <tr>
+                                    <th>Özellik</th>
+                                    <th>Von Neumann</th>
+                                    <th>Harvard</th>
+                                </tr>
+                                <tr>
+                                    <td>Bellek Yapısı</td>
+                                    <td>Tek bellek (veri + komut)</td>
+                                    <td>Ayrı bellekler</td>
+                                </tr>
+                                <tr>
+                                    <td>Veri Yolu</td>
+                                    <td>Tek yol</td>
+                                    <td>Ayrı yollar</td>
+                                </tr>
+                                <tr>
+                                    <td>Hız</td>
+                                    <td>Daha yavaş (darboğaz)</td>
+                                    <td>Daha hızlı (paralel)</td>
+                                </tr>
+                                <tr>
+                                    <td>Kullanım Alanı</td>
+                                    <td>PC, Genel Amaçlı</td>
+                                    <td>Mikrodenetleyiciler, Gömülü</td>
+                                </tr>
+                            </table>
+                            <div class="important" style="margin-top: 10px;">
+                                <strong>Tercih:</strong> Hız kritikse ve gömülü sistem tasarımı yapılıyorsa Harvard, genel amaçlı ve esneklik gerekliyse Von Neumann tercih edilir.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test Soruları
+        const quizQuestions = [
+            {
+                question: "Mikrobilgisayar aşağıdakilerden hangisidir?",
+                options: [
+                    "Bir tüm devre (chip) üzerinde üretilen bilgisayardır",
+                    "Sadece büyük sistemlerde kullanılan bir yapıdır",
+                    "Yalnızca hesaplama yapabilen bir birimdir",
+                    "İşlemcisiz bir donanım bileşenidir"
+                ],
+                correct: 0
+            },
+            {
+                question: "CPU içerisindeki matematiksel işlemlerin yapıldığı birim hangisidir?",
+                options: [
+                    "Kontrol Birimi",
+                    "ALU (Arithmetic Logic Unit)",
+                    "RAM",
+                    "Cache Memory"
+                ],
+                correct: 1
+            },
+            {
+                question: "Von Neumann mimarisinin temel özelliği nedir?",
+                options: [
+                    "Veri ve komut için ayrı bellekler kullanır",
+                    "Veri ve program alanı aynı hafıza haritası üzerinde bulunur",
+                    "Sadece RISC işlemcilerde kullanılır",
+                    "Paralel işlem yapamaz"
+                ],
+                correct: 1
+            },
+            {
+                question: "Harvard mimarisinin Von Neumann'a göre avantajı nedir?",
+                options: [
+                    "Daha ucuzdur",
+                    "Daha az güç tüketir",
+                    "Aynı anda veri ve komut iletilebilir",
+                    "Daha büyük hafıza adresleyebilir"
+                ],
+                correct: 2
+            },
+            {
+                question: "Yarıiletken elementlerin son yörüngelerinde kaç valans elektronu bulunur?",
+                options: [
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                ],
+                correct: 2
+            },
+            {
+                question: "İlk transistör hangi yıl geliştirilmiştir?",
+                options: [
+                    "1938",
+                    "1948",
+                    "1958",
+                    "1968"
+                ],
+                correct: 1
+            },
+            {
+                question: "16 bitlik adres yolu olan bir mikroişlemci kaç KB hafıza adresleyebilir?",
+                options: [
+                    "16 KB",
+                    "32 KB",
+                    "64 KB",
+                    "128 KB"
+                ],
+                correct: 2
+            },
+            {
+                question: "Mikroişlemcili sistemlerde ortak veri yolu problemi nasıl çözülür?",
+                options: [
+                    "Daha fazla RAM kullanarak",
+                    "3 durumlu buffer'lar ile",
+                    "Daha hızlı işlemci kullanarak",
+                    "Cache bellek ekleyerek"
+                ],
+                correct: 1
+            },
+            {
+                question: "Aşağıdakilerden hangisi yarıiletken bir elementtir?",
+                options: [
+                    "Bakır",
+                    "Alüminyum",
+                    "Silisyum",
+                    "Demir"
+                ],
+                correct: 2
+            },
+            {
+                question: "Kontrol biriminin görevi nedir?",
+                options: [
+                    "Sadece matematiksel işlemler yapar",
+                    "Tüm işlemlerin sırasını belirler ve denetim işaretlerini üretir",
+                    "Veri saklar",
+                    "Ekrana görüntü gönderir"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Flashcard Verileri
+        const flashcards = [
+            { front: "CPU Nedir?", back: "Central Processing Unit - Hafızaya yüklü programın çalışmasını sağlayan birim" },
+            { front: "ALU Nedir?", back: "Arithmetic Logic Unit - CPU içerisindeki matematiksel ve mantıksal işlemlerin yapıldığı birim" },
+            { front: "Von Neumann Mimarisi", back: "Veri ve program alanının aynı hafıza haritası üzerinde bulunduğu, tek bellek ve tek veri yolu kullanan mimari" },
+            { front: "Harvard Mimarisi", back: "Veri ve komutlar için ayrı bellekler ve ayrı veri yolları kullanan, paralel işlem yapabilen mimari" },
+            { front: "Yarıiletken", back: "Elektrik akımına karşı ne iyi bir iletken ne de iyi bir yalıtkan özelliği gösteren malzemeler (Si, Ge, C)" },
+            { front: "Mikrobilgisayar", back: "Bir tüm devre (chip) üzerinde üretilen bilgisayar. Mikrokontroller veya Mikrodenetleyici olarak da adlandırılır" },
+            { front: "3 Durumlu Buffer", back: "Mikroişlemcili sistemlerde ortak veri yolu problemini çözen devre elemanı" },
+            { front: "Adreslenebilir Hafıza", back: "2^(Adres bit sayısı) formülü ile hesaplanır. Örnek: 16 bit adres = 2^16 = 64KB" },
+            { front: "Valans Elektronu", back: "Bir atomun en dış yörüngesindeki elektronlar. Yarıiletkenlerde 4 adet valans elektronu bulunur" },
+            { front: "Transistör Tarihi", back: "1948 yılında AT&T Bell laboratuarlarında John Bardeen, Walter Brittain ve William Shockley tarafından geliştirildi" }
+        ];
+
+        let currentQuizState = [];
+        let answeredQuestions = 0;
+
+        // Tab Değiştirme
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Quiz Başlat
+        function initQuiz() {
+            currentQuizState = quizQuestions.map(() => null);
+            answeredQuestions = 0;
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-question';
+                questionDiv.innerHTML = `
+                    <h3>Soru ${index + 1}</h3>
+                    <p>${q.question}</p>
+                    <ul class="quiz-options" id="options-${index}">
+                        ${q.options.map((opt, optIndex) => 
+                            `<li onclick="selectAnswer(${index}, ${optIndex})">${opt}</li>`
+                        ).join('')}
+                    </ul>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Cevap Seçimi
+        function selectAnswer(questionIndex, answerIndex) {
+            if (currentQuizState[questionIndex] !== null) return;
+            
+            currentQuizState[questionIndex] = answerIndex;
+            answeredQuestions++;
+            
+            const optionsList = document.getElementById(`options-${questionIndex}`);
+            const options = optionsList.querySelectorAll('li');
+            
+            options[answerIndex].classList.add(
+                answerIndex === quizQuestions[questionIndex].correct ? 'correct' : 'incorrect'
+            );
+            
+            if (answerIndex !== quizQuestions[questionIndex].correct) {
+                options[quizQuestions[questionIndex].correct].classList.add('correct');
+            }
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            updateProgress();
+            
+            if (answeredQuestions === quizQuestions.length) {
+                showQuizResults();
+            }
+        }
+
+        // İlerleme Güncelleme
+        function updateProgress() {
+            const progress = (answeredQuestions / quizQuestions.length) * 100;
+            const progressFill = document.getElementById('quizProgress');
+            progressFill.style.width = progress + '%';
+            progressFill.textContent = Math.round(progress) + '%';
+        }
+
+        // Sonuçları Göster
+        function showQuizResults() {
+            const correctAnswers = currentQuizState.filter((answer, index) => 
+                answer === quizQuestions[index].correct
+            ).length;
+            
+            const percentage = (correctAnswers / quizQuestions.length) * 100;
+            const scoreDiv = document.getElementById('quizScore');
+            
+            let message = '';
+            if (percentage >= 90) message = '🎉 Mükemmel!';
+            else if (percentage >= 70) message = '👏 Çok İyi!';
+            else if (percentage >= 50) message = '👍 İyi!';
+            else message = '📚 Biraz Daha Çalışmalısın!';
+            
+            scoreDiv.innerHTML = `
+                ${message}<br>
+                Doğru: ${correctAnswers} / ${quizQuestions.length}<br>
+                Başarı Oranı: ${percentage.toFixed(1)}%
+            `;
+            scoreDiv.style.display = 'block';
+        }
+
+        // Quiz Sıfırlama
+        function resetQuiz() {
+            document.getElementById('quizScore').style.display = 'none';
+            initQuiz();
+        }
+
+        // Flashcard Başlatma
+        function initFlashcards() {
+            const container = document.getElementById('flashcardsContainer');
+            flashcards.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'flashcard';
+                cardDiv.id = `flashcard-${index}`;
+                cardDiv.innerHTML = `<div class="flashcard-front">${card.front}</div>`;
+                cardDiv.onclick = () => toggleFlashcard(index);
+                container.appendChild(cardDiv);
+            });
+        }
+
+        // Flashcard Çevirme
+        function toggleFlashcard(index) {
+            const card = document.getElementById(`flashcard-${index}`);
+            const isFlipped = card.classList.contains('flipped');
+            
+            card.classList.toggle('flipped');
+            card.innerHTML = isFlipped ? 
+                `<div class="flashcard-front">${flashcards[index].front}</div>` :
+                `<div class="flashcard-back">${flashcards[index].back}</div>`;
+        }
+
+        // Çözüm Gösterme/Gizleme
+        function toggleSolution(solId) {
+            const sol = document.getElementById(solId);
+            sol.style.display = sol.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Sayfa Yüklendiğinde
+        window.onload = function() {
+            initQuiz();
+            initFlashcards();
+        };
+    </script>
+</body>
+</html>

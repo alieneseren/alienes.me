@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+        }
+
+        .card-back {
+            background-color: white;
+            transform: rotateY(180deg);
+            border: 2px solid #8b5cf6;
+        }
+
+        .card.matched .card-back {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div>
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-400">Memory Card</h1>
+                <p class="text-gray-400 text-sm">Eşleşen kartları bulun!</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[90px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">HAMLE</div>
+                    <div class="text-xl font-bold text-white" id="moves">0</div>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[90px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">EŞLEŞME</div>
+                    <div class="text-xl font-bold text-white" id="matches">0</div>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[90px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SÜRE</div>
+                    <div class="text-xl font-bold text-white" id="timer">0:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel p-6 rounded-2xl mb-6">
+            <div class="grid grid-cols-4 gap-3 sm:gap-4 md:gap-6" id="gameBoard">
+                <!-- Cards will be generated here -->
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button onclick="newGame()" class="flex-1 py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-redo-alt"></i> Yeni Oyun
+            </button>
+            <a href="https://games.alienes.me" class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+
+        <div class="glass-panel p-4 rounded-xl text-sm text-gray-400 text-center">
+            <strong class="text-white block mb-1"><i class="fas fa-info-circle mr-1"></i> Nasıl Oynanır?</strong>
+            Kartları tıklayarak çevirin ve eşleşen çiftleri bulun. Tüm kartları en az hamle ve sürede eşleştirin!
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="winMessage" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-8 rounded-2xl text-center max-w-sm w-full mx-4 transform scale-100 transition-all">
+            <div class="text-6xl mb-4">🎉</div>
+            <h2 class="text-3xl font-bold text-white mb-2">Tebrikler!</h2>
+            <p class="text-gray-300 mb-6 text-lg">
+                <span id="finalMoves" class="font-bold text-violet-400">0</span> hamle ile<br>
+                <span id="finalTime" class="font-bold text-violet-400">0:00</span> sürede tamamladınız!
+            </p>
+            <div class="flex flex-col gap-3">
+                <button onclick="newGame()" class="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-redo-alt mr-2"></i> Tekrar Oyna
+                </button>
+                <a href="https://games.alienes.me" class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-home mr-2"></i> Ana Menü
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const emojis = ['🎮', '🎯', '🎨', '🎭', '🎪', '🎸', '🎹', '🎺'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let startTime;
+        let timerInterval;
+
+        function initGame() {
+            // Create pairs
+            cards = [...emojis, ...emojis]
+                .sort(() => Math.random() - 0.5)
+                .map((emoji, index) => ({
+                    id: index,
+                    emoji: emoji,
+                    flipped: false,
+                    matched: false
+                }));
+
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            startTime = null;
+            
+            updateStats();
+            renderBoard();
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function renderBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = `card aspect-square cursor-pointer ${card.flipped || card.matched ? 'flipped' : ''} ${card.matched ? 'matched' : ''}`;
+                cardElement.dataset.index = index;
+                
+                cardElement.innerHTML = `
+                    <div class="card-inner w-full h-full">
+                        <div class="card-front shadow-lg">
+                            <i class="fas fa-question text-3xl opacity-50"></i>
+                        </div>
+                        <div class="card-back shadow-lg text-4xl md:text-5xl">
+                            ${card.emoji}
+                        </div>
+                    </div>
+                `;
+
+                cardElement.addEventListener('click', () => flipCard(index));
+                board.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(index) {
+            // Start timer on first move
+            if (!startTime) {
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            const card = cards[index];
+
+            // Ignore if already flipped/matched or 2 cards already flipped
+            if (card.flipped || card.matched || flippedCards.length === 2) {
+                return;
+            }
+
+            card.flipped = true;
+            flippedCards.push(index);
+            renderBoard();
+
+            if (flippedCards.length === 2) {
+                moves++;
+                updateStats();
+                setTimeout(checkMatch, 800);
+            }
+        }
+
+        function checkMatch() {
+            const [index1, index2] = flippedCards;
+            const card1 = cards[index1];
+            const card2 = cards[index2];
+
+            if (card1.emoji === card2.emoji) {
+                card1.matched = true;
+                card2.matched = true;
+                matchedPairs++;
+                updateStats();
+
+                if (matchedPairs === emojis.length) {
+                    setTimeout(showWin, 500);
+                }
+            } else {
+                card1.flipped = false;
+                card2.flipped = false;
+            }
+
+            flippedCards = [];
+            renderBoard();
+        }
+
+        function updateStats() {
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('matches').textContent = matchedPairs;
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showWin() {
+            clearInterval(timerInterval);
+            document.getElementById('finalMoves').textContent = moves;
+            document.getElementById('finalTime').textContent = 
+                document.getElementById('timer').textContent;
+            document.getElementById('winMessage').classList.remove('hidden');
+        }
+
+        function newGame() {
+            document.getElementById('winMessage').classList.add('hidden');
+            document.getElementById('timer').textContent = '0:00';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            initGame();
+        }
+
+        // Initialize game
+        initGame();
+    </script>
+</body>
+</html>

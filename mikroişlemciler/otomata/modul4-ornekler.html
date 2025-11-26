@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 4: Pratik Örnekler ve Uygulamalar</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-answer {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 4: Pratik Örnekler</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">🎯</div>
+            <h1>Modül 4: Pratik Örnekler ve Uygulamalar</h1>
+            <p>Otomat Tasarımı Örnekleri, Çözümlü Problemler ve Gerçek Dünya Uygulamaları</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (15 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards (16)</button>
+        </div>
+
+        <div class="content">
+            <!-- TEORİK BİLGİ -->
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🎯 Otomat Tasarımı Örnekleri</h2>
+                    <p>Bu modülde, çeşitli dil tanımlama problemleri için otomat tasarımı örneklerini inceleyeceğiz.</p>
+                </div>
+
+                <div class="section">
+                    <h2>📊 Örnek 1: İkili Sayıların 3'e Bölünebilirliği</h2>
+                    <div class="example-box">
+                        <h3>Problem</h3>
+                        <p>Σ = {0, 1} için, ikili sistemde 3'e bölünebilen sayıları kabul eden bir DFA tasarlayın.</p>
+
+                        <h3>Çözüm</h3>
+                        <div class="component-card">
+                            <h4>Mantık</h4>
+                            <p>Bir sayının 3'e bölünebilmesi için, 3'e bölümünden kalan 0 olmalıdır. Her durumu mod 3 değerine göre tanımlayabiliriz:</p>
+                            <ul>
+                                <li><strong>q₀:</strong> Kalan = 0 (başlangıç ve kabul durumu)</li>
+                                <li><strong>q₁:</strong> Kalan = 1</li>
+                                <li><strong>q₂:</strong> Kalan = 2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🔍 Örnek 2: En Az Bir "a" İçeren Dizgiler</h2>
+                    <div class="example-box">
+                        <h3>Problem</h3>
+                        <p>Σ = {a, b} için, en az bir "a" içeren dizgileri kabul eden DFA tasarlayın.</p>
+
+                        <h3>Çözüm</h3>
+                        <div class="component-card">
+                            <h4>Mantık</h4>
+                            <ul>
+                                <li><strong>q₀:</strong> Henüz "a" görülmedi (başlangıç durumu)</li>
+                                <li><strong>q₁:</strong> En az bir "a" görüldü (kabul durumu)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💻 Gerçek Dünya Uygulamaları</h2>
+                    <div class="component-card">
+                        <h3>Derleyici Tasarımı</h3>
+                        <ul>
+                            <li><strong>Lexical Analyzer:</strong> Anahtar kelimeleri, tanımlayıcıları ve operatörleri tanımak</li>
+                            <li><strong>Tokenization:</strong> Kaynak kodu tokenlara ayırma</li>
+                            <li><strong>Syntax Highlighting:</strong> Kod editörlerinde renklendirme</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h3>Metin İşleme</h3>
+                        <ul>
+                            <li><strong>Pattern Matching:</strong> grep, sed, awk araçları</li>
+                            <li><strong>Search Engines:</strong> Metin arama algoritmaları</li>
+                            <li><strong>Spell Checkers:</strong> Yazım denetimi</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h3>Network Security</h3>
+                        <ul>
+                            <li><strong>Intrusion Detection:</strong> Şüpheli trafik kalıplarını tespit</li>
+                            <li><strong>Firewall Rules:</strong> Paket filtreleme</li>
+                            <li><strong>Virus Scanning:</strong> Malware imza tarama</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEST SORULARI -->
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Test Soruları (15 Soru)</h2>
+                    <p>Bilginizi ölçmek için aşağıdaki soruları cevaplayın.</p>
+
+                    <div class="test-container">
+                        <!-- Soru 1 -->
+                        <div class="test-question">
+                            <h3>Soru 1:</h3>
+                            <p>İkili sayılarda 3'e bölünebilirlik için kaç durum gerekir?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q1" value="a"> A) 2</label>
+                                <label><input type="radio" name="q1" value="b"> B) 3</label>
+                                <label><input type="radio" name="q1" value="c"> C) 4</label>
+                                <label><input type="radio" name="q1" value="d"> D) 5</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="test-question">
+                            <h3>Soru 2:</h3>
+                            <p>"En az bir a içeren dizgiler" için kaç durum gerekir?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q2" value="a"> A) 1</label>
+                                <label><input type="radio" name="q2" value="b"> B) 2</label>
+                                <label><input type="radio" name="q2" value="c"> C) 3</label>
+                                <label><input type="radio" name="q2" value="d"> D) 4</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 3 -->
+                        <div class="test-question">
+                            <h3>Soru 3:</h3>
+                            <p>Eşit sayıda a ve b içeren dizgiler için hangi otomat kullanılır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q3" value="a"> A) Sadece DFA</label>
+                                <label><input type="radio" name="q3" value="b"> B) Sadece NFA</label>
+                                <label><input type="radio" name="q3" value="c"> C) Pushdown Otomat</label>
+                                <label><input type="radio" name="q3" value="d"> D) Turing Makinesi</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <!-- Soru 4 -->
+                        <div class="test-question">
+                            <h3>Soru 4:</h3>
+                            <p>Subset construction algoritması ne yapar?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q4" value="a"> A) DFA → NFA</label>
+                                <label><input type="radio" name="q4" value="b"> B) NFA → DFA</label>
+                                <label><input type="radio" name="q4" value="c"> C) DFA → Düzenli ifade</label>
+                                <label><input type="radio" name="q4" value="d"> D) NFA → Düzenli ifade</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 5 -->
+                        <div class="test-question">
+                            <h3>Soru 5:</h3>
+                            <p>Thompson yapılandırma algoritması ne için kullanılır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q5" value="a"> A) DFA'dan NFA'ya</label>
+                                <label><input type="radio" name="q5" value="b"> B) Düzenli ifadeden NFA'ya</label>
+                                <label><input type="radio" name="q5" value="c"> C) NFA'dan düzenli ifadeye</label>
+                                <label><input type="radio" name="q5" value="d"> D) DFA'dan düzenli ifadeye</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 6 -->
+                        <div class="test-question">
+                            <h3>Soru 6:</h3>
+                            <p>Lexical analyzer hangi otomatları kullanır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q6" value="a"> A) Sadece DFA</label>
+                                <label><input type="radio" name="q6" value="b"> B) Sadece NFA</label>
+                                <label><input type="radio" name="q6" value="c"> C) Hem DFA hem NFA</label>
+                                <label><input type="radio" name="q6" value="d"> D) Pushdown otomat</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">A</div>
+                        </div>
+
+                        <!-- Soru 7 -->
+                        <div class="test-question">
+                            <h3>Soru 7:</h3>
+                            <p>Pattern matching uygulamalarında hangi algoritmalar kullanılır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q7" value="a"> A) Sadece KMP</label>
+                                <label><input type="radio" name="q7" value="b"> B) Sadece Boyer-Moore</label>
+                                <label><input type="radio" name="q7" value="c"> C) Otomat tabanlı algoritmalar</label>
+                                <label><input type="radio" name="q7" value="d"> D) Sadece brute force</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <!-- Soru 8 -->
+                        <div class="test-question">
+                            <h3>Soru 8:</h3>
+                            <p>Firewall kurallarında hangi otomatlar kullanılır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q8" value="a"> A) Sadece DFA</label>
+                                <label><input type="radio" name="q8" value="b"> B) Sadece NFA</label>
+                                <label><input type="radio" name="q8" value="c"> C) Hem DFA hem NFA</label>
+                                <label><input type="radio" name="q8" value="d"> D) Turing makineleri</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">A</div>
+                        </div>
+
+                        <!-- Soru 9 -->
+                        <div class="test-question">
+                            <h3>Soru 9:</h3>
+                            <p>İkili sayılarda 3'e bölünebilirlik DFA'sında kaç kabul durumu vardır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q9" value="a"> A) 0</label>
+                                <label><input type="radio" name="q9" value="b"> B) 1</label>
+                                <label><input type="radio" name="q9" value="c"> C) 2</label>
+                                <label><input type="radio" name="q9" value="d"> D) 3</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 10 -->
+                        <div class="test-question">
+                            <h3>Soru 10:</h3>
+                            <p>"En az bir a içeren dizgiler" DFA'sında başlangıç durumu kabul durumu mudur?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q10" value="a"> A) Evet</label>
+                                <label><input type="radio" name="q10" value="b"> B) Hayır</label>
+                                <label><input type="radio" name="q10" value="c"> C) Bazen</label>
+                                <label><input type="radio" name="q10" value="d"> D) Duruma göre değişir</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 11 -->
+                        <div class="test-question">
+                            <h3>Soru 11:</h3>
+                            <p>NFA'dan DFA'ya dönüşümünde durum sayısı nasıl değişir?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q11" value="a"> A) Azalır</label>
+                                <label><input type="radio" name="q11" value="b"> B) Sabit kalır</label>
+                                <label><input type="radio" name="q11" value="c"> C) Artar (üssel)</label>
+                                <label><input type="radio" name="q11" value="d"> D) Rastgele değişir</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <!-- Soru 12 -->
+                        <div class="test-question">
+                            <h3>Soru 12:</h3>
+                            <p>Düzenli ifadeden NFA oluşturmada kullanılan temel işlemler hangileridir?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q12" value="a"> A) Sadece birleştirme</label>
+                                <label><input type="radio" name="q12" value="b"> B) Birleştirme, alternatif, Kleene yıldızı</label>
+                                <label><input type="radio" name="q12" value="c"> C) Sadece alternatif</label>
+                                <label><input type="radio" name="q12" value="d"> D) Sadece Kleene yıldızı</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">B</div>
+                        </div>
+
+                        <!-- Soru 13 -->
+                        <div class="test-question">
+                            <h3>Soru 13:</h3>
+                            <p>Spell checker uygulamalarında hangi otomatlar kullanılır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q13" value="a"> A) Sadece DFA</label>
+                                <label><input type="radio" name="q13" value="b"> B) Sadece NFA</label>
+                                <label><input type="radio" name="q13" value="c"> C) Trie yapıları ve DFA</label>
+                                <label><input type="radio" name="q13" value="d"> D) Sadece stack</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <!-- Soru 14 -->
+                        <div class="test-question">
+                            <h3>Soru 14:</h3>
+                            <p>Intrusion detection sistemlerinde hangi özellikler aranır?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q14" value="a"> A) Sadece bilinen saldırılar</label>
+                                <label><input type="radio" name="q14" value="b"> B) Sadece bilinmeyen saldırılar</label>
+                                <label><input type="radio" name="q14" value="c"> C) Hem bilinen hem anormal davranışlar</label>
+                                <label><input type="radio" name="q14" value="d"> D) Sadece normal trafik</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <!-- Soru 15 -->
+                        <div class="test-question">
+                            <h3>Soru 15:</h3>
+                            <p>Virus scanning'de kullanılan temel yaklaşım nedir?</p>
+                            <div class="test-options">
+                                <label><input type="radio" name="q15" value="a"> A) Sadece davranış analizi</label>
+                                <label><input type="radio" name="q15" value="b"> B) Sadece imza tarama</label>
+                                <label><input type="radio" name="q15" value="c"> C) İmza tarama ve davranış analizi</label>
+                                <label><input type="radio" name="q15" value="d"> D) Sadece dosya boyutu kontrolü</label>
+                            </div>
+                            <div class="correct-answer" style="display:none;">C</div>
+                        </div>
+
+                        <button onclick="checkAnswers()" class="btn" style="margin-top: 20px;">✅ Cevapları Kontrol Et</button>
+                        <button onclick="resetTest()" class="btn btn-secondary" style="margin-top: 20px; margin-left: 10px;">🔄 Testi Sıfırla</button>
+                        <div id="test-result" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLASHCARDS -->
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards (16 Kart)</h2>
+                    <p>Kavramları pekiştirmek için kartları tıklayın.</p>
+
+                    <div class="flashcard-container">
+                        <!-- Flashcard 1 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Uygulama</div>
+                                    <div class="card-question">3'e Bölünebilirlik DFA</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">İkili sayılar için mod 3 kalanlarına göre 3 durum: q₀(kalan=0), q₁(kalan=1), q₂(kalan=2). Kabul durumu q₀.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 2 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Uygulama</div>
+                                    <div class="card-question">En Az Bir "a" İçeren Dizgiler</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">2 durum: q₀(başlangıç, "a" görülmedi), q₁(kabul, "a" görüldü). "a" geçişi q₀→q₁, diğer geçişler aynı durumda kalır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 3 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Algoritma</div>
+                                    <div class="card-question">Subset Construction</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">NFA'dan DFA'ya dönüşüm. NFA'nın durum kümelerinin tüm alt kümelerini yeni DFA'nın durumları olarak kullanır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 4 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Algoritma</div>
+                                    <div class="card-question">Thompson Construction</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Düzenli ifadeden NFA'ya dönüşüm. Birleştirme, alternatif ve Kleene yıldızı için ε-geçişli yapılar kullanır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 5 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Derleyici</div>
+                                    <div class="card-question">Lexical Analyzer</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Kaynak kodu tokenlara ayırır. Anahtar kelimeler, tanımlayıcılar, operatörler için DFA kullanır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 6 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Metin İşleme</div>
+                                    <div class="card-question">Pattern Matching</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">grep, sed, awk gibi araçlar. KMP, Boyer-Moore algoritmaları otomat tabanlı çalışır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 7 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Güvenlik</div>
+                                    <div class="card-question">Intrusion Detection</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Şüpheli trafik kalıplarını algılar. Bilinen imza ve anormal davranış tespiti için otomatlar kullanılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 8 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Güvenlik</div>
+                                    <div class="card-question">Firewall</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Paket filtreleme kuralları. DFA tabanlı pattern matching ile trafik kontrolü yapılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 9 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Güvenlik</div>
+                                    <div class="card-question">Virus Scanning</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Malware imza tarama. Dosya içeriğinde belirli pattern'leri arar, DFA tabanlı algoritmalar kullanır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 10 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Arama</div>
+                                    <div class="card-question">Search Engines</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Metin arama algoritmaları. Inverted index ve otomat tabanlı pattern matching kullanır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 11 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Yazım</div>
+                                    <div class="card-question">Spell Checker</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Yazım denetimi. Trie yapıları ve DFA ile kelime doğrulama ve öneri üretme yapılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 12 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Ağ</div>
+                                    <div class="card-question">Network Protocol Analysis</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Protokol doğrulama. TCP/IP paket yapısı için state machine'ler kullanılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 13 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Donanım</div>
+                                    <div class="card-question">Digital Circuit Design</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Devre tasarımı. Finite state machine'ler ile sequential logic devreleri modellenir.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 14 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Veri</div>
+                                    <div class="card-question">Data Validation</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Veri doğrulama. Email, telefon, tarih formatları için düzenli ifade tabanlı otomatlar kullanılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 15 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - NLP</div>
+                                    <div class="card-question">Natural Language Processing</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Tokenization ve POS tagging. Kelime ve cümle yapısı analizi için otomatlar kullanılır.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flashcard 16 -->
+                        <div class="flashcard" onclick="flipCard(this)">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="card-header">Modül 4 - Eşleştirme</div>
+                                    <div class="card-question">KMP ve Boyer-Moore</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="card-answer">Hızlı string matching algoritmaları. Otomat yapısına dayalı pattern arama teknikleri.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 40px;">
+            <a href="modul3-sonlu-otomatlar.html" class="btn">⬅️ Modül 3: Sonlu Otomatlar</a>
+            <a href="index.html" class="btn btn-success">🏠 Ana Sayfa</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; margin-top: 40px; background: white; border-radius: 15px;">
+        <p><strong>Tokat Gaziosmanpaşa Üniversitesi</strong></p>
+        <p>Bilgisayar Mühendisliği Bölümü</p>
+        <p style="margin-top: 10px; color: #999;">© 2025 - Otomata Teorisi Çalışma Platformu</p>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function checkAnswers() {
+            const totalQuestions = 15;
+            let correctCount = 0;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const correctAnswer = document.querySelectorAll('.test-question')[i-1].querySelector('.correct-answer').textContent;
+
+                if (selected && selected.value.toUpperCase() === correctAnswer) {
+                    correctCount++;
+                    document.querySelectorAll('.test-question')[i-1].style.backgroundColor = '#d4edda';
+                } else {
+                    document.querySelectorAll('.test-question')[i-1].style.backgroundColor = '#f8d7da';
+                }
+            }
+
+            const percentage = (correctCount / totalQuestions * 100).toFixed(1);
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.innerHTML = `
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <h3>Test Sonucu</h3>
+                    <p style="font-size: 2em; margin: 10px 0;">${correctCount} / ${totalQuestions}</p>
+                    <p style="font-size: 1.5em;">%${percentage}</p>
+                    <p>${percentage >= 70 ? '🎉 Tebrikler! Başarılı!' : '📚 Daha fazla çalışmalısınız.'}</p>
+                </div>
+            `;
+        }
+
+        function resetTest() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('.test-question').forEach(q => q.style.backgroundColor = 'white');
+            document.getElementById('test-result').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

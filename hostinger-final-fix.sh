@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "Hostinger'da çalıştırılacak komutlar:"
+echo ""
+echo "ssh -p 65002 u233064020@147.93.92.23"
+echo "cd /home/u233064020/domains/alienes.me"
+echo ""
+echo "# Admin layout'u düzelt"
+echo "cat > resources/views/layouts/admin.blade.php << 'ADMIN_EOF'"
+cat resources/views/layouts/admin.blade.php
+echo "ADMIN_EOF"
+echo ""
+echo "# ContactController'ı düzelt"
+echo "cat > app/Http/Controllers/ContactController.php << 'CONTROLLER_EOF'"
+cat app/Http/Controllers/ContactController.php
+echo "CONTROLLER_EOF"
+echo ""
+echo "# Cache'leri temizle"
+echo "php artisan view:clear"
+echo "php artisan config:clear"
+echo "php artisan cache:clear"

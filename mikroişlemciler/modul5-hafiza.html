@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 5: Hafıza Organizasyonu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 5</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">💾</div>
+            <h1>Modül 5: Hafıza Organizasyonu</h1>
+            <p>RAM, ROM, Cache ve Bellek Hiyerarşisi</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (40 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>💾 Hafıza Organizasyonu</h2>
+                    <div class="definition-box">
+                        <strong>Hafıza (Memory):</strong> Verilerin ve programların saklandığı elektronik depo. Hız, kapasite ve maliyet arasında denge kurulur.
+                    </div>
+                    <h3>Bellek Türleri:</h3>
+                    <ul>
+                        <li><strong>RAM:</strong> Geçici, hızlı, uçucu bellek</li>
+                        <li><strong>ROM:</strong> Kalıcı, yavaş, uçucu olmayan</li>
+                        <li><strong>Cache:</strong> Çok hızlı, küçük ara bellek</li>
+                        <li><strong>Hard Disk/SSD:</strong> Büyük, yavaş, kalıcı</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 Bellek Hiyerarşisi</h2>
+                    <div class="important-box">
+                        <h4>Hiyerarşi Prensibi</h4>
+                        <p>Yukarıdan aşağıya: Hız azalır, Kapasite artar, Maliyet azalır</p>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Seviye</th>
+                            <th>Tür</th>
+                            <th>Hız</th>
+                            <th>Kapasite</th>
+                            <th>Maliyet/Byte</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>CPU Registers</strong></td>
+                            <td>En hızlı (~1ns)</td>
+                            <td>En küçük (KB)</td>
+                            <td>En pahalı</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>L1 Cache</strong></td>
+                            <td>Çok hızlı (~2-4ns)</td>
+                            <td>32-128 KB</td>
+                            <td>Çok pahalı</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>L2 Cache</strong></td>
+                            <td>Hızlı (~10-20ns)</td>
+                            <td>256KB-2MB</td>
+                            <td>Pahalı</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>L3 Cache</strong></td>
+                            <td>Orta (~20-40ns)</td>
+                            <td>4-32 MB</td>
+                            <td>Orta</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>RAM (Ana Bellek)</strong></td>
+                            <td>Yavaş (~60-100ns)</td>
+                            <td>4-64 GB</td>
+                            <td>Ucuz</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><strong>SSD/HDD</strong></td>
+                            <td>Çok yavaş (ms)</td>
+                            <td>256GB-4TB+</td>
+                            <td>En ucuz</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>⚡ RAM (Random Access Memory)</h2>
+                    <div class="definition-box">
+                        <strong>RAM:</strong> Rastgele erişimli, geçici, uçucu bellek. Güç kesilince veri kaybolur. Hızlı okuma/yazma.
+                    </div>
+                    
+                    <h3>RAM Özellikleri:</h3>
+                    <ul>
+                        <li>✅ Rastgele erişim (herhangi hücreye aynı sürede)</li>
+                        <li>✅ Hızlı okuma ve yazma</li>
+                        <li>❌ Uçucu (volatile) - Güç kesilince veri kaybolur</li>
+                        <li>✅ Ana bellek olarak kullanılır</li>
+                    </ul>
+                    
+                    <h3>🔹 SRAM (Static RAM)</h3>
+                    <div class="component-card">
+                        <h4>SRAM Özellikleri:</h4>
+                        <ul>
+                            <li><strong>Yapı:</strong> 6 transistör/bit (flip-flop)</li>
+                            <li><strong>Hız:</strong> Çok hızlı</li>
+                            <li><strong>Refresh:</strong> Gerek yok</li>
+                            <li><strong>Güç:</strong> Düşük (sadece erişimde)</li>
+                            <li><strong>Maliyet:</strong> Pahalı</li>
+                            <li><strong>Kullanım:</strong> Cache bellekler</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>SRAM Avantajları:</h4>
+                        <p>✅ Çok hızlı</p>
+                        <p>✅ Refresh gerektirmez</p>
+                        <p>✅ Düşük güç tüketimi</p>
+                        <h4>SRAM Dezavantajları:</h4>
+                        <p>❌ Pahalı</p>
+                        <p>❌ Büyük alan kaplar (6 transistör)</p>
+                        <p>❌ Düşük yoğunluk</p>
+                    </div>
+                    
+                    <h3>🔸 DRAM (Dynamic RAM)</h3>
+                    <div class="component-card">
+                        <h4>DRAM Özellikleri:</h4>
+                        <ul>
+                            <li><strong>Yapı:</strong> 1 transistör + 1 kapasitör/bit</li>
+                            <li><strong>Hız:</strong> SRAM'den yavaş</li>
+                            <li><strong>Refresh:</strong> Sürekli gerekli (milisaniyede 1)</li>
+                            <li><strong>Güç:</strong> Yüksek (refresh için)</li>
+                            <li><strong>Maliyet:</strong> Ucuz</li>
+                            <li><strong>Kullanım:</strong> Ana bellek (RAM)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h4>💡 DRAM Refresh Nedir?</h4>
+                        <p>Kapasitör zamanla deşarj olur, veriler kaybolur. Bunun önlenmesi için sürekli yenilenme (refresh) gerekir.</p>
+                        <p><strong>Refresh Süresi:</strong> Genellikle 64ms'de bir tüm bellekte refresh yapılır.</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>DRAM Avantajları:</h4>
+                        <p>✅ Ucuz</p>
+                        <p>✅ Yüksek yoğunluk (1T+1C)</p>
+                        <p>✅ Büyük kapasiteler</p>
+                        <h4>DRAM Dezavantajları:</h4>
+                        <p>❌ Yavaş</p>
+                        <p>❌ Refresh gerektirir</p>
+                        <p>❌ Yüksek güç tüketimi</p>
+                    </div>
+                    
+                    <h3>📊 SRAM vs DRAM Karşılaştırma</h3>
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>SRAM</th>
+                            <th>DRAM</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Yapı</strong></td>
+                            <td>6 transistör (flip-flop)</td>
+                            <td>1 transistör + 1 kapasitör</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hız</strong></td>
+                            <td>Çok hızlı</td>
+                            <td>Yavaş</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Refresh</strong></td>
+                            <td>Gerek yok</td>
+                            <td>Sürekli gerekli</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maliyet</strong></td>
+                            <td>Pahalı</td>
+                            <td>Ucuz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Yoğunluk</strong></td>
+                            <td>Düşük</td>
+                            <td>Yüksek</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Güç</strong></td>
+                            <td>Düşük</td>
+                            <td>Yüksek</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kullanım</strong></td>
+                            <td>Cache</td>
+                            <td>Ana bellek (RAM)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>🔒 ROM (Read-Only Memory)</h2>
+                    <div class="definition-box">
+                        <strong>ROM:</strong> Salt okunur bellek. Veriler kalıcı, güç kesilince kaybolmaz. Sadece okuma, yazma zor veya imkansız.
+                    </div>
+                    
+                    <h3>ROM Özellikleri:</h3>
+                    <ul>
+                        <li>✅ Uçucu olmayan (non-volatile)</li>
+                        <li>✅ Veriler kalıcı</li>
+                        <li>✅ Sadece okuma (genellikle)</li>
+                        <li>✅ Firmware, BIOS saklama</li>
+                    </ul>
+                    
+                    <h3>🔹 ROM Türleri</h3>
+                    
+                    <h4>1. ROM (Masked ROM)</h4>
+                    <div class="component-card">
+                        <ul>
+                            <li><strong>Yazılım:</strong> Fabrikada üretim sırasında</li>
+                            <li><strong>Değişiklik:</strong> İmkansız</li>
+                            <li><strong>Kullanım:</strong> Seri üretim</li>
+                            <li><strong>Örnek:</strong> Oyun kartları, eski cihazlar</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>2. PROM (Programmable ROM)</h4>
+                    <div class="component-card">
+                        <ul>
+                            <li><strong>Yazılım:</strong> Bir kez programlanabilir</li>
+                            <li><strong>Yöntem:</strong> Elektrik akımıyla (fuse yakar)</li>
+                            <li><strong>Değişiklik:</strong> İmkansız (tek kullanımlık)</li>
+                            <li><strong>Kullanım:</strong> Prototip, küçük seri</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>3. EPROM (Erasable PROM)</h4>
+                    <div class="component-card">
+                        <ul>
+                            <li><strong>Yazılım:</strong> Elektrikle programlanır</li>
+                            <li><strong>Silme:</strong> UV ışınıyla (20-30 dk)</li>
+                            <li><strong>Pencere:</strong> UV için şeffaf pencere var</li>
+                            <li><strong>Kullanım:</strong> Geliştirme, test</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>4. EEPROM (Electrically Erasable PROM)</h4>
+                    <div class="component-card">
+                        <ul>
+                            <li><strong>Yazılım:</strong> Elektrikle programlanır</li>
+                            <li><strong>Silme:</strong> Elektrikle (byte-byte)</li>
+                            <li><strong>Hız:</strong> Yavaş yazma</li>
+                            <li><strong>Kullanım:</strong> Konfigürasyon, ayarlar</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>5. Flash Memory</h4>
+                    <div class="component-card">
+                        <ul>
+                            <li><strong>Yazılım:</strong> Elektrikle programlanır</li>
+                            <li><strong>Silme:</strong> Blok-blok hızlı silme</li>
+                            <li><strong>Hız:</strong> EEPROM'dan hızlı</li>
+                            <li><strong>Kullanım:</strong> USB, SSD, telefon, SD kart</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Flash Memory Türleri:</h4>
+                        <p><strong>NOR Flash:</strong> Rastgele erişim, hızlı okuma, kod çalıştırma (firmware)</p>
+                        <p><strong>NAND Flash:</strong> Sıralı erişim, yüksek yoğunluk, veri saklama (SSD, USB)</p>
+                    </div>
+                    
+                    <h3>📊 ROM Türleri Karşılaştırma</h3>
+                    <table>
+                        <tr>
+                            <th>Tür</th>
+                            <th>Yazılabilir?</th>
+                            <th>Silinebilir?</th>
+                            <th>Silme Yöntemi</th>
+                            <th>Kullanım</th>
+                        </tr>
+                        <tr>
+                            <td>ROM</td>
+                            <td>Hayır (fabrika)</td>
+                            <td>Hayır</td>
+                            <td>-</td>
+                            <td>Seri üretim</td>
+                        </tr>
+                        <tr>
+                            <td>PROM</td>
+                            <td>Bir kez</td>
+                            <td>Hayır</td>
+                            <td>-</td>
+                            <td>Prototip</td>
+                        </tr>
+                        <tr>
+                            <td>EPROM</td>
+                            <td>Evet</td>
+                            <td>Evet</td>
+                            <td>UV ışın</td>
+                            <td>Test/Geliştirme</td>
+                        </tr>
+                        <tr>
+                            <td>EEPROM</td>
+                            <td>Evet</td>
+                            <td>Evet</td>
+                            <td>Elektrikle</td>
+                            <td>Ayarlar</td>
+                        </tr>
+                        <tr>
+                            <td>Flash</td>
+                            <td>Evet</td>
+                            <td>Evet (blok)</td>
+                            <td>Elektrikle</td>
+                            <td>SSD, USB</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>🚀 Cache Bellek</h2>
+                    <div class="definition-box">
+                        <strong>Cache:</strong> CPU ile RAM arasında çok hızlı ara bellek. Sık kullanılan verileri tutar, erişim hızlandırır.
+                    </div>
+                    
+                    <h3>Cache Seviyeleri:</h3>
+                    <ul>
+                        <li><strong>L1 Cache:</strong> En hızlı, en küçük (32-128 KB), CPU içinde</li>
+                        <li><strong>L2 Cache:</strong> Orta hız, orta boyut (256KB-2MB), CPU içinde veya yakın</li>
+                        <li><strong>L3 Cache:</strong> Daha yavaş, büyük (4-32MB), çekirdekler arası paylaşılan</li>
+                    </ul>
+                    
+                    <div class="important-box">
+                        <h4>Cache Hit ve Miss</h4>
+                        <p><strong>Cache Hit:</strong> Aranan veri cache'te bulunur → Hızlı erişim</p>
+                        <p><strong>Cache Miss:</strong> Aranan veri cache'te yok → RAM'den getirilir → Yavaş</p>
+                        <p><strong>Hit Rate:</strong> Cache başarı oranı (yüksek olmalı: %95+)</p>
+                    </div>
+                    
+                    <h3>Cache Yazma Stratejileri:</h3>
+                    <ul>
+                        <li><strong>Write-Through:</strong> Cache ve RAM'e aynı anda yazar (güvenli ama yavaş)</li>
+                        <li><strong>Write-Back:</strong> Önce cache'e yazar, sonra RAM'e aktarır (hızlı ama riskli)</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>📍 Adresleme Modları</h2>
+                    <div class="definition-box">
+                        <strong>Adresleme Modu:</strong> İşlemcinin bellek veya register'lara nasıl eriştiğini belirler.
+                    </div>
+                    
+                    <h3>Adresleme Türleri:</h3>
+                    
+                    <h4>1. Doğrudan Adresleme (Direct)</h4>
+                    <div class="component-card">
+                        <p><strong>Açıklama:</strong> Adres doğrudan komutta verilir</p>
+                        <p><strong>Örnek:</strong> <code>MOV A, [1000h]</code> → 1000h adresindeki veriyi A'ya yükle</p>
+                        <p>✅ Basit, hızlı</p>
+                        <p>❌ Sınırlı adres alanı</p>
+                    </div>
+                    
+                    <h4>2. Dolaylı Adresleme (Indirect)</h4>
+                    <div class="component-card">
+                        <p><strong>Açıklama:</strong> Komut bir pointer içerir, gerçek adres pointer'da</p>
+                        <p><strong>Örnek:</strong> <code>MOV A, [R1]</code> → R1'deki adresteki veriyi A'ya yükle</p>
+                        <p>✅ Esnek, büyük adres alanı</p>
+                        <p>❌ Daha yavaş (iki erişim)</p>
+                    </div>
+                    
+                    <h4>3. İndeksli Adresleme (Indexed)</h4>
+                    <div class="component-card">
+                        <p><strong>Açıklama:</strong> Baz adres + İndeks register</p>
+                        <p><strong>Örnek:</strong> <code>MOV A, [1000h+SI]</code> → (1000h+SI) adresindeki veriyi A'ya</p>
+                        <p>✅ Diziler için ideal</p>
+                    </div>
+                    
+                    <h4>4. Anında Adresleme (Immediate)</h4>
+                    <div class="component-card">
+                        <p><strong>Açıklama:</strong> Veri doğrudan komutta</p>
+                        <p><strong>Örnek:</strong> <code>MOV A, 5</code> → 5 sayısını A'ya yükle</p>
+                        <p>✅ En hızlı (bellek erişimi yok)</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🔢 Bellek Hesaplamaları</h2>
+                    
+                    <h3>1. Adreslenebilir Bellek Miktarı</h3>
+                    <div class="formula-box">
+                        <p><strong>Formül:</strong> Adreslenebilir Bellek = 2<sup>n</sup> byte</p>
+                        <p><strong>n:</strong> Adres biti sayısı</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p>16-bit adres yolu → 2<sup>16</sup> = 65,536 byte = 64 KB</p>
+                        <p>32-bit adres yolu → 2<sup>32</sup> = 4,294,967,296 byte = 4 GB</p>
+                    </div>
+                    
+                    <h3>2. Gerekli Adres Biti</h3>
+                    <div class="formula-box">
+                        <p><strong>Formül:</strong> n = log<sub>2</sub>(Bellek Boyutu)</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p>1 MB bellek → log<sub>2</sub>(1,048,576) = 20 bit adres</p>
+                        <p>4 KB bellek → log<sub>2</sub>(4,096) = 12 bit adres</p>
+                    </div>
+                    
+                    <h3>3. Veri Transfer Hızı</h3>
+                    <div class="formula-box">
+                        <p><strong>Formül:</strong> Transfer Rate = Frekans × (Veri Yolu Genişliği / 8)</p>
+                        <p><strong>Birim:</strong> Byte/saniye</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p>100 MHz, 32-bit veri yolu → 100M × (32/8) = 400 MB/s</p>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="modul4-mimariler.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul6-veriyolu.html" class="btn btn-next">Sonraki →</a>
+                </div>
+            </div>
+            
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 5 Testi - 40 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/40</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 25 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "RAM'in açılımı nedir?", options: ["Random Access Memory", "Read Access Memory", "Rapid Access Memory", "Real Access Memory"], correct: 0},
+            {q: "ROM'un açılımı nedir?", options: ["Read-Only Memory", "Random-Only Memory", "Real-Only Memory", "Rapid-Only Memory"], correct: 0},
+            {q: "RAM'in en önemli özelliği nedir?", options: ["Kalıcı", "Uçucu (volatile)", "Yavaş", "Küçük"], correct: 1},
+            {q: "ROM'un en önemli özelliği nedir?", options: ["Uçucu", "Uçucu olmayan (non-volatile)", "Hızlı yazma", "Ucuz"], correct: 1},
+            {q: "SRAM kaç transistör kullanır?", options: ["1", "2", "4", "6"], correct: 3},
+            {q: "DRAM kaç transistör kullanır?", options: ["1 transistör + 1 kapasitör", "6 transistör", "4 transistör", "2 transistör"], correct: 0},
+            {q: "Hangi RAM türü daha hızlıdır?", options: ["DRAM", "SRAM", "ROM", "Flash"], correct: 1},
+            {q: "Hangi RAM türü daha ucuzdur?", options: ["SRAM", "DRAM", "Cache", "Register"], correct: 1},
+            {q: "DRAM neden refresh gerektirir?", options: ["Hızlanmak için", "Kapasitör deşarj olur", "CPU ister", "ROM ile senkron"], correct: 1},
+            {q: "SRAM nerede kullanılır?", options: ["Ana bellek", "Cache", "Hard disk", "USB"], correct: 1},
+            {q: "DRAM nerede kullanılır?", options: ["Cache", "Ana bellek (RAM)", "Register", "BIOS"], correct: 1},
+            {q: "Cache bellekteki 'hit' ne demektir?", options: ["Veri bulunamadı", "Veri cache'te bulundu", "Hata oluştu", "RAM'den geldi"], correct: 1},
+            {q: "Cache bellekteki 'miss' ne demektir?", options: ["Veri cache'te var", "Veri cache'te yok, RAM'den gelir", "Hata yok", "Hızlı"], correct: 1},
+            {q: "L1 Cache nerededir?", options: ["RAM içinde", "CPU içinde", "Hard disk içinde", "Anakart üzerinde"], correct: 1},
+            {q: "Hangi cache seviyesi en hızlıdır?", options: ["L3", "L2", "L1", "RAM"], correct: 2},
+            {q: "Hangi cache seviyesi en büyüktür?", options: ["L1", "L2", "L3", "Register"], correct: 2},
+            {q: "Bellek hiyerarşisinde en hızlı bileşen nedir?", options: ["RAM", "Cache", "CPU Register", "SSD"], correct: 2},
+            {q: "Bellek hiyerarşisinde en büyük bileşen nedir?", options: ["Register", "RAM", "Hard Disk/SSD", "Cache"], correct: 2},
+            {q: "PROM nedir?", options: ["Bir kez programlanabilir ROM", "Silinebilir ROM", "RAM türü", "Cache"], correct: 0},
+            {q: "EPROM nasıl silinir?", options: ["Elektrikle", "UV ışınıyla", "Isıyla", "Silinmez"], correct: 1},
+            {q: "EEPROM nasıl silinir?", options: ["UV ile", "Elektrikle", "Silinmez", "Mekanik"], correct: 1},
+            {q: "Flash memory hangi ROM türünün gelişmiş halidir?", options: ["PROM", "EPROM", "EEPROM", "Masked ROM"], correct: 2},
+            {q: "Flash memory nerede kullanılır?", options: ["RAM", "USB, SSD, SD kart", "Cache", "Register"], correct: 1},
+            {q: "NOR Flash'ın özelliği nedir?", options: ["Sıralı erişim", "Rastgele erişim, kod çalıştırma", "Yavaş okuma", "Küçük kapasite"], correct: 1},
+            {q: "NAND Flash'ın özelliği nedir?", options: ["Rastgele erişim", "Sıralı erişim, yüksek yoğunluk", "Kod çalıştırma", "Çok hızlı"], correct: 1},
+            {q: "16-bit adres yolu kaç byte adresleyebilir?", options: ["64 KB", "4 GB", "1 MB", "256 KB"], correct: 0},
+            {q: "32-bit adres yolu kaç GB adresleyebilir?", options: ["1 GB", "2 GB", "4 GB", "8 GB"], correct: 2},
+            {q: "1 MB bellek için kaç bit adres gerekir?", options: ["16 bit", "20 bit", "24 bit", "32 bit"], correct: 1},
+            {q: "Cache yazma stratejisi 'Write-Through' ne demektir?", options: ["Sadece cache'e yazar", "Cache ve RAM'e aynı anda yazar", "Sadece RAM'e yazar", "Hiçbirine yazmaz"], correct: 1},
+            {q: "Cache yazma stratejisi 'Write-Back' ne demektir?", options: ["Her zaman RAM'e yazar", "Önce cache'e, sonra RAM'e", "Sadece RAM", "Hiçbiri"], correct: 1},
+            {q: "Doğrudan adresleme (Direct) ne demektir?", options: ["Adres register'da", "Adres komutta verilir", "Adres RAM'de", "Adres yok"], correct: 1},
+            {q: "Dolaylı adresleme (Indirect) ne demektir?", options: ["Adres komutta", "Komut pointer içerir, adres pointer'da", "Adres RAM'de", "Adres yok"], correct: 1},
+            {q: "Anında adresleme (Immediate) ne demektir?", options: ["Adres RAM'de", "Veri doğrudan komutta", "Adres register'da", "Hiçbiri"], correct: 1},
+            {q: "İndeksli adresleme (Indexed) ne için idealdir?", options: ["Tek değişken", "Diziler", "Sabitler", "Fonksiyonlar"], correct: 1},
+            {q: "RAM'in dezavantajı nedir?", options: ["Hızlı", "Güç kesilince veri kaybolur", "Ucuz", "Büyük"], correct: 1},
+            {q: "ROM'un avantajı nedir?", options: ["Hızlı yazma", "Veriler kalıcı", "Ucuz", "Büyük"], correct: 1},
+            {q: "SRAM'in avantajı nedir?", options: ["Ucuz", "Refresh gerektirir", "Çok hızlı, refresh gerektirmez", "Yavaş"], correct: 2},
+            {q: "DRAM'in dezavantajı nedir?", options: ["Hızlı", "Pahalı", "Refresh gerektirir, yavaş", "Küçük"], correct: 2},
+            {q: "Cache'in amacı nedir?", options: ["Daha çok veri saklamak", "CPU ile RAM arası hız farkını kapatmak", "Güç tasarrufu", "Ucuz bellek"], correct: 1},
+            {q: "Masked ROM ne zaman programlanır?", options: ["Kullanıcı tarafından", "Fabrikada üretim sırasında", "UV ile", "Elektrikle"], correct: 1}
+        ];
+        
+        const flashcards = [
+            {front: "RAM", back: "Random Access Memory - Uçucu, hızlı, geçici, güç kesilince kaybolur"},
+            {front: "ROM", back: "Read-Only Memory - Uçucu olmayan, kalıcı, salt okunur"},
+            {front: "SRAM", back: "6 transistör, hızlı, refresh yok, pahalı, cache'te kullanılır"},
+            {front: "DRAM", back: "1T+1C, yavaş, refresh gerekir, ucuz, ana bellekte kullanılır"},
+            {front: "Cache", back: "CPU ile RAM arası hızlı ara bellek, L1/L2/L3 seviyeleri"},
+            {front: "Cache Hit", back: "Aranan veri cache'te bulundu - Hızlı erişim"},
+            {front: "Cache Miss", back: "Aranan veri cache'te yok - RAM'den getirilir"},
+            {front: "L1 Cache", back: "En hızlı, en küçük (32-128KB), CPU içinde"},
+            {front: "L2 Cache", back: "Orta hız, orta boyut (256KB-2MB)"},
+            {front: "L3 Cache", back: "Daha yavaş, büyük (4-32MB), çekirdekler arası paylaşılan"},
+            {front: "PROM", back: "Programmable ROM - Bir kez programlanabilir"},
+            {front: "EPROM", back: "UV ışınıyla silinebilir, şeffaf pencere var"},
+            {front: "EEPROM", back: "Elektrikle silinebilir, byte-byte silme"},
+            {front: "Flash Memory", back: "Blok-blok hızlı silme, USB/SSD/SD'de kullanılır"},
+            {front: "NOR Flash", back: "Rastgele erişim, kod çalıştırma, firmware"},
+            {front: "NAND Flash", back: "Sıralı erişim, yüksek yoğunluk, veri saklama"},
+            {front: "Bellek Hiyerarşisi", back: "Register → Cache (L1/L2/L3) → RAM → HDD/SSD (Hız azalır, kapasite artar)"},
+            {front: "Write-Through", back: "Cache ve RAM'e aynı anda yazar - güvenli ama yavaş"},
+            {front: "Write-Back", back: "Önce cache'e, sonra RAM'e - hızlı ama riskli"},
+            {front: "Doğrudan Adresleme", back: "Adres doğrudan komutta verilir - basit, hızlı"},
+            {front: "Dolaylı Adresleme", back: "Komut pointer içerir - esnek, yavaş"},
+            {front: "İndeksli Adresleme", back: "Baz adres + İndeks - diziler için ideal"},
+            {front: "Anında Adresleme", back: "Veri doğrudan komutta - en hızlı"},
+            {front: "16-bit Adres", back: "2^16 = 64 KB adreslenebilir bellek"},
+            {front: "32-bit Adres", back: "2^32 = 4 GB adreslenebilir bellek"}
+        ];
+        
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul5');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

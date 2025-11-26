@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3 - Yapay Arı Kolonisi (ABC)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: #e9ecef;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-content h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .theory-content h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .theory-content p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-content ul, .theory-content ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .theory-content li {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-question h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .test-options li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            background: #fff8e1;
+            transform: translateX(5px);
+        }
+
+        .flashcards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .flashcard-back {
+            background: white;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 2px solid #ffc107;
+            text-align: center;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flashcards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transform: translateX(10px);
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Ana Sayfaya Dön</a>
+        
+        <div class="header">
+            <h1>🐝 Modül 3: Yapay Arı Kolonisi (ABC)</h1>
+            <p>Arı kolonisi davranışı, işçi arılar, gözcü arılar ve kâşif arılar</p>
+        </div>
+
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('teori')">📚 Teori</button>
+                <button class="tab-button" onclick="showTab('test')">✍️ Test</button>
+                <button class="tab-button" onclick="showTab('flashcards')">🎴 Flashcards</button>
+            </div>
+
+            <!-- Teori Sekmesi -->
+            <div id="teori" class="tab-content active">
+                <div class="theory-content">
+                    <h2>🐝 Yapay Arı Kolonisi Algoritması Nedir?</h2>
+                    <p>Doğada var olan zeki davranışlar içeren süreçlerin incelenmesi, araştırmacıları yeni optimizasyon metotları geliştirmeye sevk etmiştir. <strong>Arıların yiyecek arama davranışı</strong> modellenerek Yapay Arı Kolonisi (Artificial Bee Colony, ABC) algoritması geliştirilmiştir.</p>
+
+                    <div class="highlight-box">
+                        <strong>🎯 ABC Algoritması:</strong> <strong>Derviş Karaboğa</strong> tarafından sürekli optimizasyon problemlerinin çözümü için önerilmiştir. Bal arılarının yiyecek arama ve kaynakların pozisyon bilgilerini paylaşmak için kullandığı <strong>sallanım dansını</strong> temel alır.
+                    </div>
+
+                    <h3>🔑 Temel Kavramlar</h3>
+                    <ul>
+                        <li><strong>Yiyecek Kaynağı:</strong> Optimizasyon probleminin olası çözümlerini temsil eder</li>
+                        <li><strong>Nektar Miktarı:</strong> Çözümün kalitesi (uygunluk/fitness değeri)</li>
+                        <li><strong>Amaç:</strong> En fazla nektara sahip kaynağın yerini (optimum çözümü) bulmak</li>
+                    </ul>
+
+                    <h3>🐝 Arı Türleri</h3>
+                    <p>ABC algoritmasında üç tip arı görevlerine göre yiyecek kaynaklarının keşfi ve iyileştirilmesi için çalışır:</p>
+
+                    <h4>1️⃣ İşçi Arılar (Employed Bees)</h4>
+                    <ul>
+                        <li>Popülasyonun yarısını oluşturur</li>
+                        <li>Her yiyecek kaynağının bir işçi arısı vardır</li>
+                        <li>Çalıştığı yiyecek kaynağı komşuluğunda yeni kaynak belirler</li>
+                        <li>Yeni kaynak daha iyi ise hafızasına alır</li>
+                        <li>Kaynağı iyileştiremezse "trial" sayacı artar</li>
+                    </ul>
+
+                    <h4>2️⃣ Gözcü Arılar (Onlooker Bees)</h4>
+                    <ul>
+                        <li>Popülasyonun diğer yarısını oluşturur</li>
+                        <li>Kovanda bekler, işçi arıların bilgisini izler</li>
+                        <li>Yiyecek kaynağının kalitesine bağlı olarak olasılıksal seçim yapar</li>
+                        <li>Seçtiği kaynağı iyileştirmeye çalışır</li>
+                    </ul>
+
+                    <h4>3️⃣ Kâşif Arılar (Scout Bees)</h4>
+                    <ul>
+                        <li>Terk edilen kaynakları rastgele yeni kaynaklarla değiştirir</li>
+                        <li>Belirli süre iyileştirilemeyen kaynağın işçi arısı kâşif olur</li>
+                        <li>Rastgele yeni kaynak bulunca tekrar işçi arı olur</li>
+                    </ul>
+
+                    <h3>📐 ABC Algoritmasının Adımları</h3>
+                    <ol>
+                        <li><strong>Başlatma:</strong> Rastgele yiyecek kaynakları (başlangıç çözümleri) üretilir
+                            <p style="margin-top: 10px;">x<sub>i,j</sub> = x<sub>min,j</sub> + rand(0,1) × (x<sub>max,j</sub> - x<sub>min,j</sub>)</p>
+                        </li>
+                        <li><strong>İşçi Arı Fazı:</strong> Her işçi arı kaynağı komşuluğunda yeni kaynak arar
+                            <p style="margin-top: 10px;">v<sub>i,j</sub> = x<sub>i,j</sub> + φ<sub>i,j</sub> × (x<sub>i,j</sub> - x<sub>k,j</sub>)</p>
+                            <p>φ: [-1, 1] arasında rastgele sayı, k: rastgele komşu indis</p>
+                        </li>
+                        <li><strong>Olasılık Hesaplama:</strong> Her kaynağın seçilme olasılığı hesaplanır
+                            <p style="margin-top: 10px;">p<sub>i</sub> = fitness<sub>i</sub> / Σfitness<sub>n</sub></p>
+                        </li>
+                        <li><strong>Gözcü Arı Fazı:</strong> Gözcü arılar olasılığa göre kaynak seçer ve iyileştirir</li>
+                        <li><strong>Kâşif Arı Fazı:</strong> Terk edilen kaynaklar (trial > limit) yenileriyle değiştirilir</li>
+                        <li><strong>En İyi Çözüm Kaydı:</strong> Şimdiye kadarki en iyi çözüm güncellenir</li>
+                        <li><strong>Durdurma Kriteri:</strong> Maksimum iterasyon veya hedef değer kontrolü</li>
+                    </ol>
+
+                    <div class="highlight-box">
+                        <strong>💡 Önemli Özellik:</strong> x<sub>i,j</sub> ve x<sub>k,j</sub> arasındaki fark azaldıkça (çözümler benzedikçe) parametredeki değişim miktarı da azalır. Böylece bölgesel optimal çözüme yaklaştıkça değişim miktarı <strong>adaptif olarak</strong> azalır.
+                    </div>
+
+                    <h3>⚙️ ABC'nin Temel Özellikleri</h3>
+                    <ul>
+                        <li>✅ Oldukça esnek ve basit</li>
+                        <li>✅ Gerçek arıların davranışlarına yakın simülasyon</li>
+                        <li>✅ Sürü zekasına dayalı</li>
+                        <li>✅ Nümerik ve ayrık problemlere uygulanabilir</li>
+                        <li>✅ Çok az kontrol parametresi (koloni büyüklüğü, limit, maksimum iterasyon)</li>
+                        <li>✅ Kâşif arılar: Küresel arama (exploration)</li>
+                        <li>✅ İşçi ve gözcü arılar: Yerel arama (exploitation)</li>
+                        <li>✅ Her iki arama stratejisi paralel yürütülür</li>
+                    </ul>
+
+                    <h3>🎯 ABC Avantajları</h3>
+                    <ul>
+                        <li>Az sayıda kontrol parametresi</li>
+                        <li>Basit yapı ve kolay uygulama</li>
+                        <li>Güçlü keşif ve sömürü dengesi</li>
+                        <li>Lokal minimumdan kaçınma yeteneği</li>
+                        <li>Çok boyutlu optimizasyon problemlerine uygun</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Test Sekmesi -->
+            <div id="test" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">✍️ Test Soruları</h2>
+                
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 1: ABC algoritmasını kim geliştirmiştir?</h3>
+                    <ul class="test-options">
+                        <li>A) Kennedy ve Eberhart</li>
+                        <li>B) Derviş Karaboğa</li>
+                        <li>C) John Holland</li>
+                        <li>D) Marco Dorigo</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 2: ABC algoritmasında yiyecek kaynağı neyi temsil eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Arı sayısını</li>
+                        <li>B) Problemin olası bir çözümünü</li>
+                        <li>C) İterasyon sayısını</li>
+                        <li>D) Fitness fonksiyonunu</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 3: Nektar miktarı neyi ifade eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Arı sayısını</li>
+                        <li>B) Çözümün kalitesini (fitness)</li>
+                        <li>C) Mesafe değerini</li>
+                        <li>D) Zaman değerini</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="A">
+                    <h3>Soru 4: İşçi arıların görevi nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Kovanda beklemek</li>
+                        <li>B) Sadece bilgi toplamak</li>
+                        <li>C) Kaynağı komşuluğunda yeni kaynak aramak</li>
+                        <li>D) Rastgele arama yapmak</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 5: Gözcü arılar nasıl kaynak seçer?</h3>
+                    <ul class="test-options">
+                        <li>A) Rastgele seçer</li>
+                        <li>B) İlk bulduğunu seçer</li>
+                        <li>C) Olasılığa dayalı seçim yapar</li>
+                        <li>D) En uzak olanı seçer</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 6: Kâşif arı ne zaman ortaya çıkar?</h3>
+                    <ul class="test-options">
+                        <li>A) Algoritma başladığında</li>
+                        <li>B) Kaynak belirli süre iyileştirilemediğinde</li>
+                        <li>C) Her iterasyonda</li>
+                        <li>D) Rastgele zamanlarda</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 7: ABC'de koloni büyüklüğünün yarısı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Kâşif arı sayısı</li>
+                        <li>B) İşçi arı ve gözcü arı sayısı</li>
+                        <li>C) Yiyecek kaynağı sayısı</li>
+                        <li>D) İterasyon sayısı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 8: ABC algoritmasının temel ilham kaynağı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Karınca yolu takibi</li>
+                        <li>B) Kuş sürüsü hareketi</li>
+                        <li>C) Arıların sallanım dansı ve yiyecek arama</li>
+                        <li>D) Balık sürüsü hareketi</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="A">
+                    <h3>Soru 9: "trial" sayacı neyi gösterir?</h3>
+                    <ul class="test-options">
+                        <li>A) Toplam iterasyon sayısı</li>
+                        <li>B) Kaynağın iyileştirilememe sayısı</li>
+                        <li>C) Arı sayısı</li>
+                        <li>D) Başarılı deneme sayısı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 10: ABC'nin avantajı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Çok fazla parametre gerektirir</li>
+                        <li>B) Sadece doğrusal problemlere uygulanır</li>
+                        <li>C) Az parametre, basit yapı ve güçlü arama dengesi</li>
+                        <li>D) Yavaş yakınsama</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flashcards Sekmesi -->
+            <div id="flashcards" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎴 Flashcards - Tıklayarak Çevir</h2>
+                <div class="flashcards-container">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">ABC Algoritması</div>
+                        <div class="flashcard-back">Artificial Bee Colony - Derviş Karaboğa tarafından geliştirilen, arıların yiyecek arama davranışına dayalı optimizasyon algoritması</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Yiyecek Kaynağı</div>
+                        <div class="flashcard-back">Optimizasyon probleminin olası bir çözümünü temsil eder, çözüm uzayında bir nokta</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Nektar Miktarı</div>
+                        <div class="flashcard-back">Yiyecek kaynağının kalitesi, çözümün fitness/uygunluk değeri</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">İşçi Arı</div>
+                        <div class="flashcard-back">Atanmış kaynağı komşuluğunda yeni kaynak arar, daha iyisini bulursa günceller</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Gözcü Arı</div>
+                        <div class="flashcard-back">Kovanda bekler, işçi arılardan bilgi alır, olasılığa göre kaynak seçip iyileştirir</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Kâşif Arı</div>
+                        <div class="flashcard-back">Terk edilen kaynakları rastgele yeni kaynaklarla değiştirir, keşif yapar</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sallanım Dansı</div>
+                        <div class="flashcard-back">Arıların yiyecek kaynağı bilgilerini paylaşmak için kullandığı iletişim yöntemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Trial Sayacı</div>
+                        <div class="flashcard-back">Bir kaynağın iyileştirilememe sayısı, limit aşılırsa kaynak terk edilir</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Limit Parametresi</div>
+                        <div class="flashcard-back">Bir kaynağın terk edilme eşiği, trial bu değeri aşarsa kaynak terk edilir</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Koloni Büyüklüğü</div>
+                        <div class="flashcard-back">Toplam arı sayısı, yarısı işçi yarısı gözcü arı</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Derviş Karaboğa</div>
+                        <div class="flashcard-back">ABC algoritmasını geliştiren Türk bilim insanı</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Komşuluk Araması</div>
+                        <div class="flashcard-back">Mevcut çözüm civarında yeni çözüm üretme, v = x + φ(x - x_k)</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Olasılık Seçimi</div>
+                        <div class="flashcard-back">Gözcü arıların fitness oranına göre kaynak seçmesi, p = fit/Σfit</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Exploration</div>
+                        <div class="flashcard-back">Keşif - Kâşif arıların yaptığı küresel arama, yeni bölgeleri araştırma</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Exploitation</div>
+                        <div class="flashcard-back">Sömürü - İşçi ve gözcü arıların yaptığı yerel arama, mevcut çözümü iyileştirme</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="module-nav">
+            <a href="modul2-pso.html" class="nav-button">← Önceki Modül</a>
+            <a href="modul4-genetik.html" class="nav-button">Sonraki Modül →</a>
+        </div>
+</div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

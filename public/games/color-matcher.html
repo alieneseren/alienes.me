@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Matcher - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        #redSlider { background: linear-gradient(to right, #000, #ef4444); }
+        #greenSlider { background: linear-gradient(to right, #000, #10b981); }
+        #blueSlider { background: linear-gradient(to right, #000, #3b82f6); }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div>
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">Color Matcher</h1>
+                <p class="text-gray-400 text-sm">Rengi eşleştirmeye çalışın!</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[100px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SKOR</div>
+                    <div class="text-xl font-bold text-white" id="score">0</div>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[100px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SEVIYE</div>
+                    <div class="text-xl font-bold text-white" id="level">1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- Target Color -->
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <h3 class="text-gray-300 mb-4 font-medium">Hedef Renk</h3>
+                <div id="targetColor" class="w-full aspect-square rounded-xl shadow-lg mb-4 transition-transform hover:scale-[1.02] duration-300"></div>
+                <div id="targetCode" class="font-mono text-lg text-gray-400 hidden">RGB(?, ?, ?)</div>
+                <div class="text-gray-500 text-sm">Bu rengi oluşturun</div>
+            </div>
+
+            <!-- User Color -->
+            <div class="glass-panel p-6 rounded-2xl text-center">
+                <h3 class="text-gray-300 mb-4 font-medium">Sizin Renginiz</h3>
+                <div id="yourColor" class="w-full aspect-square rounded-xl shadow-lg mb-4 transition-transform hover:scale-[1.02] duration-300" style="background-color: rgb(0,0,0)"></div>
+                <div id="yourCode" class="font-mono text-lg text-white">RGB(0, 0, 0)</div>
+            </div>
+        </div>
+
+        <div id="result" class="glass-panel p-4 rounded-xl mb-6 text-center font-bold text-lg hidden"></div>
+
+        <div class="glass-panel p-6 rounded-2xl mb-6">
+            <div class="space-y-6">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-red-400 font-bold"><i class="fas fa-circle text-xs mr-2"></i>Kırmızı</span>
+                        <span class="font-mono text-red-400" id="redValue">0</span>
+                    </div>
+                    <input type="range" id="redSlider" min="0" max="255" value="0" class="w-full">
+                </div>
+
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-green-400 font-bold"><i class="fas fa-circle text-xs mr-2"></i>Yeşil</span>
+                        <span class="font-mono text-green-400" id="greenValue">0</span>
+                    </div>
+                    <input type="range" id="greenSlider" min="0" max="255" value="0" class="w-full">
+                </div>
+
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-blue-400 font-bold"><i class="fas fa-circle text-xs mr-2"></i>Mavi</span>
+                        <span class="font-mono text-blue-400" id="blueValue">0</span>
+                    </div>
+                    <input type="range" id="blueSlider" min="0" max="255" value="0" class="w-full">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+            <button onclick="checkMatch()" class="flex-1 py-4 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-pink-900/20">
+                <i class="fas fa-check-circle"></i> Kontrol Et
+            </button>
+            <button onclick="newRound()" class="flex-1 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-purple-900/20">
+                <i class="fas fa-sync-alt"></i> Yeni Renk
+            </button>
+            <a href="https://games.alienes.me" class="flex-1 py-4 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-gray-900/20">
+                <i class="fas fa-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let targetRGB = {r: 0, g: 0, b: 0};
+        let score = 0;
+        let level = 1;
+
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+
+        redSlider.addEventListener('input', updateYourColor);
+        greenSlider.addEventListener('input', updateYourColor);
+        blueSlider.addEventListener('input', updateYourColor);
+
+        function newRound() {
+            targetRGB = {
+                r: Math.floor(Math.random() * 256),
+                g: Math.floor(Math.random() * 256),
+                b: Math.floor(Math.random() * 256)
+            };
+
+            document.getElementById('targetColor').style.backgroundColor = 
+                `rgb(${targetRGB.r}, ${targetRGB.g}, ${targetRGB.b})`;
+            
+            // Hide target code to make it a challenge
+            // document.getElementById('targetCode').textContent = 
+            //     `RGB(${targetRGB.r}, ${targetRGB.g}, ${targetRGB.b})`;
+
+            // Reset sliders
+            redSlider.value = 0;
+            greenSlider.value = 0;
+            blueSlider.value = 0;
+            updateYourColor();
+
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('result').className = 'glass-panel p-4 rounded-xl mb-6 text-center font-bold text-lg hidden';
+        }
+
+        function updateYourColor() {
+            const r = redSlider.value;
+            const g = greenSlider.value;
+            const b = blueSlider.value;
+
+            document.getElementById('redValue').textContent = r;
+            document.getElementById('greenValue').textContent = g;
+            document.getElementById('blueValue').textContent = b;
+
+            document.getElementById('yourColor').style.backgroundColor = 
+                `rgb(${r}, ${g}, ${b})`;
+            
+            document.getElementById('yourCode').textContent = 
+                `RGB(${r}, ${g}, ${b})`;
+        }
+
+        function checkMatch() {
+            const userRGB = {
+                r: parseInt(redSlider.value),
+                g: parseInt(greenSlider.value),
+                b: parseInt(blueSlider.value)
+            };
+
+            const difference = Math.abs(targetRGB.r - userRGB.r) +
+                             Math.abs(targetRGB.g - userRGB.g) +
+                             Math.abs(targetRGB.b - userRGB.b);
+
+            const result = document.getElementById('result');
+            result.classList.remove('hidden', 'text-green-400', 'text-yellow-400', 'text-red-400');
+
+            if (difference === 0) {
+                result.innerHTML = '<i class="fas fa-star mr-2"></i> Mükemmel! Tam eşleşme! +100 puan';
+                result.classList.add('text-green-400', 'border-green-500/30');
+                score += 100;
+            } else if (difference <= 30) {
+                result.innerHTML = `<i class="fas fa-check mr-2"></i> Harika! Çok yakın! +${100 - difference} puan`;
+                result.classList.add('text-green-400', 'border-green-500/30');
+                score += (100 - difference);
+            } else if (difference <= 100) {
+                result.innerHTML = `<i class="fas fa-thumbs-up mr-2"></i> İyi! Yaklaştın! +${50 - Math.floor(difference/2)} puan`;
+                result.classList.add('text-yellow-400', 'border-yellow-500/30');
+                score += Math.max(10, 50 - Math.floor(difference/2));
+            } else {
+                result.innerHTML = `<i class="fas fa-times mr-2"></i> Uzak! Fark: ${difference}. Tekrar dene!`;
+                result.classList.add('text-red-400', 'border-red-500/30');
+            }
+            
+            document.getElementById('score').textContent = score;
+            
+            // Level up every 500 points
+            const newLevel = Math.floor(score / 500) + 1;
+            if (newLevel > level) {
+                level = newLevel;
+                document.getElementById('level').textContent = level;
+            }
+
+            if (difference <= 30) {
+                setTimeout(newRound, 2000);
+            }
+        }
+
+        // Initialize
+        newRound();
+    </script>
+</body>
+</html>

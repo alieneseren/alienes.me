@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(234, 88, 12, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .diff-btn {
+            transition: all 0.3s ease;
+        }
+
+        .diff-btn.active {
+            background-color: #f97316;
+            color: white;
+            border-color: #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .question-text {
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .answer-input {
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .answer-input.correct {
+            border-color: #22c55e;
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+        }
+
+        .answer-input.wrong {
+            border-color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #f87171;
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-2xl">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-amber-400">Math Quiz</h1>
+                <p class="text-gray-400 text-sm">Matematik becerilerini test et!</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[100px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SORU</div>
+                    <div class="text-xl font-bold text-white" id="questionNum">0<span class="text-sm text-gray-400">/20</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="glass-panel p-6 rounded-2xl mb-6">
+            <!-- Difficulty Selection -->
+            <div class="flex gap-3 mb-6">
+                <button class="diff-btn active flex-1 py-3 rounded-xl border border-gray-700 bg-gray-800/50 text-gray-300 font-medium" onclick="setDifficulty('easy')">
+                    <span class="mr-2">😊</span> Kolay
+                </button>
+                <button class="diff-btn flex-1 py-3 rounded-xl border border-gray-700 bg-gray-800/50 text-gray-300 font-medium" onclick="setDifficulty('medium')">
+                    <span class="mr-2">😐</span> Orta
+                </button>
+                <button class="diff-btn flex-1 py-3 rounded-xl border border-gray-700 bg-gray-800/50 text-gray-300 font-medium" onclick="setDifficulty('hard')">
+                    <span class="mr-2">😰</span> Zor
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">SKOR</div>
+                    <div class="text-3xl font-bold text-orange-400" id="score">0</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700 text-center">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">COMBO</div>
+                    <div class="text-3xl font-bold text-amber-400" id="combo">0<span class="text-lg">🔥</span></div>
+                </div>
+            </div>
+
+            <!-- Timer Bar -->
+            <div class="w-full bg-gray-700 rounded-full h-2 mb-6 overflow-hidden">
+                <div class="bg-gradient-to-r from-green-500 via-orange-500 to-red-500 h-full transition-all duration-100 ease-linear" id="timerFill" style="width: 100%"></div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="bg-gray-900/50 p-8 rounded-xl border border-gray-700 mb-6 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5"></div>
+                <div class="question-text text-5xl md:text-6xl font-bold text-white relative z-10" id="question">5 + 3 = ?</div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="mb-6">
+                <input 
+                    type="number" 
+                    id="answerInput" 
+                    class="answer-input w-full bg-gray-800/50 border-2 border-gray-700 text-white px-6 py-4 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-3xl font-bold text-center placeholder-gray-600"
+                    placeholder="?"
+                    disabled
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Controls -->
+            <div class="flex gap-4">
+                <button id="startBtn" onclick="startGame()" class="flex-1 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-orange-900/20 flex items-center justify-center gap-2">
+                    <i class="fas fa-play"></i> Başla
+                </button>
+                <button id="skipBtn" onclick="skipQuestion()" class="px-6 py-4 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i class="fas fa-forward"></i> Atla
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="glass-panel p-8 rounded-2xl mb-6 text-center hidden">
+            <div class="text-6xl mb-4 animate-bounce" id="resultEmoji">🏆</div>
+            <h2 class="text-3xl font-bold text-white mb-2">Quiz Tamamlandı!</h2>
+            <p class="text-gray-400 mb-8">Matematik dehası mısın?</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                    <div class="text-orange-400 text-2xl mb-1"><i class="fas fa-star"></i></div>
+                    <div class="text-gray-400 text-xs uppercase tracking-wider">Toplam Skor</div>
+                    <div class="text-2xl font-bold text-white" id="finalScore">0</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                    <div class="text-green-400 text-2xl mb-1"><i class="fas fa-check-circle"></i></div>
+                    <div class="text-gray-400 text-xs uppercase tracking-wider">Doğru Cevap</div>
+                    <div class="text-2xl font-bold text-white" id="finalCorrect">0</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                    <div class="text-amber-400 text-2xl mb-1"><i class="fas fa-fire"></i></div>
+                    <div class="text-gray-400 text-xs uppercase tracking-wider">En İyi Combo</div>
+                    <div class="text-2xl font-bold text-white" id="finalCombo">0🔥</div>
+                </div>
+                <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                    <div class="text-blue-400 text-2xl mb-1"><i class="fas fa-chart-pie"></i></div>
+                    <div class="text-gray-400 text-xs uppercase tracking-wider">Başarı</div>
+                    <div class="text-2xl font-bold text-white" id="finalAccuracy">0%</div>
+                </div>
+            </div>
+
+            <button onclick="resetGame()" class="w-full py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-orange-900/20">
+                <i class="fas fa-redo-alt mr-2"></i> Tekrar Oyna
+            </button>
+        </div>
+
+        <div class="flex justify-center">
+            <a href="https://games.alienes.me" class="px-8 py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors flex items-center gap-2 border border-gray-700">
+                <i class="fas fa-arrow-left"></i> Oyunlara Dön
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let difficulty = 'easy';
+        let score = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let questionCount = 0;
+        let correctAnswers = 0;
+        let currentAnswer = 0;
+        let questionTimer = null;
+        let timeLeft = 10;
+        let isPlaying = false;
+
+        const totalQuestions = 20;
+
+        function setDifficulty(level) {
+            if (isPlaying) return;
+            
+            difficulty = level;
+            document.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('bg-orange-600', 'text-white', 'border-orange-600');
+                btn.classList.add('bg-gray-800/50', 'text-gray-300', 'border-gray-700');
+            });
+            
+            // Find the clicked button and activate it
+            const clickedBtn = event.currentTarget;
+            clickedBtn.classList.add('active');
+        }
+
+        function generateQuestion() {
+            let num1, num2, operation, answer;
+            
+            if (difficulty === 'easy') {
+                num1 = Math.floor(Math.random() * 20) + 1;
+                num2 = Math.floor(Math.random() * 20) + 1;
+                operation = Math.random() > 0.5 ? '+' : '-';
+                
+                if (operation === '-' && num1 < num2) [num1, num2] = [num2, num1];
+                answer = operation === '+' ? num1 + num2 : num1 - num2;
+            } else if (difficulty === 'medium') {
+                num1 = Math.floor(Math.random() * 50) + 1;
+                num2 = Math.floor(Math.random() * 20) + 1;
+                const ops = ['+', '-', '×'];
+                operation = ops[Math.floor(Math.random() * ops.length)];
+                
+                if (operation === '-' && num1 < num2) [num1, num2] = [num2, num1];
+                
+                if (operation === '+') answer = num1 + num2;
+                else if (operation === '-') answer = num1 - num2;
+                else answer = num1 * num2;
+            } else {
+                num1 = Math.floor(Math.random() * 100) + 1;
+                num2 = Math.floor(Math.random() * 20) + 1;
+                const ops = ['+', '-', '×', '÷'];
+                operation = ops[Math.floor(Math.random() * ops.length)];
+                
+                if (operation === '÷') {
+                    num1 = num2 * (Math.floor(Math.random() * 10) + 1);
+                    answer = num1 / num2;
+                } else {
+                    if (operation === '-' && num1 < num2) [num1, num2] = [num2, num1];
+                    
+                    if (operation === '+') answer = num1 + num2;
+                    else if (operation === '-') answer = num1 - num2;
+                    else answer = num1 * num2;
+                }
+            }
+            
+            // Format multiplication symbol for display
+            let displayOp = operation;
+            if (operation === '*') displayOp = '×';
+            if (operation === '/') displayOp = '÷';
+            
+            document.getElementById('question').textContent = `${num1} ${displayOp} ${num2} = ?`;
+            currentAnswer = answer;
+            timeLeft = 10;
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(questionTimer);
+            
+            questionTimer = setInterval(() => {
+                timeLeft -= 0.1;
+                const percentage = (timeLeft / 10) * 100;
+                document.getElementById('timerFill').style.width = percentage + '%';
+                
+                if (timeLeft <= 0) {
+                    wrongAnswer();
+                }
+            }, 100);
+        }
+
+        function startGame() {
+            isPlaying = true;
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            questionCount = 0;
+            correctAnswers = 0;
+            
+            updateStats();
+            
+            const input = document.getElementById('answerInput');
+            input.disabled = false;
+            input.focus();
+            
+            document.getElementById('startBtn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('skipBtn').disabled = false;
+            
+            document.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            });
+            
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            questionCount++;
+            
+            if (questionCount > totalQuestions) {
+                endGame();
+                return;
+            }
+            
+            document.getElementById('questionNum').innerHTML = 
+                questionCount + '<span class="text-sm text-gray-400">/' + totalQuestions + '</span>';
+            
+            const input = document.getElementById('answerInput');
+            input.value = '';
+            input.className = 'answer-input w-full bg-gray-800/50 border-2 border-gray-700 text-white px-6 py-4 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-3xl font-bold text-center placeholder-gray-600';
+            input.disabled = false;
+            input.focus();
+            
+            generateQuestion();
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseFloat(document.getElementById('answerInput').value);
+            
+            if (Math.abs(userAnswer - currentAnswer) < 0.01) {
+                correctAnswer();
+            } else {
+                wrongAnswer();
+            }
+        }
+
+        function correctAnswer() {
+            clearInterval(questionTimer);
+            combo++;
+            if (combo > maxCombo) maxCombo = combo;
+            
+            const timeBonus = Math.floor(timeLeft);
+            const comboBonus = combo > 1 ? combo * 5 : 0;
+            score += 10 + timeBonus + comboBonus;
+            correctAnswers++;
+            
+            document.getElementById('answerInput').classList.add('correct');
+            document.getElementById('answerInput').classList.remove('border-gray-700', 'bg-gray-800/50');
+            document.getElementById('answerInput').disabled = true;
+            
+            updateStats();
+            setTimeout(nextQuestion, 800);
+        }
+
+        function wrongAnswer() {
+            clearInterval(questionTimer);
+            combo = 0;
+            
+            document.getElementById('answerInput').classList.add('wrong');
+            document.getElementById('answerInput').classList.remove('border-gray-700', 'bg-gray-800/50');
+            document.getElementById('answerInput').disabled = true;
+            
+            updateStats();
+            setTimeout(nextQuestion, 1000);
+        }
+
+        function skipQuestion() {
+            wrongAnswer();
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('combo').innerHTML = 
+                combo + '<span class="text-lg">🔥</span>';
+        }
+
+        function endGame() {
+            clearInterval(questionTimer);
+            isPlaying = false;
+            
+            const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalCorrect').textContent = correctAnswers;
+            document.getElementById('finalCombo').textContent = maxCombo + '🔥';
+            document.getElementById('finalAccuracy').textContent = accuracy + '%';
+            
+            let emoji = '🏆';
+            if (accuracy === 100) emoji = '👑';
+            else if (accuracy >= 80) emoji = '🎉';
+            else if (accuracy >= 60) emoji = '😊';
+            else emoji = '😅';
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+            
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+        }
+
+        function resetGame() {
+            clearInterval(questionTimer);
+            isPlaying = false;
+            
+            const input = document.getElementById('answerInput');
+            input.disabled = true;
+            input.value = '';
+            input.className = 'answer-input w-full bg-gray-800/50 border-2 border-gray-700 text-white px-6 py-4 rounded-xl focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 text-3xl font-bold text-center placeholder-gray-600';
+            
+            document.getElementById('startBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('skipBtn').disabled = true;
+            
+            document.querySelectorAll('.diff-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            });
+            
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            questionCount = 0;
+            correctAnswers = 0;
+            
+            updateStats();
+            document.getElementById('questionNum').innerHTML = '0<span class="text-sm text-gray-400">/20</span>';
+            document.getElementById('timerFill').style.width = '100%';
+            document.getElementById('question').textContent = '5 + 3 = ?';
+            
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+        }
+
+        document.getElementById('answerInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && isPlaying) {
+                checkAnswer();
+            }
+        });
+
+        // Initialize
+        generateQuestion();
+        clearInterval(questionTimer);
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 1: Giriş ve Temel Kavramlar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 1</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">🖥️</div>
+            <h1>Modül 1: Giriş ve Temel Kavramlar</h1>
+            <p>Mikroişlemci ve Mikrobilgisayar Temelleri</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (25 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+
+        <div class="content">
+            <!-- TEORİK BİLGİ -->
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🖥️ Mikroişlemci Nedir?</h2>
+                    <div class="definition-box">
+                        <strong>Tanım:</strong> Mikroişlemci, bir bilgisayarın merkezi işlem biriminin (CPU) tüm fonksiyonlarını tek bir entegre devre (IC - Integrated Circuit) üzerinde toplayan elektronik devredir.
+                    </div>
+                    
+                    <h3>Mikroişlemcinin Temel Özellikleri:</h3>
+                    <ul>
+                        <li><strong>Tek Çip Yapısı:</strong> Tüm işlemci fonksiyonları tek bir silikon çip üzerinde</li>
+                        <li><strong>Programlanabilirlik:</strong> Farklı görevler için programlanabilir</li>
+                        <li><strong>Sayısal İşlem:</strong> Tüm işlemleri binary (0 ve 1) formatta yapar</li>
+                        <li><strong>Saat Sinyali:</strong> Clock sinyaliyle senkronize çalışır</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p><strong>PC İşlemcileri:</strong> Intel Core i7, AMD Ryzen</p>
+                        <p><strong>Mobil İşlemciler:</strong> ARM Cortex, Apple M-Series</p>
+                        <p><strong>Gömülü Sistemler:</strong> AVR, PIC, ESP32</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💻 Mikrobilgisayar (Mikrodenetleyici)</h2>
+                    <div class="definition-box">
+                        <strong>Tanım:</strong> Bir tüm devre (chip) üzerinde üretilen tam bir bilgisayar sistemidir. İşlemci, bellek, giriş/çıkış birimleri tek çip üzerindedir.
+                    </div>
+
+                    <h3>Mikroişlemci vs Mikrobilgisayar</h3>
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>Mikroişlemci</th>
+                            <th>Mikrobilgisayar (MCU)</th>
+                        </tr>
+                        <tr>
+                            <td>Tanım</td>
+                            <td>Sadece CPU</td>
+                            <td>CPU + RAM + ROM + I/O</td>
+                        </tr>
+                        <tr>
+                            <td>Boyut</td>
+                            <td>Daha büyük sistem gerekir</td>
+                            <td>Küçük ve kompakt</td>
+                        </tr>
+                        <tr>
+                            <td>Maliyet</td>
+                            <td>Yüksek (ek bileşenler)</td>
+                            <td>Düşük</td>
+                        </tr>
+                        <tr>
+                            <td>Güç Tüketimi</td>
+                            <td>Yüksek</td>
+                            <td>Düşük</td>
+                        </tr>
+                        <tr>
+                            <td>Kullanım Alanı</td>
+                            <td>PC, Server, Workstation</td>
+                            <td>Gömülü Sistemler, IoT</td>
+                        </tr>
+                        <tr>
+                            <td>Örnekler</td>
+                            <td>Intel i7, AMD Ryzen</td>
+                            <td>Arduino, ESP32, STM32</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2>🧠 CPU (Central Processing Unit)</h2>
+                    <div class="definition-box">
+                        <strong>Tanım:</strong> Hafızaya yüklü programın çalışmasını sağlayan, bilgisayarın beyni olarak adlandırılan birimdir.
+                    </div>
+
+                    <h3>CPU'nun Temel Bileşenleri:</h3>
+                    
+                    <div class="component-card">
+                        <h4>1️⃣ ALU (Arithmetic Logic Unit)</h4>
+                        <p><strong>Görev:</strong> Matematiksel ve mantıksal işlemleri yapar</p>
+                        <ul>
+                            <li><strong>Aritmetik İşlemler:</strong> +, -, ×, ÷</li>
+                            <li><strong>Mantıksal İşlemler:</strong> AND, OR, NOT, XOR</li>
+                            <li><strong>Karşılaştırma:</strong> Büyük, küçük, eşit kontrolü</li>
+                            <li><strong>Shift İşlemleri:</strong> Bit kaydırma</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>2️⃣ Kontrol Birimi (Control Unit)</h4>
+                        <p><strong>Görev:</strong> Tüm işlemlerin sırasını belirler ve gerekli denetim işaretlerini üretir</p>
+                        <ul>
+                            <li>Komutları bellekten çeker (Fetch)</li>
+                            <li>Komutları çözümler (Decode)</li>
+                            <li>Komutları çalıştırır (Execute)</li>
+                            <li>Diğer birimleri koordine eder</li>
+                        </ul>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>3️⃣ Registerlar (Kayıtçılar)</h4>
+                        <p><strong>Görev:</strong> CPU içinde çok hızlı geçici veri saklama</p>
+                        <ul>
+                            <li><strong>Accumulator:</strong> İşlem sonuçlarını tutar</li>
+                            <li><strong>Program Counter (PC):</strong> Bir sonraki komutu gösterir</li>
+                            <li><strong>Instruction Register:</strong> O anki komutu tutar</li>
+                            <li><strong>Stack Pointer:</strong> Stack'in yerini gösterir</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>⚙️ Tek ve Çok Çekirdekli İşlemciler</h2>
+                    
+                    <div class="comparison-box">
+                        <div class="comparison-item">
+                            <h3>Tek Çekirdekli (Single Core)</h3>
+                            <ul>
+                                <li>Bir anda tek işlem yapabilir</li>
+                                <li>Daha basit mimari</li>
+                                <li>Düşük güç tüketimi</li>
+                                <li>Gömülü sistemlerde yaygın</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-item">
+                            <h3>Çok Çekirdekli (Multi Core)</h3>
+                            <ul>
+                                <li>Paralel işlem yapabilir</li>
+                                <li>Daha yüksek performans</li>
+                                <li>Çoklu görevlere uygun</li>
+                                <li>Modern PC ve mobil cihazlarda</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formula-box">
+                        <h4>Teorik Hız Artışı:</h4>
+                        <p><strong>Speedup = Çekirdek Sayısı × Paralel Yapılabilen İş Oranı</strong></p>
+                        <p class="note">Not: Gerçek hayatta Amdahl Yasası nedeniyle teorik hıza ulaşılamaz</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📊 Mikroişlemci Nesilleri</h2>
+                    <table>
+                        <tr>
+                            <th>Nesil</th>
+                            <th>Dönem</th>
+                            <th>Özellikler</th>
+                            <th>Örnek</th>
+                        </tr>
+                        <tr>
+                            <td>1. Nesil</td>
+                            <td>1971-1973</td>
+                            <td>4-bit, Hesap makinesi</td>
+                            <td>Intel 4004</td>
+                        </tr>
+                        <tr>
+                            <td>2. Nesil</td>
+                            <td>1973-1978</td>
+                            <td>8-bit, Basit bilgisayarlar</td>
+                            <td>Intel 8080, 8085</td>
+                        </tr>
+                        <tr>
+                            <td>3. Nesil</td>
+                            <td>1978-1985</td>
+                            <td>16-bit, PC devrimi</td>
+                            <td>Intel 8086, 80286</td>
+                        </tr>
+                        <tr>
+                            <td>4. Nesil</td>
+                            <td>1985-2000</td>
+                            <td>32-bit, Modern PC</td>
+                            <td>Intel 80386, 80486, Pentium</td>
+                        </tr>
+                        <tr>
+                            <td>5. Nesil</td>
+                            <td>2000-Günümüz</td>
+                            <td>64-bit, Çok çekirdekli</td>
+                            <td>Intel Core, AMD Ryzen</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="nav-buttons">
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul2-yariletken.html" class="btn btn-next">Sonraki Modül →</a>
+                </div>
+            </div>
+
+            <!-- TEST BÖLÜMÜ -->
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 1 Testi - 25 Soru</h2>
+                    <div class="test-info">
+                        <p>🎯 Başarı için en az %70 puan almanız gerekir</p>
+                        <p>⏱️ Ortalama süre: 15 dakika</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="testProgress">0/25</div>
+                    </div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+
+            <!-- FLASHCARDS -->
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 15 Kart</h2>
+                    <p class="center-text">Kartlara tıklayarak cevapları görebilirsiniz</p>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {
+                q: "Mikroişlemci nedir?",
+                options: ["Sadece hafıza birimi", "CPU'nun tüm fonksiyonlarını tek çip üzerinde toplayan devre", "Sadece ALU içeren devre", "Giriş/Çıkış birimi"],
+                correct: 1
+            },
+            {
+                q: "Mikrobilgisayar hangi bileşenleri içerir?",
+                options: ["Sadece CPU", "CPU + RAM + ROM + I/O", "Sadece RAM ve ROM", "Sadece I/O birimleri"],
+                correct: 1
+            },
+            {
+                q: "ALU'nun görevi nedir?",
+                options: ["Veri saklamak", "Matematiksel ve mantıksal işlemler yapmak", "Komutları çözmek", "Ekrana görüntü göndermek"],
+                correct: 1
+            },
+            {
+                q: "CPU'nun kontrol birimi ne yapar?",
+                options: ["Sadece hesaplama yapar", "İşlemlerin sırasını belirler ve denetim işaretleri üretir", "Veri saklar", "İnternet bağlantısı sağlar"],
+                correct: 1
+            },
+            {
+                q: "Mikroişlemci ve mikrobilgisayar arasındaki temel fark nedir?",
+                options: ["Fark yok, aynı şeylerdir", "Mikroişlemci sadece CPU, mikrobilgisayar tam sistem", "Mikroişlemci daha pahalıdır", "Mikrobilgisayar daha hızlıdır"],
+                correct: 1
+            },
+            {
+                q: "Register'ların (kayıtçıların) görevi nedir?",
+                options: ["Kalıcı veri saklama", "CPU içinde çok hızlı geçici veri saklama", "Program saklama", "İnternet verisi saklama"],
+                correct: 1
+            },
+            {
+                q: "Program Counter (PC) ne işe yarar?",
+                options: ["Programları sayar", "Bir sonraki çalıştırılacak komutu gösterir", "Zamanı ölçer", "Hataları sayar"],
+                correct: 1
+            },
+            {
+                q: "Çok çekirdekli işlemcilerin avantajı nedir?",
+                options: ["Daha az elektrik harcar", "Paralel işlem yapabilir", "Daha ucuzdur", "Daha az ısınır"],
+                correct: 1
+            },
+            {
+                q: "Tek çekirdekli işlemciler hangi alanlarda tercih edilir?",
+                options: ["Süper bilgisayarlar", "Oyun bilgisayarları", "Gömülü sistemler", "Veri merkezleri"],
+                correct: 2
+            },
+            {
+                q: "ALU hangi işlemleri YAPMAZ?",
+                options: ["Toplama", "Çıkarma", "AND, OR işlemleri", "Program akış kontrolü"],
+                correct: 3
+            },
+            {
+                q: "İlk mikroişlemci hangisidir?",
+                options: ["Intel 8086", "Intel 4004", "Intel Pentium", "AMD Ryzen"],
+                correct: 1
+            },
+            {
+                q: "8-bit mikroişlemciler hangi nesle aittir?",
+                options: ["1. Nesil", "2. Nesil", "3. Nesil", "4. Nesil"],
+                correct: 1
+            },
+            {
+                q: "Modern PC işlemcileri kaç bit mimariye sahiptir?",
+                options: ["16-bit", "32-bit", "64-bit", "128-bit"],
+                correct: 2
+            },
+            {
+                q: "Mikrodenetleyici başka nasıl adlandırılır?",
+                options: ["Mikroişlemci", "Mikrobilgisayar veya Mikrokontroller", "Makrokontroller", "Nanobilgisayar"],
+                correct: 1
+            },
+            {
+                q: "ESP32, Arduino gibi cihazlar hangi kategoridedir?",
+                options: ["Mikroişlemci", "Mikrodenetleyici", "Süper bilgisayar", "Mainframe"],
+                correct: 1
+            },
+            {
+                q: "CPU'nun beyni olarak adlandırılan birim hangisidir?",
+                options: ["ALU", "Kontrol Birimi", "Register", "Cache"],
+                correct: 1
+            },
+            {
+                q: "Instruction Register ne tutar?",
+                options: ["Tüm programı", "O anki çalıştırılan komutu", "Kullanıcı verilerini", "İşletim sistemini"],
+                correct: 1
+            },
+            {
+                q: "Accumulator ne için kullanılır?",
+                options: ["Komut saklama", "İşlem sonuçlarını tutma", "Adres saklama", "Program saklama"],
+                correct: 1
+            },
+            {
+                q: "Stack Pointer'ın görevi nedir?",
+                options: ["Fare işaretçisini kontrol eder", "Stack'in yerini gösterir", "Ekran çözünürlüğünü ayarlar", "İnternet hızını ölçer"],
+                correct: 1
+            },
+            {
+                q: "Mikroişlemciler hangi sinyalle senkronize çalışır?",
+                options: ["Güç sinyali", "Saat (Clock) sinyali", "Reset sinyali", "İnterrupt sinyali"],
+                correct: 1
+            },
+            {
+                q: "Hangi işlemci 3. nesil mikroişlemcilerdendir?",
+                options: ["Intel 4004", "Intel 8080", "Intel 8086", "Intel Core i7"],
+                correct: 2
+            },
+            {
+                q: "Mikrodenetleyicilerin avantajı nedir?",
+                options: ["Çok büyük bellekleri var", "Kompakt, ucuz ve düşük güç tüketimi", "Çok hızlıdırlar", "Çok pahalıdırlar"],
+                correct: 1
+            },
+            {
+                q: "Kontrol biriminin Fetch aşaması ne yapar?",
+                options: ["Komutu çalıştırır", "Komutu bellekten çeker", "Komutu siler", "Komutu değiştirir"],
+                correct: 1
+            },
+            {
+                q: "XOR işlemi hangi birimde yapılır?",
+                options: ["Kontrol Biriminde", "ALU'da", "Bellek'te", "I/O biriminde"],
+                correct: 1
+            },
+            {
+                q: "Çok çekirdekli işlemcilerde hız artışını sınırlayan yasa hangisidir?",
+                options: ["Newton Yasası", "Ohm Yasası", "Amdahl Yasası", "Moore Yasası"],
+                correct: 2
+            }
+        ];
+
+        const flashcards = [
+            { front: "Mikroişlemci", back: "CPU'nun tüm fonksiyonlarını tek bir entegre devre üzerinde toplayan elektronik devre" },
+            { front: "Mikrobilgisayar", back: "CPU + RAM + ROM + I/O birimlerini tek çip üzerinde barındıran tam bir bilgisayar sistemi" },
+            { front: "CPU", back: "Central Processing Unit - Hafızaya yüklü programın çalışmasını sağlayan, bilgisayarın beyni" },
+            { front: "ALU", back: "Arithmetic Logic Unit - Matematiksel (+, -, ×, ÷) ve mantıksal (AND, OR, NOT) işlemleri yapan birim" },
+            { front: "Kontrol Birimi", back: "Tüm işlemlerin sırasını belirleyen, komutları çeken-çözümleyen ve denetim işaretleri üreten birim" },
+            { front: "Register", back: "CPU içinde çok hızlı geçici veri saklayan hafıza birimleri" },
+            { front: "Program Counter", back: "Bir sonraki çalıştırılacak komutun adresini tutan register" },
+            { front: "Accumulator", back: "ALU'dan gelen işlem sonuçlarını tutan register" },
+            { front: "Instruction Register", back: "O anda çalıştırılan komutu tutan register" },
+            { front: "Stack Pointer", back: "Stack bellek bölgesinin tepesini gösteren register" },
+            { front: "Tek Çekirdekli İşlemci", back: "Bir anda tek işlem yapabilen, basit mimarili, düşük güç tüketen işlemci" },
+            { front: "Çok Çekirdekli İşlemci", back: "Paralel işlem yapabilen, yüksek performanslı, çoklu görevlere uygun işlemci" },
+            { front: "Intel 4004", back: "1971'de üretilen, 4-bit'lik ilk mikroişlemci" },
+            { front: "Fetch-Decode-Execute", back: "CPU'nun komut çalıştırma döngüsü: Komut çek - Çözümle - Çalıştır" },
+            { front: "Amdahl Yasası", back: "Paralel işlemede hız artışının, seri yapılması gereken işlemlerle sınırlı olduğunu belirten yasa" }
+        ];
+
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul1');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Modül 7: Hesaplama Problemleri
+- Bellek adresleme hesaplamaları (2^n)
+- Transfer hızı hesaplamaları (frekans × genişlik)
+- Cycle süre hesaplamaları
+- Birim dönüşümleri (KB, MB, GB)
+- 30 pratik soru

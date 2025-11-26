@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evrimsel Hesaplama - İnteraktif Çalışma Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+
+        .module-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .module-card h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .module-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .module-features {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧬 Evrimsel Hesaplama</h1>
+            <p>İnteraktif Çalışma ve Öğrenme Sistemi</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number">7</div>
+                <div class="label">Modül</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">105+</div>
+                <div class="label">Flashcard</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">70+</div>
+                <div class="label">Test Sorusu</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">∞</div>
+                <div class="label">Öğrenme</div>
+            </div>
+        </div>
+
+        <div class="modules-grid">
+            <!-- Modül 1 -->
+            <div class="module-card" onclick="window.location.href='modul1-optimizasyon.html'">
+                <span class="module-number">MODÜL 1</span>
+                <h3>📊 Optimizasyona Giriş</h3>
+                <p>Optimizasyon kavramı, matematiksel modeller, amaç fonksiyonu, kısıtlar ve optimizasyon teknikleri.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 2 -->
+            <div class="module-card" onclick="window.location.href='modul2-pso.html'">
+                <span class="module-number">MODÜL 2</span>
+                <h3>🐦 Parçacık Sürü Optimizasyonu (PSO)</h3>
+                <p>Sürü zekası, PSO algoritması, parçacık hareketleri, hız ve konum güncellemeleri.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 3 -->
+            <div class="module-card" onclick="window.location.href='modul3-abc.html'">
+                <span class="module-number">MODÜL 3</span>
+                <h3>🐝 Yapay Arı Kolonisi (ABC)</h3>
+                <p>Arı kolonisi davranışı, işçi arılar, gözcü arılar, kâşif arılar ve yiyecek kaynakları.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 4 -->
+            <div class="module-card" onclick="window.location.href='modul4-genetik.html'">
+                <span class="module-number">MODÜL 4</span>
+                <h3>🧬 Genetik Algoritmalar</h3>
+                <p>Doğal seçilim, kromozom yapısı, çaprazlama, mutasyon ve fitness fonksiyonu.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 5 -->
+            <div class="module-card" onclick="window.location.href='modul5-diferansiyel.html'">
+                <span class="module-number">MODÜL 5</span>
+                <h3>🔄 Diferansiyel Evrim</h3>
+                <p>Diferansiyel evrim algoritması, mutasyon stratejileri, çaprazlama ve seçilim operatörleri.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 6 -->
+            <div class="module-card" onclick="window.location.href='modul6-tavlama-tabu.html'">
+                <span class="module-number">MODÜL 6</span>
+                <h3>🔥 Tavlama Benzetimi ve Tabu Arama</h3>
+                <p>Simulated annealing, soğutma programı, tabu listesi ve komşuluk yapıları.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+
+            <!-- Modül 7 -->
+            <div class="module-card" onclick="window.location.href='modul7-karinca.html'">
+                <span class="module-number">MODÜL 7</span>
+                <h3>🐜 Karınca Kolonisi Algoritması</h3>
+                <p>Feromon izleri, graf yapısı, olasılık hesaplaması ve feromon güncelleme kuralları.</p>
+                <div class="module-features">
+                    <span class="feature-badge">📚 Teori</span>
+                    <span class="feature-badge">✍️ 10 Test</span>
+                    <span class="feature-badge">🎴 15 Flashcard</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎓 Evrimsel Hesaplama İnteraktif Çalışma Sistemi</p>
+            <p>Tüm modüller teori, test ve flashcard içeriği ile donatılmıştır.</p>
+        </footer>
+    </div>
+</body>
+</html>

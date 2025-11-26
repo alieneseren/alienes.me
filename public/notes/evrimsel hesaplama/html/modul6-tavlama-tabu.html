@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 6 - Tavlama Benzetimi ve Tabu Arama</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 2.5em; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 1.2em; }
+        .back-button { display: inline-block; margin-bottom: 20px; padding: 12px 24px; background: white; color: #667eea; text-decoration: none; border-radius: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; font-weight: bold; }
+        .back-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .content-box { background: white; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); overflow: hidden; }
+        .tabs { display: flex; background: #f8f9fa; border-bottom: 2px solid #e0e0e0; }
+        .tab-button { flex: 1; padding: 20px; background: none; border: none; cursor: pointer; font-size: 1.1em; font-weight: bold; color: #666; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #e9ecef; }
+        .tab-button.active { color: #667eea; background: white; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #667eea; }
+        .tab-content { display: none; padding: 40px; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .theory-content h2 { color: #667eea; margin-top: 30px; margin-bottom: 15px; font-size: 1.8em; }
+        .theory-content h3 { color: #764ba2; margin-top: 25px; margin-bottom: 12px; font-size: 1.4em; }
+        .theory-content p { line-height: 1.8; color: #444; margin-bottom: 15px; text-align: justify; }
+        .theory-content ul, .theory-content ol { margin-left: 30px; margin-bottom: 20px; line-height: 1.8; }
+        .theory-content li { margin-bottom: 10px; color: #444; }
+        .highlight-box { background: #ffebee; border-left: 4px solid #f44336; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .test-question { background: #f8f9fa; padding: 25px; margin-bottom: 20px; border-radius: 10px; border-left: 4px solid #667eea; }
+        .test-question h3 { color: #333; margin-bottom: 15px; }
+        .test-options { list-style: none; margin-top: 15px; }
+        .test-options li { padding: 12px; margin: 8px 0; background: white; border-radius: 5px; cursor: pointer; transition: all 0.3s; }
+        .test-options li:hover { background: #ffebee; transform: translateX(5px); }
+        .flashcards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; perspective: 1000px; }
+        .flashcard { height: 200px; position: relative; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .flashcard-front { background: linear-gradient(135deg, #f44336 0%, #e91e63 100%); color: white; font-weight: bold; font-size: 1.2em; text-align: center; }
+        .flashcard-back { background: white; color: #333; transform: rotateY(180deg); border: 2px solid #f44336; text-align: center; font-size: 1em; line-height: 1.6; }
+        
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) { .tabs { flex-direction: column; } .flashcards-container { grid-template-columns: 1fr; } }
+    
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transform: translateX(10px);
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Ana Sayfaya Dön</a>
+        
+        <div class="header">
+            <h1>🔥 Modül 6: Tavlama Benzetimi</h1>
+            <p>Simulated Annealing, soğutma programı ve yerel aramadan kaçış</p>
+        </div>
+
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('teori')">📚 Teori</button>
+                <button class="tab-button" onclick="showTab('test')">✍️ Test</button>
+                <button class="tab-button" onclick="showTab('flashcards')">🎴 Flashcards</button>
+            </div>
+
+            <div id="teori" class="tab-content active">
+                <div class="theory-content">
+                    <h2>🔥 Tavlama Benzetimi Nedir?</h2>
+                    <p><strong>Tavlama Benzetimi (Simulated Annealing - SA)</strong>, katı bir malzemenin önce belirli bir sıcaklığa kadar ısıtılıp sonra soğutulması yoluyla malzemenin kalitesinin artırılmasını sağlayan <strong>fiziksel tavlama sürecinin taklidine</strong> dayanmaktadır.</p>
+
+                    <div class="highlight-box">
+                        <strong>🔬 Fiziksel Süreç:</strong> Metal gibi bir katı madde yüksek bir sıcaklığa kadar ısıtılır ve erimiş bir hale getirilir. Atomlar bu durumda özgürce hareket edebilir. Sıcaklığın düşürülmesiyle atomların hareketleri kısıtlanır. Sıcaklık azaldıkça atomlar daha az hareket eder ve kristal formları mümkün olan en az dahili enerjiye sahip olur.
+                    </div>
+
+                    <h3>🔑 Temel Kavramlar</h3>
+                    <ul>
+                        <li><strong>Sıcaklık (T):</strong> Sistemin enerji seviyesi, algoritmanın keşif yeteneğini kontrol eder</li>
+                        <li><strong>Enerji (E):</strong> Amaç fonksiyonunun değeri, minimize edilmeye çalışılır</li>
+                        <li><strong>Soğutma:</strong> Sıcaklığın yavaş ve kontrollü azaltılması (tavlama)</li>
+                        <li><strong>Yerel Komşuluk:</strong> Mevcut çözümün yakınındaki çözüm uzayı</li>
+                        <li><strong>Kabul Olasılığı:</strong> Kötü çözümlerin kabul edilme şansı</li>
+                    </ul>
+
+                    <h3>⚡ Algoritmanın Mantığı</h3>
+                    <p>Tavlama benzetimi, genel bir minimum noktası bulmak amacıyla problemin farklı zamanlarındaki sonuçlarını elde ederek bu sonuçlardan iyi olan değere doğru hareket edip birden fazla çözümü test ederek en iyi sonucu bulmaya yardımcı olan bir optimizasyon yöntemidir.</p>
+
+                    <h3>📐 Matematiksel Formül</h3>
+                    <p><strong>Boltzmann Dağılımı:</strong> Daha iyi olmayan çözümün kabul edilme olasılığı:</p>
+                    <div class="highlight-box">
+                        <p style="text-align: center; font-size: 1.3em; margin: 15px 0;">
+                            P = e<sup>-ΔE/T</sup>
+                        </p>
+                        <p><strong>Burada:</strong></p>
+                        <ul>
+                            <li><strong>ΔE:</strong> Enerji farkı = E(yeni) - E(mevcut)</li>
+                            <li><strong>T:</strong> Sistemin mevcut sıcaklığı</li>
+                            <li><strong>P:</strong> Kabul olasılığı (0-1 arası)</li>
+                        </ul>
+                        <p><strong>Kural:</strong> ΔE &lt; 0 ise (iyileşme) → Her zaman kabul et<br>
+                        ΔE ≥ 0 ise (kötüleşme) → P olasılığıyla kabul et</p>
+                    </div>
+
+                    <h3>📊 SA Algoritma Adımları</h3>
+                    <ol>
+                        <li><strong>Başlatma:</strong>
+                            <ul>
+                                <li>Rastgele başlangıç çözümü x<sub>0</sub> oluştur</li>
+                                <li>Başlangıç sıcaklığı T<sub>0</sub>'ı belirle (yüksek)</li>
+                                <li>Soğutma oranı α'yı belirle (0.8-0.99 arası)</li>
+                            </ul>
+                        </li>
+                        <li><strong>İterasyon:</strong>
+                            <ul>
+                                <li>Mevcut çözümün komşuluğundan yeni çözüm üret</li>
+                                <li>Enerji farkını hesapla: ΔE = E(yeni) - E(mevcut)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Kabul/Red:</strong>
+                            <ul>
+                                <li>Eğer ΔE &lt; 0 → Yeni çözümü kabul et</li>
+                                <li>Eğer ΔE ≥ 0 → P = e<sup>-ΔE/T</sup> olasılığıyla kabul et</li>
+                            </ul>
+                        </li>
+                        <li><strong>Soğutma:</strong>
+                            <ul>
+                                <li>Belirli sayıda iterasyondan sonra: T = α × T</li>
+                                <li>Sıcaklık azaldıkça kötü çözüm kabul olasılığı düşer</li>
+                            </ul>
+                        </li>
+                        <li><strong>Durdurma:</strong> T minimum sıcaklığa ulaşınca veya maksimum iterasyon</li>
+                    </ol>
+
+                    <h3>🎯 Soğutma Programları</h3>
+                    <ul>
+                        <li><strong>Doğrusal:</strong> T = T - ΔT</li>
+                        <li><strong>Geometrik (En yaygın):</strong> T = α × T (α: 0.8-0.99)</li>
+                        <li><strong>Logaritmik:</strong> T = T<sub>0</sub> / log(1 + k)</li>
+                        <li><strong>Üstel:</strong> T = T<sub>0</sub> × α<sup>k</sup></li>
+                    </ul>
+
+                    <h3>✅ SA'nın Avantajları</h3>
+                    <ul>
+                        <li>Lokal minimumlardan kaçabilir</li>
+                        <li>Basit ve anlaşılır yapı</li>
+                        <li>Çok çeşitli problemlere uygulanabilir</li>
+                        <li>Kombinatoryal optimizasyonda başarılı</li>
+                        <li>Teorik olarak global optimuma yakınsama garantisi</li>
+                    </ul>
+
+                    <h3>⚠️ Dezavantajları</h3>
+                    <ul>
+                        <li>Parametre seçimi kritik (T<sub>0</sub>, α, durdurma kriteri)</li>
+                        <li>Yavaş yakınsama olabilir</li>
+                        <li>Çok yavaş soğutma gerekir (zaman alıcı)</li>
+                        <li>Çok hızlı soğutma yerel minimumda takılabilir</li>
+                    </ul>
+
+                    <h3>🔧 Uygulama Alanları</h3>
+                    <ul>
+                        <li>Gezgin satıcı problemi (TSP)</li>
+                        <li>Çizelgeleme problemleri</li>
+                        <li>VLSI tasarımı</li>
+                        <li>Yerleşim problemleri</li>
+                        <li>Graf renklendirme</li>
+                        <li>Protein katlanması</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 Önemli Not:</strong> Tavlama Benzetimi'nin başarısı, soğutma programının ve başlangıç sıcaklığının doğru seçilmesine bağlıdır. Yüksek başlangıç sıcaklığı daha iyi keşif sağlar, yavaş soğutma daha iyi sonuçlar verir ancak daha uzun sürer.
+                    </div>
+
+                    <h3>🆚 Diğer Yöntemlerle Karşılaştırma</h3>
+                    <ul>
+                        <li><strong>Hill Climbing vs SA:</strong> HC her zaman iyileşme arar, SA kötü çözümleri de kabul edebilir</li>
+                        <li><strong>GA vs SA:</strong> GA popülasyon kullanır, SA tek çözüm üzerinde çalışır</li>
+                        <li><strong>Tabu Search vs SA:</strong> Tabu hafıza kullanır, SA olasılıksal kabul kullanır</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="test" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">✍️ Test Soruları</h2>
+                
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 1: Tavlama Benzetimi hangi fiziksel süreçten esinlenmiştir?</h3>
+                    <ul class="test-options">
+                        <li>A) Kristalizasyon</li>
+                        <li>B) Metallerin ısıtılıp soğutulması</li>
+                        <li>C) Kimyasal reaksiyon</li>
+                        <li>D) Atomların çarpışması</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 2: SA'da sıcaklık (T) neyi kontrol eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Popülasyon büyüklüğü</li>
+                        <li>B) Kötü çözüm kabul olasılığı</li>
+                        <li>C) İterasyon sayısı</li>
+                        <li>D) Mutasyon oranı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 3: Boltzmann dağılımı formülü nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) P = ΔE/T</li>
+                        <li>B) P = e^(-ΔE/T)</li>
+                        <li>C) P = T/ΔE</li>
+                        <li>D) P = e^(ΔE/T)</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 4: ΔE < 0 olduğunda ne yapılır?</h3>
+                    <ul class="test-options">
+                        <li>A) Çözüm reddedilir</li>
+                        <li>B) Çözüm her zaman kabul edilir</li>
+                        <li>C) Olasılıkla kabul edilir</li>
+                        <li>D) Algoritma durur</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 5: Geometrik soğutma programı nasıl çalışır?</h3>
+                    <ul class="test-options">
+                        <li>A) T = T - ΔT</li>
+                        <li>B) T = α × T</li>
+                        <li>C) T = T / 2</li>
+                        <li>D) T = T + ΔT</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="A">
+                    <h3>Soru 6: α (soğutma katsayısı) genellikle hangi aralıkta seçilir?</h3>
+                    <ul class="test-options">
+                        <li>A) 0.1-0.3</li>
+                        <li>B) 0.4-0.6</li>
+                        <li>C) 0.8-0.99</li>
+                        <li>D) 1.0-1.5</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 7: SA'nın avantajı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Çok hızlı yakınsar</li>
+                        <li>B) Lokal minimumdan kaçabilir</li>
+                        <li>C) Hiç parametre gerektirmez</li>
+                        <li>D) Popülasyon kullanır</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 8: Yüksek sıcaklıkta ne olur?</h3>
+                    <ul class="test-options">
+                        <li>A) Sadece iyi çözümler kabul edilir</li>
+                        <li>B) Kötü çözümler de yüksek olasılıkla kabul edilir</li>
+                        <li>C) Algoritma durur</li>
+                        <li>D) Hiçbir çözüm kabul edilmez</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 9: SA hangi tür problemlerde başarılıdır?</h3>
+                    <ul class="test-options">
+                        <li>A) Sadece doğrusal problemler</li>
+                        <li>B) Kombinatoryal optimizasyon</li>
+                        <li>C) Sadece sürekli problemler</li>
+                        <li>D) Sadece ikili problemler</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 10: SA'da yeni çözüm nasıl üretilir?</h3>
+                    <ul class="test-options">
+                        <li>A) Rastgele</li>
+                        <li>B) Popülasyondan seçilir</li>
+                        <li>C) Mevcut çözümün komşuluğundan</li>
+                        <li>D) En iyi çözümden</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="flashcards" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎴 Flashcards - Tıklayarak Çevir</h2>
+                <div class="flashcards-container">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Tavlama Benzetimi</div>
+                        <div class="flashcard-back">Simulated Annealing - Metallerin ısıtılıp soğutulması sürecinden esinlenen optimizasyon algoritması</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sıcaklık (T)</div>
+                        <div class="flashcard-back">Sistemin enerji seviyesi, kötü çözüm kabul olasılığını kontrol eder</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Boltzmann Dağılımı</div>
+                        <div class="flashcard-back">Kötü çözüm kabul olasılığı: P = e^(-ΔE/T)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">ΔE (Delta E)</div>
+                        <div class="flashcard-back">Enerji farkı = E(yeni) - E(mevcut), çözüm kalitesi değişimi</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Soğutma Programı</div>
+                        <div class="flashcard-back">Sıcaklığın nasıl azaltılacağını belirleyen program (geometrik, doğrusal, vb.)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">α (Alpha)</div>
+                        <div class="flashcard-back">Soğutma katsayısı, genellikle 0.8-0.99 arası, T = α × T</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Yerel Komşuluk</div>
+                        <div class="flashcard-back">Mevcut çözümün yakınındaki çözüm uzayı, yeni çözüm buradan üretilir</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Tavlama</div>
+                        <div class="flashcard-back">Sıcaklığın yavaş ve kontrollü biçimde azaltılması süreci</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Kristalizasyon</div>
+                        <div class="flashcard-back">Atomların en düşük enerji durumunda düzenli yapı oluşturması</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Geometrik Soğutma</div>
+                        <div class="flashcard-back">En yaygın soğutma: T = α × T, üstel azalma</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Kabul Kriteri</div>
+                        <div class="flashcard-back">ΔE<0: her zaman kabul, ΔE≥0: P olasılığıyla kabul</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Yüksek Sıcaklık</div>
+                        <div class="flashcard-back">Keşif fazı, kötü çözümler yüksek olasılıkla kabul edilir</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Düşük Sıcaklık</div>
+                        <div class="flashcard-back">Sömürü fazı, sadece iyi çözümler kabul edilir</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">SA Avantajı</div>
+                        <div class="flashcard-back">Lokal minimumdan kaçabilir, global optimuma yakınsama şansı</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">TSP</div>
+                        <div class="flashcard-back">Gezgin Satıcı Problemi, SA'nın başarılı olduğu klasik problem</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="module-nav">
+            <a href="modul5-diferansiyel.html" class="nav-button">← Önceki Modül</a>
+            <a href="modul7-karinca.html" class="nav-button">Sonraki Modül →</a>
+        </div>
+</div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

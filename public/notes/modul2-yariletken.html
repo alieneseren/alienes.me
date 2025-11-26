@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2: Yarıiletken ve Transistörler</title>
+    <link rel="stylesheet" href="style.css?v=1762791407">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 2</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">⚡</div>
+            <h1>Modül 2: Yarıiletken ve Transistörler</h1>
+            <p>Elektronik Temelleri ve Transistör Teknolojisi</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (20 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+
+        <div class="content">
+            <!-- TEORİK BİLGİ -->
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>⚡ Yarıiletken Maddeler</h2>
+                    <div class="definition-box">
+                        <strong>Tanım:</strong> Yarıiletken maddeler, elektrik akımına karşı ne iyi bir iletken ne de iyi bir yalıtkan özelliği gösterirler. Elektronik endüstrisinin temelini oluştururlar.
+                    </div>
+                    
+                    <h3>Temel Özellikleri:</h3>
+                    <ul>
+                        <li><strong>Elektriksel İletkenlik:</strong> İletkenler ile yalıtkanlar arasında</li>
+                        <li><strong>Sıcaklık Etkisi:</strong> Sıcaklık arttıkça iletkenlik artar</li>
+                        <li><strong>Katkılama:</strong> Safsızlık eklenerek özellikleri değiştirilebilir</li>
+                        <li><strong>Işık Hassasiyeti:</strong> Işığa maruz kalınca iletkenlik değişir</li>
+                    </ul>
+
+                    <div class="component-card">
+                        <h4>🔬 Önemli Yarıiletken Elementler</h4>
+                        <table>
+                            <tr>
+                                <th>Element</th>
+                                <th>Sembol</th>
+                                <th>Valans Elektron</th>
+                                <th>Kullanım</th>
+                            </tr>
+                            <tr>
+                                <td>Silisyum</td>
+                                <td>Si</td>
+                                <td>4</td>
+                                <td>Mikroişlemciler, IC'ler</td>
+                            </tr>
+                            <tr>
+                                <td>Germanyum</td>
+                                <td>Ge</td>
+                                <td>4</td>
+                                <td>İlk transistörler, diodlar</td>
+                            </tr>
+                            <tr>
+                                <td>Karbon</td>
+                                <td>C</td>
+                                <td>4</td>
+                                <td>Grafen, nanotüpler</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="important-box">
+                        <strong>⚠️ Kritik Bilgi:</strong> Yarıiletken elementler son yörüngelerinde <strong>4 adet valans elektronu</strong> bulundururlar. Bu özellik onları yarıiletken yapar.
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🔋 Valans Elektronları</h2>
+                    <div class="definition-box">
+                        <strong>Valans Elektronu:</strong> Bir atomun en dış yörüngesinde bulunan ve kimyasal bağlara katılabilen elektronlardır.
+                    </div>
+
+                    <h3>Valans Elektronlarının Önemi:</h3>
+                    <ul>
+                        <li>Kimyasal bağ oluşturma yeteneğini belirler</li>
+                        <li>Elektrik iletkenliğini etkiler</li>
+                        <li>Yarıiletken özelliğini sağlar (4 valans elektronu)</li>
+                        <li>Katkılama ile manipüle edilebilir</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <h4>Valans Elektronu Sayısına Göre Maddeler:</h4>
+                        <ul>
+                            <li><strong>1-3 Elektron:</strong> İletkenler (Bakır: 1, Alüminyum: 3)</li>
+                            <li><strong>4 Elektron:</strong> Yarıiletkenler (Si, Ge, C)</li>
+                            <li><strong>5-8 Elektron:</strong> Yalıtkanlar (Kükürt: 6, Klor: 7)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🔌 Transistörler</h2>
+                    <div class="definition-box">
+                        <strong>Transistör:</strong> Yarıiletken malzemelerden yapılmış, elektronik sinyalleri güçlendirebilen veya anahtarlama yapabilen üç uçlu elektronik devre elemanıdır.
+                    </div>
+
+                    <h3>Transistör Tipleri:</h3>
+                    <div class="comparison-box">
+                        <div class="comparison-item">
+                            <h4>BJT (Bipolar Junction Transistor)</h4>
+                            <ul>
+                                <li>Akım kontrollü</li>
+                                <li>NPN ve PNP tipleri</li>
+                                <li>Güçlendirme için ideal</li>
+                                <li>Yüksek güç</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>FET (Field Effect Transistor)</h4>
+                            <ul>
+                                <li>Gerilim kontrollü</li>
+                                <li>MOSFET, JFET çeşitleri</li>
+                                <li>Dijital devreler için ideal</li>
+                                <li>Düşük güç tüketimi</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="component-card">
+                        <h4>Transistör Kullanım Alanları:</h4>
+                        <ul>
+                            <li><strong>Güçlendirme:</strong> Zayıf sinyalleri güçlendirir</li>
+                            <li><strong>Anahtarlama:</strong> Dijital devrelerde açma/kapama</li>
+                            <li><strong>Osilasyon:</strong> Frekans üretimi</li>
+                            <li><strong>Modülasyon:</strong> Sinyal işleme</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📜 Transistörlerin Tarihi</h2>
+                    
+                    <div class="formula-card">
+                        <div class="formula-title">🔑 Önemli Tarihler</div>
+                        <table>
+                            <tr>
+                                <th>Yıl</th>
+                                <th>Olay</th>
+                            </tr>
+                            <tr>
+                                <td>1906</td>
+                                <td>Vakum tüpü (triod) icadı - Lee De Forest</td>
+                            </tr>
+                            <tr>
+                                <td>1947</td>
+                                <td>İlk nokta-temas transistör prototipi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1948</strong></td>
+                                <td><strong>İlk transistörün duyurusu - Bell Labs</strong></td>
+                            </tr>
+                            <tr>
+                                <td>1956</td>
+                                <td>Nobel Fizik Ödülü - Bardeen, Brattain, Shockley</td>
+                            </tr>
+                            <tr>
+                                <td>1958</td>
+                                <td>İlk entegre devre - Jack Kilby</td>
+                            </tr>
+                            <tr>
+                                <td>1960</td>
+                                <td>MOSFET transistörün icadı</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="important-box">
+                        <h4>⭐ 1948 - Transistörün İcadı</h4>
+                        <p><strong>Yer:</strong> AT&T Bell Laboratuarları, New Jersey, ABD</p>
+                        <p><strong>Geliştiriciler:</strong></p>
+                        <ul>
+                            <li><strong>John Bardeen</strong> - Teorik fizikçi</li>
+                            <li><strong>Walter Brattain</strong> - Deneysel fizikçi</li>
+                            <li><strong>William Shockley</strong> - Fizikçi, proje lideri</li>
+                        </ul>
+                        <p><strong>Etki:</strong> Elektronik çağının başlangıcı, bilgisayar devrimi</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💡 Vakum Tüplerinden Transistörlere</h2>
+                    
+                    <h3>Vakum Tüplerinin Problemleri:</h3>
+                    <ul>
+                        <li>❌ Çok büyük boyutlar (hacimli)</li>
+                        <li>❌ Yüksek ısı üretimi</li>
+                        <li>❌ Yüksek enerji tüketimi</li>
+                        <li>❌ Kısa ömür (çabuk bozulma)</li>
+                        <li>❌ Pahalı üretim ve bakım</li>
+                        <li>❌ Kırılgan yapı</li>
+                    </ul>
+
+                    <h3>Transistörlerin Avantajları:</h3>
+                    <ul>
+                        <li>✅ Çok küçük boyut</li>
+                        <li>✅ Düşük ısı üretimi</li>
+                        <li>✅ Düşük enerji tüketimi</li>
+                        <li>✅ Uzun ömür</li>
+                        <li>✅ Ucuz üretim</li>
+                        <li>✅ Dayanıklı yapı</li>
+                        <li>✅ Anında çalışma (ısınma süresi yok)</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <h4>Karşılaştırma Örneği:</h4>
+                        <p><strong>ENIAC (1945 - Vakum Tüplü):</strong></p>
+                        <ul>
+                            <li>18,000 vakum tüpü</li>
+                            <li>Ağırlık: 30 ton</li>
+                            <li>Güç tüketimi: 150 kW</li>
+                            <li>Alan: 167 m²</li>
+                        </ul>
+                        <p><strong>Modern İşlemci (Transistörlü):</strong></p>
+                        <ul>
+                            <li>Milyarlarca transistör</li>
+                            <li>Ağırlık: < 50 gram</li>
+                            <li>Güç tüketimi: < 100 W</li>
+                            <li>Alan: < 1 cm²</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📊 Moore Yasası</h2>
+                    <div class="definition-box">
+                        <strong>Moore Yasası:</strong> Intel kurucu ortağı Gordon Moore'un 1965'te öne sürdüğü gözlem: "Bir entegre devredeki transistör sayısı yaklaşık her 2 yılda bir ikiye katlanır."
+                    </div>
+
+                    <div class="formula-box">
+                        <h4>Transistör Sayısı Artışı:</h4>
+                        <p><strong>1971 - Intel 4004:</strong> 2,300 transistör</p>
+                        <p><strong>1989 - Intel 80486:</strong> 1,180,000 transistör</p>
+                        <p><strong>2000 - Pentium 4:</strong> 42,000,000 transistör</p>
+                        <p><strong>2010 - Core i7:</strong> 1,170,000,000 transistör</p>
+                        <p><strong>2020 - Apple M1:</strong> 16,000,000,000 transistör</p>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <a href="modul1-giris.html" class="btn">← Önceki Modül</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul3-sayi-sistemleri.html" class="btn btn-next">Sonraki Modül →</a>
+                </div>
+            </div>
+
+            <!-- TEST BÖLÜMÜ -->
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 2 Testi - 20 Soru</h2>
+                    <div class="test-info">
+                        <p>🎯 Başarı için en az %70 puan almanız gerekir</p>
+                        <p>⏱️ Ortalama süre: 12 dakika</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="testProgress">0/20</div>
+                    </div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+
+            <!-- FLASHCARDS -->
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 12 Kart</h2>
+                    <p class="center-text">Kartlara tıklayarak cevapları görebilirsiniz</p>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {
+                q: "Yarıiletken maddeler elektrik akımına karşı nasıl bir özellik gösterir?",
+                options: ["Çok iyi iletken", "Çok iyi yalıtkan", "Ne iyi iletken ne iyi yalıtkan", "Hiç iletkenlik göstermez"],
+                correct: 2
+            },
+            {
+                q: "Yarıiletken elementler son yörüngelerinde kaç valans elektronu bulundurur?",
+                options: ["2", "3", "4", "5"],
+                correct: 2
+            },
+            {
+                q: "Aşağıdakilerden hangisi yarıiletken bir elementtir?",
+                options: ["Bakır", "Silisyum", "Alüminyum", "Demir"],
+                correct: 1
+            },
+            {
+                q: "İlk transistör hangi yıl geliştirilmiştir?",
+                options: ["1938", "1948", "1958", "1968"],
+                correct: 1
+            },
+            {
+                q: "Transistörü hangi kuruluş geliştirmiştir?",
+                options: ["MIT", "IBM", "AT&T Bell Laboratuarları", "Stanford Üniversitesi"],
+                correct: 2
+            },
+            {
+                q: "İlk transistörü geliştiren bilim insanları kimlerdir?",
+                options: ["Tesla ve Edison", "Bardeen, Brattain ve Shockley", "Turing ve Von Neumann", "Jobs ve Wozniak"],
+                correct: 1
+            },
+            {
+                q: "Vakum tüplerinin hangi özelliği transistörlere göre dezavantajdır?",
+                options: ["Daha hızlıdır", "Yüksek ısı üretir ve çabuk bozulur", "Daha küçüktür", "Daha ucuzdur"],
+                correct: 1
+            },
+            {
+                q: "Transistörlerin vakum tüplerine göre avantajı hangisidir?",
+                options: ["Daha büyük", "Daha ağır", "Küçük boyut ve düşük enerji tüketimi", "Daha pahalı"],
+                correct: 2
+            },
+            {
+                q: "Valans elektronu nedir?",
+                options: ["Çekirdekteki proton", "En dış yörüngedeki elektron", "İç yörüngedeki elektron", "Nötron sayısı"],
+                correct: 1
+            },
+            {
+                q: "Germanyum (Ge) kaç valans elektronuna sahiptir?",
+                options: ["2", "3", "4", "5"],
+                correct: 2
+            },
+            {
+                q: "Moore Yasası neyi öngörür?",
+                options: ["Bilgisayar fiyatları düşer", "Transistör sayısı her 2 yılda ikiye katlanır", "Enerji tüketimi artar", "Bilgisayarlar büyür"],
+                correct: 1
+            },
+            {
+                q: "BJT transistörün açılımı nedir?",
+                options: ["Basic Junction Transistor", "Bipolar Junction Transistor", "Binary Joint Transistor", "Bridge Junction Transistor"],
+                correct: 1
+            },
+            {
+                q: "FET transistörün temel kontrol yöntemi nedir?",
+                options: ["Akım kontrollü", "Gerilim kontrollü", "Direnç kontrollü", "Güç kontrollü"],
+                correct: 1
+            },
+            {
+                q: "Mikroişlemcilerde en çok hangi yarıiletken element kullanılır?",
+                options: ["Germanyum", "Karbon", "Silisyum", "Bakır"],
+                correct: 2
+            },
+            {
+                q: "Transistörün anahtarlama özelliği hangi alanda kullanılır?",
+                options: ["Analog devreler", "Dijital devreler", "Optik devreler", "Mekanik sistemler"],
+                correct: 1
+            },
+            {
+                q: "ENIAC bilgisayarı hangi teknoloji ile yapılmıştı?",
+                options: ["Transistörler", "Vakum tüpleri", "Entegre devreler", "Mikroişlemciler"],
+                correct: 1
+            },
+            {
+                q: "Yarıiletkenlerin sıcaklık arttıkça iletkenliği nasıl değişir?",
+                options: ["Azalır", "Değişmez", "Artar", "Önce artar sonra azalır"],
+                correct: 2
+            },
+            {
+                q: "Intel 4004 (1971) kaç transistör içeriyordu?",
+                options: ["230", "2,300", "23,000", "230,000"],
+                correct: 1
+            },
+            {
+                q: "Transistörlerin Nobel Fizik Ödülü hangi yıl verildi?",
+                options: ["1948", "1952", "1956", "1960"],
+                correct: 2
+            },
+            {
+                q: "MOSFET hangi tür transistördür?",
+                options: ["BJT çeşidi", "FET çeşidi", "Vakum tüpü", "Diod"],
+                correct: 1
+            }
+        ];
+
+        const flashcards = [
+            { front: "Yarıiletken", back: "Elektrik akımına karşı ne iyi iletken ne iyi yalıtkan özelliği gösteren, 4 valans elektronlu maddeler (Si, Ge, C)" },
+            { front: "Valans Elektronu", back: "Bir atomun en dış yörüngesinde bulunan ve kimyasal bağlara katılabilen elektronlar" },
+            { front: "Silisyum (Si)", back: "En yaygın kullanılan yarıiletken element, 4 valans elektronu, mikroişlemcilerin temel maddesi" },
+            { front: "Transistör", back: "Yarıiletken malzemeden yapılmış, sinyalleri güçlendirebilen veya anahtarlama yapabilen üç uçlu elektronik devre elemanı" },
+            { front: "1948 - Bell Labs", back: "İlk transistörün geliştirildiği yıl ve yer. Bardeen, Brattain ve Shockley tarafından" },
+            { front: "BJT", back: "Bipolar Junction Transistor - Akım kontrollü, NPN ve PNP tipleri, güçlendirme için ideal" },
+            { front: "FET", back: "Field Effect Transistor - Gerilim kontrollü, MOSFET ve JFET çeşitleri, dijital devreler için ideal" },
+            { front: "Vakum Tüpü Problemleri", back: "Büyük boyut, yüksek ısı, yüksek enerji tüketimi, kısa ömür, pahalı, kırılgan" },
+            { front: "Transistör Avantajları", back: "Küçük boyut, düşük ısı, düşük enerji, uzun ömür, ucuz, dayanıklı, anında çalışma" },
+            { front: "Moore Yasası", back: "Bir entegre devredeki transistör sayısı yaklaşık her 2 yılda bir ikiye katlanır (Gordon Moore, 1965)" },
+            { front: "MOSFET", back: "Metal-Oxide-Semiconductor FET - Modern dijital devrelerde en çok kullanılan transistör tipi" },
+            { front: "4 Valans Elektronu", back: "Yarıiletken elementlerin ortak özelliği - ne tam iletken ne tam yalıtkan olmalarını sağlar" }
+        ];
+
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul2');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

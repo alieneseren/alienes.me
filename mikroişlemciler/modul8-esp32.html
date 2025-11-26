@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 8: ESP32 Uygulamaları</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 8</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">📡</div>
+            <h1>Modül 8: ESP32 Uygulamaları</h1>
+            <p>IoT, WiFi, Bluetooth ve ESP32 Mikrodenetleyici</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (20 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>📡 ESP32 Nedir?</h2>
+                    <div class="definition-box">
+                        <strong>ESP32:</strong> Espressif Systems tarafından geliştirilen, WiFi ve Bluetooth özellikli, düşük maliyetli, düşük güç tüketimli IoT mikrodenetleyicisi.
+                    </div>
+                    <p>ESP32, IoT (Internet of Things - Nesnelerin İnterneti) projelerinde yaygın olarak kullanılan güçlü bir mikrodenetleyicidir.</p>
+                </div>
+                
+                <div class="section">
+                    <h2>⚡ ESP32 Teknik Özellikleri</h2>
+                    
+                    <div class="component-card">
+                        <h3>İşlemci</h3>
+                        <ul>
+                            <li><strong>CPU:</strong> Dual-core Xtensa LX6 (2 çekirdek)</li>
+                            <li><strong>Frekans:</strong> 160 MHz veya 240 MHz</li>
+                            <li><strong>Mimari:</strong> 32-bit RISC</li>
+                            <li><strong>Performans:</strong> Yüksek işlem gücü</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h3>Bellek</h3>
+                        <ul>
+                            <li><strong>RAM:</strong> 520 KB SRAM</li>
+                            <li><strong>ROM:</strong> 448 KB (bootloader)</li>
+                            <li><strong>Flash:</strong> 4 MB (genişletilebilir)</li>
+                            <li><strong>Cache:</strong> Hızlı erişim için</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h3>Kablosuz İletişim</h3>
+                        <ul>
+                            <li><strong>WiFi:</strong> 802.11 b/g/n (2.4 GHz)</li>
+                            <li><strong>Bluetooth:</strong> v4.2 BR/EDR + BLE</li>
+                            <li><strong>Mod:</strong> Station, AP, Station+AP</li>
+                            <li><strong>Güvenlik:</strong> WPA/WPA2/WPA3</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h3>GPIO ve Çevre Birimleri</h3>
+                        <ul>
+                            <li><strong>GPIO:</strong> 34 adet programlanabilir pin</li>
+                            <li><strong>ADC:</strong> 18 kanal 12-bit (analog girdi)</li>
+                            <li><strong>DAC:</strong> 2 kanal 8-bit (analog çıktı)</li>
+                            <li><strong>PWM:</strong> 16 kanal (motor kontrolü vb.)</li>
+                            <li><strong>SPI:</strong> 4 adet (hızlı seri iletişim)</li>
+                            <li><strong>I2C:</strong> 2 adet (sensör bağlantısı)</li>
+                            <li><strong>UART:</strong> 3 adet (seri port)</li>
+                            <li><strong>Touch Sensor:</strong> 10 kanal kapasitif dokunma</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🌐 IoT (Internet of Things)</h2>
+                    <div class="definition-box">
+                        <strong>IoT:</strong> Fiziksel nesnelerin internet üzerinden birbirleriyle ve sistemlerle iletişim kurması ve veri paylaşması konsepti.
+                    </div>
+                    
+                    <h3>IoT Bileşenleri:</h3>
+                    <ul>
+                        <li><strong>Sensörler:</strong> Çevreden veri toplar (sıcaklık, nem, hareket)</li>
+                        <li><strong>Mikrodenetleyici:</strong> Verileri işler (ESP32)</li>
+                        <li><strong>İletişim:</strong> Verileri gönderir (WiFi, Bluetooth)</li>
+                        <li><strong>Bulut/Server:</strong> Verileri saklar ve analiz eder</li>
+                        <li><strong>Uygulama:</strong> Kullanıcı arayüzü (mobil/web)</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>IoT Uygulama Örnekleri:</h4>
+                        <p>🏠 <strong>Akıllı Ev:</strong> Işık, klima, güvenlik kontrolü</p>
+                        <p>🌡️ <strong>Hava İzleme:</strong> Sıcaklık, nem, hava kalitesi</p>
+                        <p>🚗 <strong>Araç Takibi:</strong> GPS konum, hız izleme</p>
+                        <p>🏭 <strong>Endüstriyel:</strong> Makine izleme, otomasyon</p>
+                        <p>🌾 <strong>Tarım:</strong> Toprak nemi, sulama kontrolü</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🔧 ESP32 Programlama</h2>
+                    
+                    <div class="component-card">
+                        <h3>Geliştirme Ortamları:</h3>
+                        <ul>
+                            <li><strong>Arduino IDE:</strong> En popüler, kolay kullanım</li>
+                            <li><strong>ESP-IDF:</strong> Espressif resmi framework (C/C++)</li>
+                            <li><strong>MicroPython:</strong> Python ile programlama</li>
+                            <li><strong>PlatformIO:</strong> Profesyonel IDE</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h3>Programlama Dilleri:</h3>
+                        <ul>
+                            <li><strong>C/C++:</strong> En yaygın, Arduino dili</li>
+                            <li><strong>Python:</strong> MicroPython ile</li>
+                            <li><strong>JavaScript:</strong> Espruino ile</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>💡 ESP32 Uygulama Alanları</h2>
+                    
+                    <div class="example-box">
+                        <h4>1. Web Server Uygulamaları</h4>
+                        <p>ESP32 bir web server olarak çalışabilir. Tarayıcıdan sensör verilerini gösterme, LED kontrolü.</p>
+                        <p><strong>Örnek:</strong> ESP32'ye bağlı sıcaklık sensörünü web sayfasından görüntüleme</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>2. MQTT ile IoT İletişimi</h4>
+                        <p>MQTT protokolü ile hafif, hızlı mesajlaşma. Bulut servislere veri gönderme.</p>
+                        <p><strong>Örnek:</strong> ThingSpeak, AWS IoT, Azure IoT Hub ile entegrasyon</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>3. Bluetooth Uygulamaları</h4>
+                        <p>BLE (Bluetooth Low Energy) ile düşük güç tüketimli kablosuz iletişim.</p>
+                        <p><strong>Örnek:</strong> Mobil uygulama ile ESP32 kontrolü, fitness takip cihazları</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>4. Kamera Uygulamaları</h4>
+                        <p>ESP32-CAM modülü ile görüntü yakalama, yüz tanıma, QR kod okuma.</p>
+                        <p><strong>Örnek:</strong> Güvenlik kamerası, kapı zili, nesne algılama</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>5. Robotik ve Otomasyon</h4>
+                        <p>Motor kontrolü, sensör okuma, otonom hareket.</p>
+                        <p><strong>Örnek:</strong> Robot kol, çizgi izleyen robot, drone kontrolü</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🎯 ESP32 Avantajları</h2>
+                    <div class="component-card">
+                        <ul>
+                            <li>✅ <strong>Düşük Maliyet:</strong> $2-5 arası uygun fiyat</li>
+                            <li>✅ <strong>Dual-Core:</strong> Paralel işlem, yüksek performans</li>
+                            <li>✅ <strong>WiFi + Bluetooth:</strong> İkisi de yerleşik</li>
+                            <li>✅ <strong>Düşük Güç:</strong> Deep sleep modu ile µA seviyesi</li>
+                            <li>✅ <strong>Çok GPIO:</strong> 34 pin, çok çevre birimi</li>
+                            <li>✅ <strong>Geniş Topluluk:</strong> Bolca kaynak, örnek, kütüphane</li>
+                            <li>✅ <strong>Arduino Uyumlu:</strong> Kolay öğrenme eğrisi</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⚠️ ESP32 Dezavantajları</h2>
+                    <div class="component-card">
+                        <ul>
+                            <li>❌ <strong>5V Toleranssız:</strong> 3.3V ile çalışır, dikkat gerekir</li>
+                            <li>❌ <strong>Karmaşık Belgeleme:</strong> ESP-IDF dokümantasyonu zor</li>
+                            <li>❌ <strong>Sınırlı ADC:</strong> ADC doğruluğu düşük</li>
+                            <li>❌ <strong>WiFi+BT Çakışması:</strong> İkisi aynı anda tam performans vermez</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 ESP32 vs ESP8266 Karşılaştırma</h2>
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>ESP8266</th>
+                            <th>ESP32</th>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU</strong></td>
+                            <td>Single-core 80 MHz</td>
+                            <td>Dual-core 240 MHz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WiFi</strong></td>
+                            <td>✅ Var</td>
+                            <td>✅ Var</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bluetooth</strong></td>
+                            <td>❌ Yok</td>
+                            <td>✅ Var (BLE)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GPIO</strong></td>
+                            <td>17 pin</td>
+                            <td>34 pin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ADC</strong></td>
+                            <td>1 kanal 10-bit</td>
+                            <td>18 kanal 12-bit</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fiyat</strong></td>
+                            <td>$1-2</td>
+                            <td>$2-5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kullanım</strong></td>
+                            <td>Basit IoT</td>
+                            <td>Gelişmiş IoT</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="modul7-hesaplamalar.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="tum-testler.html" class="btn btn-next">Tüm Testler →</a>
+                </div>
+            </div>
+            
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 8 Testi - 20 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/20</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 12 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "ESP32'nin CPU'su nedir?", options: ["Single-core", "Dual-core Xtensa LX6", "Quad-core ARM", "Triple-core"], correct: 1},
+            {q: "ESP32'nin maksimum frekansı nedir?", options: ["80 MHz", "160 MHz", "240 MHz", "500 MHz"], correct: 2},
+            {q: "ESP32'de kaç MB flash bellek vardır (standart)?", options: ["1 MB", "2 MB", "4 MB", "8 MB"], correct: 2},
+            {q: "ESP32'de RAM miktarı nedir?", options: ["256 KB", "520 KB", "1 MB", "2 MB"], correct: 1},
+            {q: "ESP32'de WiFi standardı nedir?", options: ["802.11 a", "802.11 b/g/n", "802.11 ac", "802.11 ax"], correct: 1},
+            {q: "ESP32'de Bluetooth versiyonu nedir?", options: ["v3.0", "v4.2 BLE", "v5.0", "v5.2"], correct: 1},
+            {q: "ESP32'de kaç GPIO pini vardır?", options: ["17", "24", "34", "48"], correct: 2},
+            {q: "IoT'nin açılımı nedir?", options: ["Internet of Things", "Internet of Technology", "International of Things", "Integrated of Tech"], correct: 0},
+            {q: "ESP32 kaç volt ile çalışır?", options: ["5V", "3.3V", "1.8V", "12V"], correct: 1},
+            {q: "ESP32'de ADC kaç bit çözünürlüklüdür?", options: ["8-bit", "10-bit", "12-bit", "16-bit"], correct: 2},
+            {q: "ESP32 hangi programlama dili ile programlanır?", options: ["Sadece Python", "Sadece Java", "C/C++ (Arduino)", "Sadece Assembly"], correct: 2},
+            {q: "ESP32-CAM ne için kullanılır?", options: ["Sadece WiFi", "Görüntü yakalama", "Sadece ses", "GPS"], correct: 1},
+            {q: "MQTT nedir?", options: ["Bellek türü", "IoT mesajlaşma protokolü", "WiFi standardı", "Bluetooth versiyonu"], correct: 1},
+            {q: "ESP32'nin üreticisi kimdir?", options: ["Intel", "ARM", "Espressif Systems", "Atmel"], correct: 2},
+            {q: "BLE'nin açılımı nedir?", options: ["Bluetooth Low Energy", "Bluetooth Long Extension", "Basic Low Energy", "Binary Link Energy"], correct: 0},
+            {q: "ESP32 kaç çekirdeklidir?", options: ["1", "2 (Dual-core)", "4", "8"], correct: 1},
+            {q: "ESP32'de I2C kaç adet vardır?", options: ["1", "2", "3", "4"], correct: 1},
+            {q: "ESP32'nin mimarisi nedir?", options: ["8-bit", "16-bit", "32-bit RISC", "64-bit"], correct: 2},
+            {q: "ESP8266'da Bluetooth var mıdır?", options: ["Evet", "Hayır", "Sadece BLE", "Sadece Classic"], correct: 1},
+            {q: "ESP32'nin deep sleep modunda güç tüketimi nasıldır?", options: ["Yüksek", "Çok düşük (µA)", "Orta", "Çok yüksek"], correct: 1}
+        ];
+        
+        const flashcards = [
+            {front: "ESP32 CPU", back: "Dual-core Xtensa LX6, 240 MHz, 32-bit RISC"},
+            {front: "ESP32 Bellek", back: "520 KB RAM, 4 MB Flash"},
+            {front: "ESP32 Kablosuz", back: "WiFi 802.11 b/g/n + Bluetooth v4.2 BLE"},
+            {front: "ESP32 GPIO", back: "34 pin programlanabilir"},
+            {front: "IoT", back: "Internet of Things - Nesnelerin interneti, cihazlar arası iletişim"},
+            {front: "ESP32 Voltaj", back: "3.3V ile çalışır (5V toleranssız!)"},
+            {front: "Arduino IDE", back: "ESP32 için en popüler geliştirme ortamı (C/C++)"},
+            {front: "ESP32-CAM", back: "Kamera modülü - Görüntü yakalama, yüz tanıma"},
+            {front: "MQTT", back: "Hafif IoT mesajlaşma protokolü"},
+            {front: "BLE", back: "Bluetooth Low Energy - Düşük güç tüketimli Bluetooth"},
+            {front: "ESP32 vs ESP8266", back: "ESP32: Dual-core, BT var, 34 GPIO | ESP8266: Single, BT yok, 17 GPIO"},
+            {front: "Espressif Systems", back: "ESP32'nin üreticisi, Çin merkezli şirket"}
+        ];
+        
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul8');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

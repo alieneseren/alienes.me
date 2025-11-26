@@ -1,0 +1,124 @@
+# HOSTINGER SSH'DE ÇALIŞTIRIN
+
+ssh -p 65002 u233064020@147.93.92.23
+cd /home/u233064020/domains/alienes.me
+
+# 1. ContactController'ı değiştir (mail() işlevini kullan)
+cat > app/Http/Controllers/ContactController.php << 'CONTROLLER_EOF'
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Contact;
+use App\Models\Profile;
+use App\Http\Requests\StoreContactRequest;
+
+class ContactController extends Controller
+{
+    public function index()
+    {
+        $profile = Profile::first();
+        return view('contact', compact('profile'));
+    }
+
+    public function store(StoreContactRequest $request)
+    {
+        // Mesajı kaydet
+        $contact = Contact::create($request->validated());
+        
+        // Email gönderme denemesi
+        $profile = Profile::first();
+        if ($profile && $profile->email) {
+            try {
+                $adminEmail = $profile->email;
+                $subject = 'Yeni İletişim Mesajı - ' . $contact->subject;
+                $body = "Yeni mesaj:\n\nAd: {$contact->name}\nEmail: {$contact->email}\nKonu: {$contact->subject}\n\nMesaj:\n{$contact->message}";
+                
+                // PHP mail() kullan
+                @mail($adminEmail, $subject, $body);
+            } catch (\Exception $e) {
+                \Log::warning('Contact form error: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('success', 'Mesajınız başarıyla kaydedildi. En kısa sürede size dönüş yapacağız.');
+    }
+}
+CONTROLLER_EOF
+
+# 2. Admin layout'u düzelt (Tailwind CDN)
+cat > resources/views/layouts/admin.blade.php << 'LAYOUT_EOF'
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Admin Panel') - Alienes.me</title>
+    
+    @php
+        $profile = \App\Models\Profile::first();
+        $faviconUrl = $profile && $profile->github_avatar_url 
+            ? $profile->github_avatar_url 
+            : asset('favicon.ico');
+    @endphp
+    
+    <link rel="icon" type="image/png" href="{{ $faviconUrl }}">
+    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen flex">
+        <aside class="w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700">
+            <div class="p-6 border-b dark:border-gray-700">
+                <h1 class="text-2xl font-bold text-sky-600">Admin Panel</h1>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ session('user_name') }}</p>
+            </div>
+            <nav class="p-4">
+                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.dashboard') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Dashboard</a>
+                <a href="{{ route('admin.profile.edit') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.profile.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Profil</a>
+                <a href="{{ route('admin.experiences.index') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.experiences.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Deneyimler</a>
+                <a href="{{ route('admin.educations.index') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.educations.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Eğitim</a>
+                <a href="{{ route('admin.skills.index') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.skills.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Yetenekler</a>
+                <a href="{{ route('admin.projects.index') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.projects.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Projeler</a>
+                <a href="{{ route('admin.contacts.index') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.contacts.*') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">Mesajlar</a>
+                <hr class="my-4 dark:border-gray-700">
+                <a href="{{ route('admin.change-password') }}" class="block px-4 py-2 rounded-lg mb-2 {{ request()->routeIs('admin.change-password') ? 'bg-sky-100 dark:bg-sky-900 text-sky-600' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">🔐 Şifre Değiştir</a>
+                <a href="{{ route('home') }}" target="_blank" class="block px-4 py-2 rounded-lg mb-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">🌐 Siteyi Görüntüle</a>
+                <form action="{{ route('admin.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-4 py-2 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">🚪 Çıkış Yap</button>
+                </form>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8">
+            @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-100 rounded-lg border border-green-400">
+                ✅ {{ session('success') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-lg border border-red-400">
+                ❌ {{ session('error') }}
+            </div>
+            @endif
+
+            @yield('content')
+        </main>
+    </div>
+</body>
+</html>
+LAYOUT_EOF
+
+# 3. Cache'leri temizle
+php artisan view:clear
+php artisan config:clear
+php artisan cache:clear
+
+echo "✅ Tüm güncellemeler tamamlandı!"

@@ -1,0 +1,351 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+content = '''<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 6: Veri Yolu ve Buffer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 6</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">🔌</div>
+            <h1>Modül 6: Veri Yolu ve Buffer</h1>
+            <p>Data Bus, Address Bus, Control Bus ve 3-State Buffer</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (25 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🔌 Veri Yolu (Bus) Nedir?</h2>
+                    <div class="definition-box">
+                        <strong>Veri Yolu (Bus):</strong> Bilgisayar bileşenleri arasında veri, adres ve kontrol sinyallerini taşıyan elektriksel iletişim yollarıdır.
+                    </div>
+                    <h3>Bus Türleri:</h3>
+                    <ul>
+                        <li><strong>Data Bus:</strong> Veri taşır (çift yönlü)</li>
+                        <li><strong>Address Bus:</strong> Adres taşır (tek yönlü)</li>
+                        <li><strong>Control Bus:</strong> Kontrol sinyalleri taşır (çift yönlü)</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 Data Bus (Veri Yolu)</h2>
+                    <div class="definition-box">
+                        <strong>Data Bus:</strong> CPU, bellek ve I/O cihazları arasında veri taşıyan çift yönlü iletişim yolu.
+                    </div>
+                    
+                    <h3>Data Bus Özellikleri:</h3>
+                    <ul>
+                        <li>✅ <strong>Çift Yönlü (Bidirectional):</strong> Hem okuma hem yazma</li>
+                        <li>✅ <strong>Genişlik:</strong> 8, 16, 32, 64 bit</li>
+                        <li>✅ <strong>Paralel:</strong> Tüm bitler aynı anda</li>
+                        <li>✅ <strong>Paylaşımlı:</strong> Birden fazla cihaz kullanır</li>
+                    </ul>
+                    
+                    <div class="component-card">
+                        <h4>Veri Yolu Genişliği ve Performans:</h4>
+                        <ul>
+                            <li><strong>8-bit:</strong> 1 byte/cycle (eski sistemler)</li>
+                            <li><strong>16-bit:</strong> 2 byte/cycle (8086, 80286)</li>
+                            <li><strong>32-bit:</strong> 4 byte/cycle (80386, Pentium)</li>
+                            <li><strong>64-bit:</strong> 8 byte/cycle (Modern CPU'lar)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p><strong>32-bit Veri Yolu:</strong> Bir seferde 4 byte (32 bit) taşır</p>
+                        <p><strong>100 MHz frekans:</strong> 100M × 4 = 400 MB/s transfer hızı</p>
+                    </div>
+                    
+                    <div class="important-box">
+                        <h4>⚠️ Data Bus Genişliği Neden Önemli?</h4>
+                        <p>Daha geniş veri yolu = Aynı anda daha çok veri = Daha hızlı sistem</p>
+                        <p>8-bit: 1 byte → 16-bit: 2 byte → 32-bit: 4 byte → 64-bit: 8 byte</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📍 Address Bus (Adres Yolu)</h2>
+                    <div class="definition-box">
+                        <strong>Address Bus:</strong> CPU'nun bellekteki hangi hücreye erişeceğini belirten adresi taşıyan tek yönlü iletişim yolu.
+                    </div>
+                    
+                    <h3>Address Bus Özellikleri:</h3>
+                    <ul>
+                        <li>✅ <strong>Tek Yönlü (Unidirectional):</strong> CPU'dan bellege/I/O'ya</li>
+                        <li>✅ <strong>Adres belirler:</strong> Hangi bellek hücresi</li>
+                        <li>✅ <strong>Genişlik:</strong> 16, 20, 24, 32, 64 bit</li>
+                        <li>✅ <strong>Adreslenebilir Alan:</strong> 2^n byte</li>
+                    </ul>
+                    
+                    <div class="component-card">
+                        <h4>Adres Yolu Genişliği ve Bellek:</h4>
+                        <table>
+                            <tr>
+                                <th>Adres Biti</th>
+                                <th>Adreslenebilir Bellek</th>
+                                <th>Örnek Sistem</th>
+                            </tr>
+                            <tr>
+                                <td>16-bit</td>
+                                <td>2^16 = 64 KB</td>
+                                <td>8-bit mikroişlemciler</td>
+                            </tr>
+                            <tr>
+                                <td>20-bit</td>
+                                <td>2^20 = 1 MB</td>
+                                <td>8086/8088</td>
+                            </tr>
+                            <tr>
+                                <td>24-bit</td>
+                                <td>2^24 = 16 MB</td>
+                                <td>80286</td>
+                            </tr>
+                            <tr>
+                                <td>32-bit</td>
+                                <td>2^32 = 4 GB</td>
+                                <td>80386, Pentium</td>
+                            </tr>
+                            <tr>
+                                <td>64-bit</td>
+                                <td>2^64 = 16 EB</td>
+                                <td>Modern CPU'lar</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <h4>Adres Hesaplama Formülü:</h4>
+                        <p><strong>Adreslenebilir Bellek = 2^n byte</strong></p>
+                        <p><strong>n:</strong> Adres biti sayısı</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Örnek Hesaplamalar:</h4>
+                        <p><strong>20-bit adres yolu:</strong> 2^20 = 1,048,576 byte = 1 MB</p>
+                        <p><strong>32-bit adres yolu:</strong> 2^32 = 4,294,967,296 byte = 4 GB</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⚙️ Control Bus (Kontrol Yolu)</h2>
+                    <div class="definition-box">
+                        <strong>Control Bus:</strong> CPU ile diğer bileşenler arasında kontrol ve zamanlama sinyallerini taşıyan çift yönlü yol.
+                    </div>
+                    
+                    <h3>Control Bus Özellikleri:</h3>
+                    <ul>
+                        <li>✅ <strong>Çift Yönlü:</strong> Hem gönderir hem alır</li>
+                        <li>✅ <strong>Koordinasyon:</strong> İşlemleri senkronize eder</li>
+                        <li>✅ <strong>Çeşitli Sinyaller:</strong> Her sinyal farklı amaç</li>
+                    </ul>
+                    
+                    <div class="component-card">
+                        <h4>Önemli Kontrol Sinyalleri:</h4>
+                        <ul>
+                            <li><strong>READ (RD):</strong> Okuma işlemi - Bellekten veri al</li>
+                            <li><strong>WRITE (WR):</strong> Yazma işlemi - Belleğe veri yaz</li>
+                            <li><strong>RESET:</strong> Sistemi sıfırla</li>
+                            <li><strong>CLOCK:</strong> Zamanlama sinyali</li>
+                            <li><strong>IRQ (Interrupt Request):</strong> Kesme isteği</li>
+                            <li><strong>READY:</strong> Hazır sinyali (cihaz hazır)</li>
+                            <li><strong>BUS GRANT:</strong> Bus kullanım izni</li>
+                            <li><strong>BUS REQUEST:</strong> Bus kullanım talebi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Kontrol Sinyali Örnekleri:</h4>
+                        <p><strong>Okuma:</strong> CPU, READ sinyalini aktif eder → Bellek veriyi Data Bus'a koyar</p>
+                        <p><strong>Yazma:</strong> CPU, WRITE sinyalini aktif eder → Veri Data Bus'tan belleğe yazılır</p>
+                        <p><strong>IRQ:</strong> Klavye tuşa basıldı → IRQ sinyali gönderir → CPU kesme rutinini çalıştırır</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🔀 3-State Buffer (Tri-State Buffer)</h2>
+                    <div class="definition-box">
+                        <strong>3-State Buffer:</strong> Çıkışı 0, 1 veya High-Z (yüksek empedans) olabilen dijital devre. Bus paylaşımı için kritik.
+                    </div>
+                    
+                    <h3>3-State Buffer Durumları:</h3>
+                    <ul>
+                        <li><strong>0 (Logic Low):</strong> Düşük seviye çıkış</li>
+                        <li><strong>1 (Logic High):</strong> Yüksek seviye çıkış</li>
+                        <li><strong>High-Z (Hi-Impedance):</strong> Yüksek empedans - Çıkış bağlantısız (floating)</li>
+                    </ul>
+                    
+                    <div class="important-box">
+                        <h4>⚠️ Neden 3-State Buffer?</h4>
+                        <p><strong>Problem:</strong> Birden fazla cihaz aynı bus'a bağlı. Hepsi aynı anda veri gönderse çakışma olur!</p>
+                        <p><strong>Çözüm:</strong> 3-State Buffer ile sadece bir cihaz aktif, diğerleri High-Z (pasif) durumda.</p>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h4>3-State Buffer Çalışma Prensibi:</h4>
+                        <table>
+                            <tr>
+                                <th>Enable</th>
+                                <th>Input</th>
+                                <th>Output</th>
+                                <th>Durum</th>
+                            </tr>
+                            <tr>
+                                <td>1 (Aktif)</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>Çıkış aktif - Veri gönder</td>
+                            </tr>
+                            <tr>
+                                <td>1 (Aktif)</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>Çıkış aktif - Veri gönder</td>
+                            </tr>
+                            <tr>
+                                <td>0 (Pasif)</td>
+                                <td>X (herhangi)</td>
+                                <td>High-Z</td>
+                                <td>Çıkış pasif - Bus'a bağlı değil</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Bus Paylaşımı Örneği:</h4>
+                        <p><strong>4 cihaz Data Bus'a bağlı:</strong></p>
+                        <p>Cihaz 1 veri gönderiyor → Enable=1 (Aktif) → Çıkış 0/1</p>
+                        <p>Cihaz 2,3,4 bekliyor → Enable=0 (Pasif) → Çıkış High-Z</p>
+                        <p>Sonuç: Çakışma yok, sadece Cihaz 1 bus'ı kullanıyor</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 Bus Arbitration (Bus Hakemliği)</h2>
+                    <div class="definition-box">
+                        <strong>Bus Arbitration:</strong> Birden fazla cihazın aynı bus'ı kullanmak istediğinde öncelik belirleme mekanizması.
+                    </div>
+                    
+                    <h3>Arbitration Yöntemleri:</h3>
+                    <ul>
+                        <li><strong>Daisy Chain:</strong> Seri bağlı, ilk cihaz öncelikli</li>
+                        <li><strong>Centralized:</strong> Merkezi arbiter karar verir</li>
+                        <li><strong>Distributed:</strong> Dağıtık, cihazlar aralarında anlaşır</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2>🔢 Bus Hesaplamaları</h2>
+                    
+                    <h3>1. Veri Transfer Hızı</h3>
+                    <div class="formula-box">
+                        <p><strong>Transfer Rate = Frekans × (Data Bus Genişliği / 8)</strong></p>
+                        <p><strong>Birim:</strong> Byte/saniye (B/s)</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p>100 MHz frekans, 32-bit data bus</p>
+                        <p>Transfer Rate = 100M × (32/8) = 100M × 4 = <strong>400 MB/s</strong></p>
+                    </div>
+                    
+                    <h3>2. Gerekli Cycle Sayısı</h3>
+                    <div class="formula-box">
+                        <p><strong>Cycle Sayısı = Toplam Veri / (Data Bus Genişliği / 8)</strong></p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnek:</h4>
+                        <p>1 KB veri transferi, 16-bit data bus</p>
+                        <p>1024 byte / (16/8) = 1024 / 2 = <strong>512 cycle</strong></p>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="modul5-hafiza.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul7-hesaplamalar.html" class="btn btn-next">Sonraki →</a>
+                </div>
+            </div>
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 6 Testi - 25 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/25</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 15 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "Bus (Veri Yolu) nedir?", options: ["Bellek türü", "Bileşenler arası iletişim yolu", "İşlemci", "Hard disk"], correct: 1},
+            {q: "Data Bus'ın yönü nasıldır?", options: ["Tek yönlü", "Çift yönlü (bidirectional)", "Yok", "Rastgele"], correct: 1},
+            {q: "Address Bus'ın yönü nasıldır?", options: ["Çift yönlü", "Tek yönlü (unidirectional)", "Yok", "Rastgele"], correct: 1},
+            {q: "Control Bus ne taşır?", options: ["Veri", "Adres", "Kontrol sinyalleri (R/W, IRQ)", "Güç"], correct: 2},
+            {q: "Data Bus ne taşır?", options: ["Sadece adres", "Veri", "Sadece kontrol", "Hiçbiri"], correct: 1},
+            {q: "Address Bus ne taşır?", options: ["Veri", "Bellek adresleri", "Kontrol", "Güç"], correct: 1},
+            {q: "32-bit veri yolu bir seferde kaç byte taşır?", options: ["2 byte", "4 byte", "8 byte", "16 byte"], correct: 1},
+            {q: "16-bit adres yolu kaç byte adresleyebilir?", options: ["64 KB", "1 MB", "4 GB", "16 MB"], correct: 0},
+            {q: "32-bit adres yolu kaç GB adresleyebilir?", options: ["1 GB", "2 GB", "4 GB", "8 GB"], correct: 2},
+            {q: "3-State Buffer kaç duruma sahiptir?", options: ["2", "3 (0, 1, High-Z)", "4", "5"], correct: 1},
+            {q: "High-Z (High Impedance) ne demektir?", options: ["Yüksek akım", "Yüksek empedans - bağlantısız", "Düşük voltaj", "Hatalı"], correct: 1},
+            {q: "3-State Buffer neden kullanılır?", options: ["Hızlandırmak", "Bus paylaşımı - çakışmayı önlemek", "Güç tasarrufu", "Bellek artırmak"], correct: 1},
+            {q: "READ (RD) sinyali ne yapar?", options: ["Belleğe yazar", "Bellekten okur", "Sıfırlar", "Durur"], correct: 1},
+            {q: "WRITE (WR) sinyali ne yapar?", options: ["Okur", "Belleğe veri yazar", "Siler", "Durur"], correct: 1},
+            {q: "IRQ sinyali ne demektir?", options: ["Okuma", "Yazma", "Interrupt Request - Kesme isteği", "Reset"], correct: 2},
+            {q: "100 MHz, 32-bit veri yolu için transfer hızı nedir?", options: ["100 MB/s", "200 MB/s", "400 MB/s", "800 MB/s"], correct: 2},
+            {q: "Data Bus genişliği performansı nasıl etkiler?", options: ["Etkilemez", "Daha geniş = Daha hızlı", "Daha dar = Daha hızlı", "Hiç"], correct: 1},
+            {q: "Address Bus genişliği neyi belirler?", options: ["Hız", "Adreslenebilir bellek miktarı", "Güç", "Renk"], correct: 1},
+            {q: "Paralel veri transferi ne demektir?", options: ["Tüm bitler sırayla", "Tüm bitler aynı anda", "Yavaş", "Seri"], correct: 1},
+            {q: "Bus Arbitration nedir?", options: ["Bus hızlandırma", "Bus paylaşımında öncelik belirleme", "Bus genişletme", "Bus kapatma"], correct: 1},
+            {q: "Daisy Chain arbitration nedir?", options: ["Paralel bağlı", "Seri bağlı, ilk cihaz öncelikli", "Rastgele", "Yok"], correct: 1},
+            {q: "CLOCK sinyali ne için kullanılır?", options: ["Zamanlama ve senkronizasyon", "Veri taşıma", "Adres belirleme", "Güç"], correct: 0},
+            {q: "BUS REQUEST sinyali ne demektir?", options: ["Bus kullanım talebi", "Bus kapatma", "Bus hızlandırma", "Bus silme"], correct: 0},
+            {q: "1 KB veri, 16-bit bus ile kaç cycle'da transfer edilir?", options: ["256", "512", "1024", "2048"], correct: 1},
+            {q: "64-bit veri yolu bir seferde kaç byte taşır?", options: ["4 byte", "8 byte", "16 byte", "32 byte"], correct: 1}
+        ];
+        const flashcards = [
+            {front: "Bus (Veri Yolu)", back: "Bileşenler arası iletişim yolu - Data, Address, Control bus"},
+            {front: "Data Bus", back: "Veri taşır, çift yönlü (bidirectional), 8/16/32/64 bit"},
+            {front: "Address Bus", back: "Adres taşır, tek yönlü (unidirectional), 2^n byte adresler"},
+            {front: "Control Bus", back: "Kontrol sinyalleri - READ, WRITE, IRQ, RESET, CLOCK"},
+            {front: "3-State Buffer", back: "3 durum: 0, 1, High-Z (yüksek empedans) - Bus paylaşımı"},
+            {front: "High-Z", back: "High Impedance - Çıkış bağlantısız (floating), bus'a bağlı değil"},
+            {front: "READ Sinyali", back: "Okuma işlemi - Bellekten veri al"},
+            {front: "WRITE Sinyali", back: "Yazma işlemi - Belleğe veri yaz"},
+            {front: "IRQ", back: "Interrupt Request - Kesme isteği (klavye, mouse vb.)"},
+            {front: "32-bit Data Bus", back: "4 byte/cycle taşır - 100MHz → 400MB/s"},
+            {front: "16-bit Address Bus", back: "2^16 = 64 KB adreslenebilir bellek"},
+            {front: "32-bit Address Bus", back: "2^32 = 4 GB adreslenebilir bellek"},
+            {front: "Bus Arbitration", back: "Bus paylaşımında öncelik belirleme mekanizması"},
+            {front: "Daisy Chain", back: "Seri bağlı arbitration - İlk cihaz öncelikli"},
+            {front: "Paralel Transfer", back: "Tüm bitler aynı anda taşınır - Hızlı"}
+        ];
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul6');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>'''
+
+with open('modul6-veriyolu.html', 'w', encoding='utf-8') as f:
+    f.write(content)
+print("✅ Modül 6 oluşturuldu!")

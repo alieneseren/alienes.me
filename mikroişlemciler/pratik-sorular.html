@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratik Hesaplama Problemleri</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Pratik Problemler</span>
+        </nav>
+        
+        <header class="module-header">
+            <div class="module-icon">🔧</div>
+            <h1>Pratik Hesaplama Problemleri</h1>
+            <p>Sınavda Çıkabilecek Hesaplama Soruları ve Çözümleri</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>📐 Hesaplama Kategorileri</h2>
+                <p>Bu sayfada mikroişlemciler dersinde sıkça karşılaşılan pratik hesaplama problemlerini bulabilirsiniz.</p>
+            </div>
+
+            <div class="section">
+                <h2>💾 1. Bellek Adresleme Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 1: Adreslenebilir Bellek</h3>
+                    <p><strong>Soru:</strong> 24-bit adres yolu olan bir sistemde maksimum kaç MB bellek adreslenebilir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• Formül: Adreslenebilir Bellek = 2<sup>n</sup> byte</p>
+                        <p>• n = 24 bit</p>
+                        <p>• 2<sup>24</sup> = 16,777,216 byte</p>
+                        <p>• 16,777,216 / (1024 × 1024) = <strong>16 MB</strong></p>
+                        <p class="answer">✅ Cevap: 16 MB</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 2: Gerekli Adres Biti</h3>
+                    <p><strong>Soru:</strong> 8 MB belleği adreslemek için kaç bit adres hattı gerekir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 8 MB = 8 × 1024 × 1024 = 8,388,608 byte</p>
+                        <p>• Formül: n = log<sub>2</sub>(byte sayısı)</p>
+                        <p>• n = log<sub>2</sub>(8,388,608)</p>
+                        <p>• 2<sup>23</sup> = 8,388,608</p>
+                        <p class="answer">✅ Cevap: 23 bit adres hattı</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 3: Adres Aralığı</h3>
+                    <p><strong>Soru:</strong> 0x0000 - 0xFFFF adres aralığında kaç KB bellek vardır?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 0xFFFF = 65,535 (decimal)</p>
+                        <p>• Toplam adres = 65,536 (0'dan başladığı için +1)</p>
+                        <p>• 65,536 byte / 1024 = <strong>64 KB</strong></p>
+                        <p class="answer">✅ Cevap: 64 KB</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⚡ 2. Veri Transfer Hızı Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 4: Transfer Hızı Hesaplama</h3>
+                    <p><strong>Soru:</strong> 150 MHz frekansla çalışan, 64-bit veri yolu olan bir sistemin maksimum transfer hızı kaç MB/s'dir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• Formül: Transfer Rate = Frekans × (Veri Yolu / 8)</p>
+                        <p>• = 150 MHz × (64 bit / 8)</p>
+                        <p>• = 150 × 10<sup>6</sup> × 8</p>
+                        <p>• = 1,200,000,000 byte/s</p>
+                        <p>• = 1,200 MB/s = <strong>1.2 GB/s</strong></p>
+                        <p class="answer">✅ Cevap: 1200 MB/s veya 1.2 GB/s</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 5: Gerekli Cycle Sayısı</h3>
+                    <p><strong>Soru:</strong> 8 KB veriyi 32-bit veri yolu ile transfer etmek kaç clock cycle alır?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 8 KB = 8 × 1024 = 8,192 byte</p>
+                        <p>• Formül: Cycle = Toplam Veri / (Veri Yolu / 8)</p>
+                        <p>• = 8,192 / (32/8)</p>
+                        <p>• = 8,192 / 4</p>
+                        <p>• = <strong>2,048 cycle</strong></p>
+                        <p class="answer">✅ Cevap: 2048 cycle</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 6: Transfer Süresi</h3>
+                    <p><strong>Soru:</strong> 1 MB veriyi 100 MHz, 16-bit bus ile transfer etmek kaç milisaniye sürer?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 1 MB = 1,048,576 byte</p>
+                        <p>• Cycle sayısı = 1,048,576 / (16/8) = 524,288 cycle</p>
+                        <p>• Periyot = 1 / 100 MHz = 10 ns</p>
+                        <p>• Süre = 524,288 × 10 ns = 5,242,880 ns</p>
+                        <p>• = 5.24 ms = <strong>5.24 milisaniye</strong></p>
+                        <p class="answer">✅ Cevap: 5.24 ms</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⏱️ 3. Frekans ve Periyot Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 7: Periyot Hesaplama</h3>
+                    <p><strong>Soru:</strong> 250 MHz frekansta clock periyodu kaç nanosaniyedir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• Formül: T = 1 / f</p>
+                        <p>• T = 1 / 250 MHz</p>
+                        <p>• T = 1 / (250 × 10<sup>6</sup>)</p>
+                        <p>• T = 4 × 10<sup>-9</sup> saniye</p>
+                        <p>• = <strong>4 nanosaniye</strong></p>
+                        <p class="answer">✅ Cevap: 4 ns</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 8: Frekans Hesaplama</h3>
+                    <p><strong>Soru:</strong> Clock periyodu 25 ns olan bir işlemcinin frekansı kaç MHz'dir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• Formül: f = 1 / T</p>
+                        <p>• f = 1 / 25 ns</p>
+                        <p>• f = 1 / (25 × 10<sup>-9</sup>)</p>
+                        <p>• f = 40 × 10<sup>6</sup> Hz</p>
+                        <p>• = <strong>40 MHz</strong></p>
+                        <p class="answer">✅ Cevap: 40 MHz</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 4. Birim Dönüşüm Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 9: Bellek Birimi Dönüşümü</h3>
+                    <p><strong>Soru:</strong> 2.5 GB kaç MB'tır?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 1 GB = 1024 MB</p>
+                        <p>• 2.5 GB = 2.5 × 1024</p>
+                        <p>• = <strong>2560 MB</strong></p>
+                        <p class="answer">✅ Cevap: 2560 MB</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 10: Zaman Birimi Dönüşümü</h3>
+                    <p><strong>Soru:</strong> 3.5 milisaniye kaç mikrosaniyedir?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 1 ms = 1000 μs</p>
+                        <p>• 3.5 ms = 3.5 × 1000</p>
+                        <p>• = <strong>3500 μs</strong></p>
+                        <p class="answer">✅ Cevap: 3500 μs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 5. Karışık Problemler</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 11: Kompleks Hesaplama</h3>
+                    <p><strong>Soru:</strong> 28-bit adres yolu ve 32-bit veri yolu olan, 200 MHz frekansla çalışan bir sistemde:</p>
+                    <p>a) Maksimum adreslenebilir bellek kaç MB?</p>
+                    <p>b) Transfer hızı kaç MB/s?</p>
+                    <p>c) Tüm belleği okumak kaç saniye sürer?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>a) Adreslenebilir Bellek:</strong></p>
+                        <p>• 2<sup>28</sup> = 268,435,456 byte</p>
+                        <p>• = 256 MB</p>
+                        
+                        <p><strong>b) Transfer Hızı:</strong></p>
+                        <p>• 200 MHz × (32/8) = 200 × 4 = 800 MB/s</p>
+                        
+                        <p><strong>c) Okuma Süresi:</strong></p>
+                        <p>• Süre = 256 MB / 800 MB/s = 0.32 saniye</p>
+                        
+                        <p class="answer">✅ Cevaplar: a) 256 MB, b) 800 MB/s, c) 0.32 saniye</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 12: Cache Hesaplama</h3>
+                    <p><strong>Soru:</strong> 64 KB L1 cache ve 256 KB L2 cache olan bir sistemde, cache'lerin toplam kapasitesi kaç byte'tır?</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p>• 64 KB = 64 × 1024 = 65,536 byte</p>
+                        <p>• 256 KB = 256 × 1024 = 262,144 byte</p>
+                        <p>• Toplam = 65,536 + 262,144</p>
+                        <p>• = 327,680 byte</p>
+                        <p>• = <strong>320 KB</strong> (yaklaşık)</p>
+                        <p class="answer">✅ Cevap: 327,680 byte veya 320 KB</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Hızlı Formül Referansı</h2>
+                <div class="formula-box">
+                    <h3>Temel Formüller:</h3>
+                    <ul>
+                        <li><strong>Adreslenebilir Bellek:</strong> 2<sup>n</sup> byte (n = adres biti)</li>
+                        <li><strong>Transfer Hızı:</strong> Frekans × (Veri Yolu / 8) byte/s</li>
+                        <li><strong>Cycle Sayısı:</strong> Toplam Veri / (Veri Yolu / 8)</li>
+                        <li><strong>Periyot:</strong> T = 1 / Frekans</li>
+                        <li><strong>Frekans:</strong> f = 1 / Periyot</li>
+                        <li><strong>Süre:</strong> Cycle × Periyot</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <h3>Birim Dönüşümleri:</h3>
+                    <ul>
+                        <li>1 KB = 1024 byte = 2<sup>10</sup></li>
+                        <li>1 MB = 1024 KB = 2<sup>20</sup> byte</li>
+                        <li>1 GB = 1024 MB = 2<sup>30</sup> byte</li>
+                        <li>1 ms = 1000 μs = 1,000,000 ns</li>
+                        <li>1 μs = 1000 ns</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💡 İpuçları</h2>
+                <div class="important-box">
+                    <ul>
+                        <li>✅ Birimlere dikkat edin (KB vs MB, ms vs μs)</li>
+                        <li>✅ 2'nin kuvvetlerini ezberleyin (2<sup>10</sup>=1024, 2<sup>16</sup>=64K, 2<sup>20</sup>=1M)</li>
+                        <li>✅ Veri yolunu byte'a çevirmek için 8'e bölün</li>
+                        <li>✅ Transfer hızı hesaplarken frekansı Hz cinsinden kullanın</li>
+                        <li>✅ Adres biti ile veri yolu biti farklıdır!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                <a href="formul-ozet.html" class="btn">📐 Formül Özeti</a>
+                <a href="modul7-hesaplamalar.html" class="btn btn-next">Modül 7: Hesaplamalar →</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .solution {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .solution h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .solution p {
+            margin: 5px 0;
+            line-height: 1.8;
+        }
+        .answer {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>
