@@ -25,34 +25,18 @@ use Illuminate\Support\Facades\File;
 |--------------------------------------------------------------------------
 */
 
-// Bacanaks Subdomain Routes (bacanaks.alienes.me)
+// Bacanaks Subdomain Routes (bacanaks.alienes.me) - DISABLED
 Route::domain('bacanaks.alienes.me')->group(function () {
+    Route::any('/{any?}', function () {
+        abort(403, 'Bu site geçici olarak kapatılmıştır.');
+    })->where('any', '.*');
+});
+
+// Balina Subdomain Routes (balina.alienes.me) - Optimization Dashboard
+Route::domain('balina.alienes.me')->group(function () {
     Route::get('/', function () {
-        return response()->file(public_path('bacanaks/index.html'));
-    })->name('bacanaks.subdomain.index');
-    
-    Route::get('/{file}', function ($file) {
-        $filePath = public_path("bacanaks/{$file}");
-        
-        // Eğer dosya yoksa ve uzantısı yoksa .html ekleyip dene
-        if (!file_exists($filePath) && !pathinfo($filePath, PATHINFO_EXTENSION)) {
-            $filePath .= '.html';
-        }
-        
-        if (file_exists($filePath)) {
-            $mimeType = File::mimeType($filePath);
-            // JS dosyaları için doğru mime type
-            if (str_ends_with($filePath, '.js')) {
-                $mimeType = 'text/javascript';
-            } else if (str_ends_with($filePath, '.css')) {
-                $mimeType = 'text/css';
-            }
-            
-            return response()->file($filePath, ['Content-Type' => $mimeType]);
-        }
-        
-        abort(404);
-    })->where('file', '.*')->name('bacanaks.subdomain.show');
+        return view('optimization.dashboard');
+    })->name('balina.dashboard');
 });
 
 // Games Subdomain Routes (games.alienes.me)
@@ -64,6 +48,15 @@ Route::domain('games.alienes.me')->group(function () {
         Route::get('/leaderboards', [GameController::class, 'getAllLeaderboards'])->name('leaderboards.index');
         Route::get('/score/{game}/{username}', [GameController::class, 'getUserScore'])->name('score.user');
     });
+
+    // ZIP'ten çıkarılan oyunlar için player sayfası
+    Route::get('/play/{slug}', function ($slug) {
+        $game = \App\Models\Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->whereNotNull('extracted_path')
+            ->firstOrFail();
+        return view('games.player', compact('game'));
+    })->name('games.subdomain.play');
 
     Route::get('/', function () {
         return response()->file(public_path('games/index.html'));
@@ -94,6 +87,8 @@ Route::domain('games.alienes.me')->group(function () {
 });
 
 // Frontend Routes
+// Sitemap
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/projects', [HomeController::class, 'projects'])->name('projects');
 Route::get('/games', function () {
@@ -144,10 +139,10 @@ Route::get('/api/github/user', [PublicProfileController::class, 'getGithubUser']
 Route::get('/github/avatar', [PublicProfileController::class, 'getGithubAvatar'])->name('github.avatar');
 
 // Admin Authentication Routes
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::prefix(env('ADMIN_BASE', 'admin'))->name('admin.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->middleware('admin_protect')->name('login');
     Route::post('/login', [AuthController::class, 'login'])
-        ->middleware('throttle:5,1')
+        ->middleware(['throttle:5,1','admin_protect'])
         ->name('login.post');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
@@ -159,7 +154,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // Admin Panel Routes (Protected)
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix(env('ADMIN_BASE', 'admin'))->name('admin.')->middleware(['auth', 'admin_protect', 'throttle:30,1'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     
     // Profile Management

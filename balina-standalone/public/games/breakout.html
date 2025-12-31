@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakout - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        canvas {
+            cursor: none;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-4xl">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+            <div>
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Breakout</h1>
+                <p class="text-gray-400 text-sm">Tuğlaları kırın!</p>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[80px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SKOR</div>
+                    <div class="text-xl font-bold text-white" id="score">0</div>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[80px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">SEVIYE</div>
+                    <div class="text-xl font-bold text-white" id="level">1</div>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[80px]">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">CAN</div>
+                    <div class="text-xl font-bold text-white" id="lives">3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel p-1 rounded-2xl mb-6 overflow-hidden shadow-2xl">
+            <canvas id="gameCanvas" width="800" height="500" class="w-full h-auto bg-gray-900 rounded-xl block"></canvas>
+        </div>
+
+        <div class="flex flex-wrap gap-3 mb-6">
+            <button id="pauseBtn" onclick="togglePause()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-pause"></i> Duraklat
+            </button>
+            <button onclick="resetGame()" class="flex-1 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-redo-alt"></i> Yeni Oyun
+            </button>
+            <a href="https://games.alienes.me" class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+
+        <div class="glass-panel p-4 rounded-xl text-sm text-gray-400 text-center">
+            <strong class="text-white block mb-1"><i class="fas fa-info-circle mr-1"></i> Nasıl Oynanır?</strong>
+            Mouse veya parmağınızla raketi hareket ettirin. Tüm tuğlaları kırın ve topu düşürmemeye çalışın!
+        </div>
+    </div>
+
+    <!-- Game Message Modal -->
+    <div id="gameMessage" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-8 rounded-2xl text-center max-w-sm w-full mx-4 transform scale-100 transition-all">
+            <div class="text-6xl mb-4">🎮</div>
+            <h2 id="messageTitle" class="text-3xl font-bold text-white mb-2"></h2>
+            <p id="messageText" class="text-gray-300 mb-6 text-lg"></p>
+            <div class="flex flex-col gap-3">
+                <button id="modalActionBtn" onclick="resetGame()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-redo-alt mr-2"></i> Tekrar Oyna
+                </button>
+                <a href="https://games.alienes.me" class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-home mr-2"></i> Ana Menü
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Responsive canvas
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const aspectRatio = 800 / 500;
+            const width = container.clientWidth;
+            // canvas.style.width = width + 'px';
+            // canvas.style.height = (width / aspectRatio) + 'px';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let ball = {
+            x: canvas.width / 2,
+            y: canvas.height - 60,
+            dx: 4,
+            dy: -4,
+            radius: 8,
+            speed: 4
+        };
+
+        let paddle = {
+            width: 120,
+            height: 15,
+            x: (canvas.width - 120) / 2,
+            y: canvas.height - 30
+        };
+
+        let bricks = [];
+        const BRICK_ROWS = 5;
+        const BRICK_COLS = 10;
+        const BRICK_PADDING = 8;
+        const BRICK_OFFSET_TOP = 60;
+        const BRICK_OFFSET_LEFT = 35;
+        const BRICK_WIDTH = (canvas.width - (BRICK_OFFSET_LEFT * 2) - (BRICK_PADDING * (BRICK_COLS - 1))) / BRICK_COLS;
+        const BRICK_HEIGHT = 25;
+
+        let score = 0;
+        let level = 1;
+        let lives = 3;
+        let gameLoop;
+        let gameActive = true;
+        let isPaused = false;
+
+        const colors = ['#ef4444', '#f97316', '#f59e0b', '#10b981', '#3b82f6', '#6366f1', '#8b5cf6'];
+
+        function initBricks() {
+            bricks = [];
+            for (let row = 0; row < BRICK_ROWS; row++) {
+                bricks[row] = [];
+                for (let col = 0; col < BRICK_COLS; col++) {
+                    bricks[row][col] = {
+                        x: col * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_LEFT,
+                        y: row * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_TOP,
+                        status: 1,
+                        color: colors[row % colors.length]
+                    };
+                }
+            }
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#facc15';
+            ctx.fill();
+            ctx.shadowColor = '#facc15';
+            ctx.shadowBlur = 10;
+            ctx.closePath();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawPaddle() {
+            const gradient = ctx.createLinearGradient(paddle.x, 0, paddle.x + paddle.width, 0);
+            gradient.addColorStop(0, '#6366f1');
+            gradient.addColorStop(1, '#a855f7');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 8);
+            ctx.fill();
+            
+            ctx.shadowColor = '#8b5cf6';
+            ctx.shadowBlur = 10;
+        }
+
+        function drawBricks() {
+            for (let row = 0; row < BRICK_ROWS; row++) {
+                for (let col = 0; col < BRICK_COLS; col++) {
+                    const brick = bricks[row][col];
+                    if (brick.status === 1) {
+                        ctx.fillStyle = brick.color;
+                        ctx.beginPath();
+                        ctx.roundRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT, 4);
+                        ctx.fill();
+                        
+                        // Shine effect
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                        ctx.beginPath();
+                        ctx.roundRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT / 2, 4);
+                        ctx.fill();
+                    }
+                }
+            }
+        }
+
+        function drawBackground() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Grid pattern
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+        }
+
+        function collisionDetection() {
+            for (let row = 0; row < BRICK_ROWS; row++) {
+                for (let col = 0; col < BRICK_COLS; col++) {
+                    const brick = bricks[row][col];
+                    if (brick.status === 1) {
+                        if (
+                            ball.x + ball.radius > brick.x &&
+                            ball.x - ball.radius < brick.x + BRICK_WIDTH &&
+                            ball.y + ball.radius > brick.y &&
+                            ball.y - ball.radius < brick.y + BRICK_HEIGHT
+                        ) {
+                            ball.dy = -ball.dy;
+                            brick.status = 0;
+                            score += 10;
+                            updateStats();
+                            
+                            // Check if all bricks are destroyed
+                            if (bricks.every(row => row.every(brick => brick.status === 0))) {
+                                nextLevel();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function moveBall() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Wall collision
+            if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+                ball.dx = -ball.dx;
+            }
+
+            if (ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+            }
+
+            // Paddle collision
+            if (
+                ball.y + ball.radius > paddle.y &&
+                ball.x > paddle.x &&
+                ball.x < paddle.x + paddle.width
+            ) {
+                // Calculate hit position on paddle
+                const hitPos = (ball.x - paddle.x) / paddle.width;
+                const angle = (hitPos - 0.5) * Math.PI / 2.5; // Angle variation
+                
+                const speed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
+                ball.dx = speed * Math.sin(angle);
+                ball.dy = -speed * Math.cos(angle);
+            }
+
+            // Ball out of bounds
+            if (ball.y + ball.radius > canvas.height) {
+                lives--;
+                updateStats();
+                
+                if (lives === 0) {
+                    gameOver();
+                } else {
+                    resetBall();
+                }
+            }
+        }
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height - 60;
+            ball.dx = ball.speed * (Math.random() > 0.5 ? 1 : -1);
+            ball.dy = -ball.speed;
+        }
+
+        function draw() {
+            if (!gameActive || isPaused) return;
+
+            drawBackground();
+            drawBricks();
+            drawBall();
+            drawPaddle();
+            
+            collisionDetection();
+            moveBall();
+
+            gameLoop = requestAnimationFrame(draw);
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('level').textContent = level;
+            document.getElementById('lives').textContent = lives;
+        }
+
+        function nextLevel() {
+            level++;
+            ball.speed += 0.5;
+            initBricks();
+            resetBall();
+            updateStats();
+            
+            showMessage('🎉 Seviye Tamamlandı!', `Seviye ${level}'e geçtiniz!`, false);
+            setTimeout(() => {
+                document.getElementById('gameMessage').classList.add('hidden');
+                draw();
+            }, 2000);
+        }
+
+        function gameOver() {
+            gameActive = false;
+            cancelAnimationFrame(gameLoop);
+            showMessage('😢 Oyun Bitti!', `Skorunuz: ${score}`, true);
+        }
+
+        function showMessage(title, text, showButton) {
+            document.getElementById('messageTitle').textContent = title;
+            document.getElementById('messageText').textContent = text;
+            document.getElementById('gameMessage').classList.remove('hidden');
+            
+            const btn = document.getElementById('modalActionBtn');
+            if (!showButton) {
+                btn.style.display = 'none';
+            } else {
+                btn.style.display = 'block';
+            }
+        }
+
+        function resetGame() {
+            cancelAnimationFrame(gameLoop);
+            ball.speed = 4;
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height - 60;
+            ball.dx = 4;
+            ball.dy = -4;
+            score = 0;
+            level = 1;
+            lives = 3;
+            gameActive = true;
+            isPaused = false;
+            document.getElementById('pauseBtn').innerHTML = '<i class="fas fa-pause"></i> Duraklat';
+            document.getElementById('gameMessage').classList.add('hidden');
+            initBricks();
+            updateStats();
+            draw();
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pauseBtn');
+            if (isPaused) {
+                btn.innerHTML = '<i class="fas fa-play"></i> Devam';
+            } else {
+                btn.innerHTML = '<i class="fas fa-pause"></i> Duraklat';
+                if (gameActive) draw();
+            }
+        }
+
+        // Mouse control
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            
+            paddle.x = mouseX - paddle.width / 2;
+            
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) {
+                paddle.x = canvas.width - paddle.width;
+            }
+        });
+
+        // Touch control
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const touchX = (e.touches[0].clientX - rect.left) * scaleX;
+            
+            paddle.x = touchX - paddle.width / 2;
+            
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) {
+                paddle.x = canvas.width - paddle.width;
+            }
+        });
+
+        // Initialize
+        initBricks();
+        updateStats();
+        draw();
+    </script>
+</body>
+</html>

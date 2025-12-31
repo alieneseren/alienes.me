@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3: Sayı Sistemleri</title>
+    <link rel="stylesheet" href="style.css?v=1762791407">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 3</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">🔢</div>
+            <h1>Modül 3: Sayı Sistemleri</h1>
+            <p>Binary, Decimal, Hexadecimal ve Dönüşümler</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (30 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🔢 Sayı Sistemlerine Giriş</h2>
+                    <div class="definition-box">
+                        <strong>Sayı Sistemi:</strong> Sayıları temsil etmek için kullanılan semboller ve kurallar bütünüdür. Her sistem bir tabana (base/radix) sahiptir.
+                    </div>
+                    <h3>Temel Sayı Sistemleri:</h3>
+                    <table>
+                        <tr><th>Sistem</th><th>Taban</th><th>Kullanılan Rakamlar</th><th>Kullanım Alanı</th></tr>
+                        <tr><td>Binary (İkilik)</td><td>2</td><td>0, 1</td><td>Bilgisayarlar, dijital elektronik</td></tr>
+                        <tr><td>Octal (Sekizlik)</td><td>8</td><td>0-7</td><td>Unix dosya izinleri</td></tr>
+                        <tr><td>Decimal (Onluk)</td><td>10</td><td>0-9</td><td>Günlük hayat, matematik</td></tr>
+                        <tr><td>Hexadecimal (Onaltılık)</td><td>16</td><td>0-9, A-F</td><td>Bellek adresleri, renkler</td></tr>
+                    </table>
+                </div>
+                <div class="section">
+                    <h2>💻 Binary (İkilik) Sistem</h2>
+                    <div class="definition-box">
+                        <strong>Binary Sistem:</strong> Taban 2 sayı sistemi. Sadece 0 ve 1 rakamlarını kullanır. Bilgisayarların temel dilidir.
+                    </div>
+                    <h3>Binary'nin Önemi:</h3>
+                    <ul>
+                        <li>Elektronik devrelerde kolay temsil (açık/kapalı, yüksek/alçak voltaj)</li>
+                        <li>Hatasız veri iletimi</li>
+                        <li>Basit mantık devreleri</li>
+                        <li>Güvenilir hesaplama</li>
+                    </ul>
+                    <div class="formula-box">
+                        <h4>Binary → Decimal Dönüşüm:</h4>
+                        <p>1011₂ = (1×2³) + (0×2²) + (1×2¹) + (1×2⁰)</p>
+                        <p>= 8 + 0 + 2 + 1 = 11₁₀</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Binary Örnekler:</h4>
+                        <p>0000₂ = 0₁₀ | 0001₂ = 1₁₀ | 0010₂ = 2₁₀ | 0011₂ = 3₁₀</p>
+                        <p>0100₂ = 4₁₀ | 0101₂ = 5₁₀ | 0110₂ = 6₁₀ | 0111₂ = 7₁₀</p>
+                        <p>1000₂ = 8₁₀ | 1111₂ = 15₁₀ | 11111111₂ = 255₁₀</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2>🔟 Decimal (Onluk) Sistem</h2>
+                    <div class="definition-box">
+                        <strong>Decimal Sistem:</strong> Taban 10 sayı sistemi. 0-9 arası 10 rakam kullanır. İnsanların günlük hayatta kullandığı sistemdir.
+                    </div>
+                    <div class="formula-box">
+                        <h4>Decimal → Binary Dönüşüm:</h4>
+                        <p>13₁₀ → 2'ye sürekli böl, kalanları ters sırada yaz</p>
+                        <p>13 ÷ 2 = 6 kalan 1</p>
+                        <p>6 ÷ 2 = 3 kalan 0</p>
+                        <p>3 ÷ 2 = 1 kalan 1</p>
+                        <p>1 ÷ 2 = 0 kalan 1</p>
+                        <p>Sonuç: 1101₂</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2>🎨 Hexadecimal (Onaltılık) Sistem</h2>
+                    <div class="definition-box">
+                        <strong>Hexadecimal Sistem:</strong> Taban 16 sayı sistemi. 0-9 ve A-F karakterlerini kullanır. Binary'yi daha kısa göstermek için kullanılır.
+                    </div>
+                    <table>
+                        <tr><th>Decimal</th><th>Binary</th><th>Hex</th></tr>
+                        <tr><td>10</td><td>1010</td><td>A</td></tr>
+                        <tr><td>11</td><td>1011</td><td>B</td></tr>
+                        <tr><td>12</td><td>1100</td><td>C</td></tr>
+                        <tr><td>13</td><td>1101</td><td>D</td></tr>
+                        <tr><td>14</td><td>1110</td><td>E</td></tr>
+                        <tr><td>15</td><td>1111</td><td>F</td></tr>
+                        <tr><td>255</td><td>11111111</td><td>FF</td></tr>
+                    </table>
+                    <div class="example-box">
+                        <h4>Hex Kullanım Alanları:</h4>
+                        <ul>
+                            <li><strong>Bellek Adresleri:</strong> 0x7FFF</li>
+                            <li><strong>Renkler (Web):</strong> #FF5733</li>
+                            <li><strong>MAC Adresleri:</strong> A8:5E:45:B2:C3:01</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="section">
+                    <h2>➕ İşaretli ve İşaretsiz Sayılar</h2>
+                    <h3>İşaretsiz (Unsigned):</h3>
+                    <ul>
+                        <li>Sadece pozitif sayılar</li>
+                        <li>8 bit: 0 - 255</li>
+                        <li>16 bit: 0 - 65,535</li>
+                    </ul>
+                    <h3>İşaretli (Signed) - Two's Complement:</h3>
+                    <ul>
+                        <li>Pozitif ve negatif sayılar</li>
+                        <li>8 bit: -128 ile +127</li>
+                        <li>16 bit: -32,768 ile +32,767</li>
+                        <li>En soldaki bit işaret biti (0=pozitif, 1=negatif)</li>
+                    </ul>
+                </div>
+                <div class="nav-buttons">
+                    <a href="modul2-yariletken.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul4-mimariler.html" class="btn btn-next">Sonraki →</a>
+                </div>
+            </div>
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 3 Testi - 30 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/30</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 20 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "Binary sistem hangi tabandadır?", options: ["2", "8", "10", "16"], correct: 0},
+            {q: "Hexadecimal sistemde A harfi hangi sayıyı temsil eder?", options: ["9", "10", "11", "12"], correct: 1},
+            {q: "1010₂ decimal karşılığı nedir?", options: ["8", "10", "12", "14"], correct: 1},
+            {q: "FF₁₆ decimal karşılığı nedir?", options: ["255", "256", "127", "128"], correct: 0},
+            {q: "15₁₀ binary karşılığı nedir?", options: ["1110", "1111", "10000", "11111"], correct: 1},
+            {q: "Binary sistemde kaç farklı rakam vardır?", options: ["1", "2", "8", "10"], correct: 1},
+            {q: "1 Byte kaç bit'tir?", options: ["4", "8", "16", "32"], correct: 1},
+            {q: "8 bit ile maksimum kaç farklı değer gösterilebilir?", options: ["128", "255", "256", "512"], correct: 2},
+            {q: "0101₂ + 0011₂ işleminin sonucu nedir?", options: ["1000", "1001", "1010", "1100"], correct: 0},
+            {q: "Bilgisayarlar neden binary sistem kullanır?", options: ["Daha hızlı", "Elektronik devrelerde kolay temsil", "Daha küçük", "Daha ucuz"], correct: 1},
+            {q: "Decimal sistemde kaç farklı rakam vardır?", options: ["8", "9", "10", "16"], correct: 2},
+            {q: "Hex sistemde F harfi hangi sayıyı temsil eder?", options: ["14", "15", "16", "17"], correct: 1},
+            {q: "1111₂ decimal karşılığı nedir?", options: ["7", "15", "31", "255"], correct: 1},
+            {q: "16₁₀ binary karşılığı nedir?", options: ["1111", "10000", "10001", "11111"], correct: 1},
+            {q: "4 bit ile maksimum hangi decimal sayı gösterilebilir?", options: ["8", "15", "16", "32"], correct: 1},
+            {q: "10₁₀ hexadecimal karşılığı nedir?", options: ["9", "A", "B", "10"], correct: 1},
+            {q: "Octal sistem hangi tabandadır?", options: ["2", "8", "10", "16"], correct: 1},
+            {q: "11111111₂ decimal karşılığı nedir?", options: ["127", "128", "255", "256"], correct: 2},
+            {q: "İşaretli 8 bit sayının negatif değer aralığı nedir?", options: ["-127 ile 0", "-128 ile -1", "-255 ile 0", "-256 ile -1"], correct: 1},
+            {q: "0x prefix'i hangi sistemi gösterir?", options: ["Binary", "Octal", "Decimal", "Hexadecimal"], correct: 3},
+            {q: "1 KB kaç byte'tır?", options: ["1000", "1024", "1048", "2048"], correct: 1},
+            {q: "MAC adresleri hangi sistemde yazılır?", options: ["Binary", "Decimal", "Hexadecimal", "Octal"], correct: 2},
+            {q: "100₂ decimal karşılığı nedir?", options: ["2", "4", "8", "16"], correct: 1},
+            {q: "20₁₀ binary karşılığı nedir?", options: ["10100", "11000", "10010", "10110"], correct: 0},
+            {q: "Hex renkler kaç haneli yazılır?", options: ["2", "4", "6", "8"], correct: 2},
+            {q: "Two's complement ne için kullanılır?", options: ["Toplama", "İşaretli sayılar", "Çarpma", "Bölme"], correct: 1},
+            {q: "1 nibble kaç bit'tir?", options: ["2", "4", "8", "16"], correct: 1},
+            {q: "Binary'de her basamak 2'nin hangi kuvvetini temsil eder?", options: ["Sabit", "Konumuna bağlı", "Rastgele", "Hep 2"], correct: 1},
+            {q: "255₁₀ hexadecimal karşılığı nedir?", options: ["EE", "FF", "100", "FFF"], correct: 1},
+            {q: "İşaretsiz 16 bit ile maksimum hangi sayı gösterilebilir?", options: ["32767", "65535", "65536", "131072"], correct: 1}
+        ];
+        const flashcards = [
+            {front: "Binary Sistem", back: "Taban 2, sadece 0 ve 1 kullanır, bilgisayarların temel dili"},
+            {front: "Decimal Sistem", back: "Taban 10, 0-9 rakamları, günlük hayatta kullanılan sistem"},
+            {front: "Hexadecimal Sistem", back: "Taban 16, 0-9 ve A-F kullanır, binary'yi kısa gösterir"},
+            {front: "1 Byte", back: "8 bit = 256 farklı değer (0-255)"},
+            {front: "1 KB", back: "1024 Byte (2¹⁰)"},
+            {front: "Binary → Decimal", back: "Her bit 2'nin kuvveti ile çarp, topla: 1011₂ = 8+0+2+1 = 11₁₀"},
+            {front: "Decimal → Binary", back: "2'ye böl, kalanları ters sırada yaz"},
+            {front: "Hex A-F", back: "A=10, B=11, C=12, D=13, E=14, F=15"},
+            {front: "FF₁₆", back: "255₁₀ = 11111111₂ = 1 byte'ın maksimum değeri"},
+            {front: "İşaretli 8 bit", back: "-128 ile +127 arası, en sol bit işaret biti"},
+            {front: "İşaretsiz 8 bit", back: "0 ile 255 arası, tüm bitler değer için"},
+            {front: "0x Prefix", back: "Hexadecimal sayı gösterimi (0xFF = 255)"},
+            {front: "Nibble", back: "4 bit = 1 hex digit"},
+            {front: "Two's Complement", back: "Negatif sayıları binary'de gösterme yöntemi"},
+            {front: "1111₂", back: "15₁₀ = F₁₆ (4 bit maksimum)"},
+            {front: "Octal Sistem", back: "Taban 8, 0-7 rakamları, Unix dosya izinlerinde"},
+            {front: "4 bit", back: "0-15 arası 16 farklı değer"},
+            {front: "16 bit", back: "0-65535 arası (işaretsiz) veya -32768 ile +32767 (işaretli)"},
+            {front: "Binary Toplama", back: "0+0=0, 0+1=1, 1+0=1, 1+1=10 (elde var)"},
+            {front: "Bit", back: "Binary digit - en küçük bilgi birimi (0 veya 1)"}
+        ];
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul3');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

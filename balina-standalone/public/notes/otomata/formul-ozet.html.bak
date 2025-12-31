@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formül ve Özet Sayfası - Otomata Teorisi</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .formula-card {
+            background: white;
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .formula-title {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .formula-content {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        
+        .formula-example {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-ref-table {
+            width: 100%;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quick-ref-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .quick-ref-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quick-ref-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .notation-symbol {
+            font-family: 'Courier New', monospace;
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .definition-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .definition-box h3 {
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Formül & Özet</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">📐</div>
+            <h1>Formül ve Özet Sayfası</h1>
+            <p>Otomata Teorisi - Hızlı Referans ve Notasyonlar</p>
+        </header>
+
+        <div class="content">
+            <!-- TEMEL TANIMLAR -->
+            <div class="section">
+                <h2>📚 Temel Tanımlar ve Notasyonlar</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-title">1. Alfabe (Σ)</div>
+                    <div class="formula-content">
+                        Σ = Sonlu ve boş olmayan sembol kümesi
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnekler:</strong><br>
+                        Σ = {0, 1} → İkili alfabe<br>
+                        Σ = {a, b, c} → Üç harfli alfabe<br>
+                        Σ = {0, 1, 2, ..., 9} → Onlu alfabe
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">2. Kelime (String/Word)</div>
+                    <div class="formula-content">
+                        w = Alfabe sembollerinin sonlu dizisi<br>
+                        |w| = Kelimenin uzunluğu<br>
+                        ε = Boş kelime (uzunluğu 0)
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnekler:</strong><br>
+                        w = "010" → |w| = 3<br>
+                        w = "abc" → |w| = 3<br>
+                        w = ε → |w| = 0
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">3. Dil (Language)</div>
+                    <div class="formula-content">
+                        L ⊆ Σ* (Σ üzerindeki kelimelerin bir alt kümesi)<br>
+                        Σ* = Σ alfabesi üzerinden oluşturulabilecek tüm kelimeler
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnekler:</strong><br>
+                        Σ = {0, 1} için Σ* = {ε, 0, 1, 00, 01, 10, 11, 000, ...}<br>
+                        L = {w | w, 0 ile başlar} = {0, 00, 01, 000, 001, ...}<br>
+                        L = {0ⁿ1ⁿ | n ≥ 0} = {ε, 01, 0011, 000111, ...}
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÜZENLI İFADE OPERATÖRLERİ -->
+            <div class="section">
+                <h2>🔄 Düzenli İfade Operatörleri</h2>
+                
+                <table class="quick-ref-table">
+                    <thead>
+                        <tr>
+                            <th>Operatör</th>
+                            <th>Notasyon</th>
+                            <th>Açıklama</th>
+                            <th>Örnek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Birleşim</strong></td>
+                            <td><span class="notation-symbol">r + s</span> veya <span class="notation-symbol">r | s</span></td>
+                            <td>r veya s dillerinden biri</td>
+                            <td>a+b = {a, b}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Birleştirme</strong></td>
+                            <td><span class="notation-symbol">rs</span> veya <span class="notation-symbol">r·s</span></td>
+                            <td>r ardından s</td>
+                            <td>ab = {ab}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kleene Yıldızı</strong></td>
+                            <td><span class="notation-symbol">r*</span></td>
+                            <td>r'nin 0 veya daha fazla tekrarı</td>
+                            <td>a* = {ε, a, aa, aaa, ...}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pozitif Kapama</strong></td>
+                            <td><span class="notation-symbol">r+</span></td>
+                            <td>r'nin 1 veya daha fazla tekrarı</td>
+                            <td>a+ = {a, aa, aaa, ...}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>İsteğe Bağlı</strong></td>
+                            <td><span class="notation-symbol">r?</span></td>
+                            <td>r veya ε</td>
+                            <td>a? = {ε, a}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parantez</strong></td>
+                            <td><span class="notation-symbol">(r)</span></td>
+                            <td>Öncelik belirleme</td>
+                            <td>(a+b)* ≠ a+b*</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="formula-card">
+                    <div class="formula-title">Operatör Önceliği (Yüksekten Düşüğe)</div>
+                    <div class="formula-content">
+                        1. Parantez: ( )<br>
+                        2. Kleene Yıldızı: *<br>
+                        3. Birleştirme: ·<br>
+                        4. Birleşim: +
+                    </div>
+                    <div class="formula-example">
+                        <strong>Örnek:</strong><br>
+                        ab* = a(b*) ≠ (ab)*<br>
+                        a+bc = a+(bc) = (a)+(bc)<br>
+                        (a+b)* = Hem a hem b içeren tüm kelimeler
+                    </div>
+                </div>
+            </div>
+
+            <!-- DFA TANIMI -->
+            <div class="section">
+                <h2>🤖 DFA (Deterministik Sonlu Otomat)</h2>
+                
+                <div class="definition-box">
+                    <h3>DFA Tanımı: M = (Q, Σ, δ, q₀, F)</h3>
+                    <p><strong>Q:</strong> Sonlu durum kümesi</p>
+                    <p><strong>Σ:</strong> Giriş alfabesi</p>
+                    <p><strong>δ:</strong> Geçiş fonksiyonu (Q × Σ → Q)</p>
+                    <p><strong>q₀:</strong> Başlangıç durumu (q₀ ∈ Q)</p>
+                    <p><strong>F:</strong> Kabul durumları kümesi (F ⊆ Q)</p>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">DFA Özellikleri</div>
+                    <div class="formula-content">
+                        ✓ Her durum ve sembol çifti için TAM BİR geçiş vardır<br>
+                        ✓ Herbir durum ve sembol için sadece BİR geçiş vardır<br>
+                        ✓ ε-geçişi yoktur<br>
+                        ✓ Deterministik: Aynı giriş için her zaman aynı yolu izler
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">DFA Örnek</div>
+                    <div class="formula-example">
+                        <strong>Σ = {0, 1} üzerinde çift sayıda 1 içeren kelimeler:</strong><br><br>
+                        Q = {q₀, q₁}<br>
+                        Σ = {0, 1}<br>
+                        q₀ = başlangıç (çift durum)<br>
+                        F = {q₀}<br>
+                        δ:<br>
+                        &nbsp;&nbsp;δ(q₀, 0) = q₀<br>
+                        &nbsp;&nbsp;δ(q₀, 1) = q₁<br>
+                        &nbsp;&nbsp;δ(q₁, 0) = q₁<br>
+                        &nbsp;&nbsp;δ(q₁, 1) = q₀
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFA TANIMI -->
+            <div class="section">
+                <h2>🔀 NFA (Nondeterministik Sonlu Otomat)</h2>
+                
+                <div class="definition-box">
+                    <h3>NFA Tanımı: M = (Q, Σ, δ, q₀, F)</h3>
+                    <p><strong>Q:</strong> Sonlu durum kümesi</p>
+                    <p><strong>Σ:</strong> Giriş alfabesi</p>
+                    <p><strong>δ:</strong> Geçiş fonksiyonu (Q × (Σ ∪ {ε}) → 2^Q)</p>
+                    <p><strong>q₀:</strong> Başlangıç durumu</p>
+                    <p><strong>F:</strong> Kabul durumları kümesi</p>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">NFA Özellikleri</div>
+                    <div class="formula-content">
+                        ✓ Bir durum ve sembol için 0, 1 veya daha fazla geçiş olabilir<br>
+                        ✓ ε-geçişi olabilir (giriş okumadan durum değişimi)<br>
+                        ✓ Nondeterministik: Birden fazla yol seçeneği olabilir<br>
+                        ✓ Kelime kabul edilir ⟺ En az bir yol kabul durumunda biter
+                    </div>
+                </div>
+
+                <table class="quick-ref-table">
+                    <thead>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>DFA</th>
+                            <th>NFA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Geçiş Sayısı</strong></td>
+                            <td>Her (q, a) için tam 1 tane</td>
+                            <td>Her (q, a) için 0+ tane</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ε-geçiş</strong></td>
+                            <td>Yok</td>
+                            <td>Olabilir</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Güç</strong></td>
+                            <td>Düzenli dilleri tanır</td>
+                            <td>Düzenli dilleri tanır</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tasarım</strong></td>
+                            <td>Daha karmaşık</td>
+                            <td>Daha kolay</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Durum Sayısı</strong></td>
+                            <td>Daha fazla gerekebilir</td>
+                            <td>Daha az olabilir</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- KAPAMA ÖZELLİKLERİ -->
+            <div class="section">
+                <h2>🔒 Düzenli Dillerin Kapama Özellikleri</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-title">Düzenli Diller Kapalıdır:</div>
+                    <div class="formula-content">
+                        ✅ Birleşim: L₁ ∪ L₂<br>
+                        ✅ Kesişim: L₁ ∩ L₂<br>
+                        ✅ Tümleyen: L̄ (Σ* - L)<br>
+                        ✅ Birleştirme: L₁L₂<br>
+                        ✅ Kleene Yıldızı: L*<br>
+                        ✅ Ters: L^R (kelimelerin tersi)<br>
+                        ✅ Fark: L₁ - L₂
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">İspat Teknikleri</div>
+                    <div class="formula-example">
+                        <strong>Bir dilin düzenli olduğunu göstermek için:</strong><br>
+                        1. DFA/NFA tasarlayın<br>
+                        2. Düzenli ifade yazın<br>
+                        3. Kapama özelliklerini kullanın<br><br>
+                        
+                        <strong>Bir dilin düzenli olmadığını göstermek için:</strong><br>
+                        1. Pompalama lemması kullanın<br>
+                        2. Kapalı olmadığı işlemi gösterin
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÖNÜŞÜMLER -->
+            <div class="section">
+                <h2>🔄 Dönüşüm İşlemleri</h2>
+                
+                <div class="formula-card">
+                    <div class="formula-title">1. NFA → DFA (Alt Küme İnşası)</div>
+                    <div class="formula-content">
+                        1. NFA'nın durumlarının tüm alt kümelerini oluştur (2^n durum)<br>
+                        2. Başlangıç: {q₀} ve ε-kapaması<br>
+                        3. Her alt küme için geçişleri hesapla<br>
+                        4. Kabul durumları: F'den en az bir durum içerenler
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">2. Düzenli İfade → NFA (Thompson İnşası)</div>
+                    <div class="formula-content">
+                        • Temel: Tek sembol için 2 durumlu NFA<br>
+                        • Birleşim (r+s): Paralel yollar, ε-geçişlerle<br>
+                        • Birleştirme (rs): Seri bağlantı<br>
+                        • Kleene (*): Döngü, ε-geçişlerle
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">3. DFA → Düzenli İfade (Arden Teoremi)</div>
+                    <div class="formula-content">
+                        Her durum için denklem yaz:<br>
+                        Q_i = aQ_j + bQ_k + ... + (ε eğer i kabul durumuysa)<br><br>
+                        Arden Teoremi:<br>
+                        R = Q + RP → R = QP*
+                    </div>
+                </div>
+            </div>
+
+            <!-- POMPALAMA LEMMASI -->
+            <div class="section">
+                <h2>🔍 Pompalama Lemması</h2>
+                
+                <div class="definition-box">
+                    <h3>Pompalama Lemması (Düzenli Diller için)</h3>
+                    <p>L düzenli bir dil ise, bir p (pompalama uzunluğu) sayısı vardır ki:</p>
+                    <p>Tüm w ∈ L için |w| ≥ p ise, w = xyz şeklinde yazılabilir ve:</p>
+                    <p>1. |y| > 0 (y boş değildir)</p>
+                    <p>2. |xy| ≤ p</p>
+                    <p>3. Tüm i ≥ 0 için xy^iz ∈ L</p>
+                </div>
+
+                <div class="formula-card">
+                    <div class="formula-title">Pompalama Lemması Kullanımı</div>
+                    <div class="formula-example">
+                        <strong>L = {0ⁿ1ⁿ | n ≥ 0} dilinin düzenli olmadığını göster:</strong><br><br>
+                        1. Dilin düzenli olduğunu varsay<br>
+                        2. p pompalama uzunluğu olsun<br>
+                        3. w = 0^p 1^p seç (|w| = 2p ≥ p)<br>
+                        4. w = xyz olarak ayır<br>
+                        5. |xy| ≤ p olduğundan y sadece 0'lardan oluşur<br>
+                        6. xy²z = 0^(p+|y|) 1^p ∉ L (çelişki!)<br>
+                        7. L düzenli değildir ✓
+                    </div>
+                </div>
+            </div>
+
+            <!-- HIZLI REFERANS -->
+            <div class="section">
+                <h2>⚡ Hızlı Referans Tablosu</h2>
+                
+                <table class="quick-ref-table">
+                    <thead>
+                        <tr>
+                            <th>Sembol</th>
+                            <th>Anlamı</th>
+                            <th>Örnek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="notation-symbol">Σ</span></td>
+                            <td>Alfabe</td>
+                            <td>Σ = {0, 1}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">Σ*</span></td>
+                            <td>Tüm kelimelerin kümesi</td>
+                            <td>{ε, 0, 1, 00, 01, ...}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">ε</span></td>
+                            <td>Boş kelime</td>
+                            <td>|ε| = 0</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">|w|</span></td>
+                            <td>Kelimenin uzunluğu</td>
+                            <td>|abc| = 3</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">w^R</span></td>
+                            <td>Kelimenin tersi</td>
+                            <td>(abc)^R = cba</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">L₁ ∪ L₂</span></td>
+                            <td>Birleşim</td>
+                            <td>{a,b} ∪ {b,c} = {a,b,c}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">L₁ ∩ L₂</span></td>
+                            <td>Kesişim</td>
+                            <td>{a,b} ∩ {b,c} = {b}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">L̄</span></td>
+                            <td>Tümleyen</td>
+                            <td>L̄ = Σ* - L</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">L₁L₂</span></td>
+                            <td>Birleştirme</td>
+                            <td>{a,b}{c} = {ac, bc}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">L*</span></td>
+                            <td>Kleene yıldızı</td>
+                            <td>{a}* = {ε,a,aa,aaa,...}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">δ</span></td>
+                            <td>Geçiş fonksiyonu</td>
+                            <td>δ(q₀, a) = q₁</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">q₀</span></td>
+                            <td>Başlangıç durumu</td>
+                            <td>Otomat q₀'dan başlar</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">F</span></td>
+                            <td>Kabul durumları</td>
+                            <td>F ⊆ Q</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">⊆</span></td>
+                            <td>Alt küme</td>
+                            <td>F ⊆ Q</td>
+                        </tr>
+                        <tr>
+                            <td><span class="notation-symbol">∈</span></td>
+                            <td>Eleman</td>
+                            <td>q₀ ∈ Q</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SONUÇ -->
+            <div class="section">
+                <div class="definition-box">
+                    <h3>💡 Önemli Hatırlatmalar</h3>
+                    <p>✅ DFA ve NFA'nın gücü eşittir (her NFA'ya eşdeğer bir DFA vardır)</p>
+                    <p>✅ Düzenli ifadeler, DFA ve NFA eşdeğerdir</p>
+                    <p>✅ Her düzenli dil bir DFA ile tanınabilir</p>
+                    <p>✅ Düzenli diller birleşim, kesişim, tümleyen altında kapalıdır</p>
+                    <p>✅ Pompalama lemması düzensizlik göstermek için kullanılır</p>
+                    <p>✅ {0ⁿ1ⁿ} düzenli değildir (klasik örnek)</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                <a href="pratik-sorular.html" class="btn btn-success">🔧 Pratik Problemler</a>
+                <a href="tum-testler.html" class="btn">📝 Tüm Testler</a>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 30px; color: #666;">
+            <p>📚 Otomata Teorisi Çalışma Platformu</p>
+            <p>Tokat Gaziosmanpaşa Üniversitesi - Bilgisayar Mühendisliği</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siber Güvenlik Eğitimi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s;
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            animation: fadeInUp 0.6s;
+            animation-fill-mode: both;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .module-card:nth-child(1) { animation-delay: 0.1s; }
+        .module-card:nth-child(2) { animation-delay: 0.2s; }
+        .module-card:nth-child(3) { animation-delay: 0.3s; }
+        .module-card:nth-child(4) { animation-delay: 0.4s; }
+        .module-card:nth-child(5) { animation-delay: 0.5s; }
+        .module-card:nth-child(6) { animation-delay: 0.6s; }
+        .module-card:nth-child(7) { animation-delay: 0.7s; }
+        
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .module-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .module-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .module-topics {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        
+        .module-topics li {
+            padding: 5px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        
+        .module-topics li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .module-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .badge-green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .badge-red { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .badge-blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .badge-purple { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+        .badge-orange { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .badge-dark { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
+        .badge-teal { background: linear-gradient(135deg, #1abc9c, #16a085); }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats-container {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>🛡️ Siber Güvenlik Eğitimi</h1>
+            <p>Kali Linux ve Penetrasyon Testi Kapsamlı Kursu</p>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Modül</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">70</div>
+                <div class="stat-label">Test Sorusu</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">70</div>
+                <div class="stat-label">Flashcard</div>
+            </div>
+        </div>
+        
+        <div class="modules-grid">
+            <a href="modul1-bash.html" class="module-card">
+                <div class="module-icon">💻</div>
+                <div class="module-title">Modül 1: Bash Scripting</div>
+                <div class="module-description">Bash script temelleri ve otomasyon</div>
+                <ul class="module-topics">
+                    <li>Değişkenler ve parametreler</li>
+                    <li>Döngüler (for, while)</li>
+                    <li>Fonksiyonlar</li>
+                    <li>Dosya işlemleri</li>
+                </ul>
+                <span class="module-badge badge-green">Temel</span>
+            </a>
+            
+            <a href="modul2-kali-komutlari.html" class="module-card">
+                <div class="module-icon">🔧</div>
+                <div class="module-title">Modül 2: Kali Komutları</div>
+                <div class="module-description">Sistem yönetimi ve temel komutlar</div>
+                <ul class="module-topics">
+                    <li>apt paket yönetimi</li>
+                    <li>Dosya işlemleri (cp, mv, rm)</li>
+                    <li>Süreç yönetimi (ps, kill)</li>
+                    <li>İzinler (chmod, chown)</li>
+                </ul>
+                <span class="module-badge badge-red">Temel</span>
+            </a>
+            
+            <a href="modul3-terminal.html" class="module-card">
+                <div class="module-icon">⌨️</div>
+                <div class="module-title">Modül 3: Terminal Kısayolları</div>
+                <div class="module-description">Hızlı terminal kullanımı</div>
+                <ul class="module-topics">
+                    <li>Ctrl kombinasyonları</li>
+                    <li>Satır düzenleme</li>
+                    <li>Geçmiş navigasyonu</li>
+                    <li>Tab completion</li>
+                </ul>
+                <span class="module-badge badge-blue">Verimlilik</span>
+            </a>
+            
+            <a href="modul4-kali-kurulum.html" class="module-card">
+                <div class="module-icon">⚙️</div>
+                <div class="module-title">Modül 4: Kali Linux Kurulum</div>
+                <div class="module-description">VirtualBox optimizasyon ayarları</div>
+                <ul class="module-topics">
+                    <li>RAM ve CPU ayarları</li>
+                    <li>Ağ yapılandırması</li>
+                    <li>Grafik ayarları</li>
+                    <li>USB ve paylaşım</li>
+                </ul>
+                <span class="module-badge badge-purple">Kurulum</span>
+            </a>
+            
+            <a href="modul5-ag-tarama.html" class="module-card">
+                <div class="module-icon">🔍</div>
+                <div class="module-title">Modül 5: Ağ Tarama</div>
+                <div class="module-description">Nmap ve keşif teknikleri</div>
+                <ul class="module-topics">
+                    <li>Port tarama teknikleri</li>
+                    <li>Servis tespiti</li>
+                    <li>Netdiscover kullanımı</li>
+                    <li>NSE scriptleri</li>
+                </ul>
+                <span class="module-badge badge-orange">İleri</span>
+            </a>
+            
+            <a href="modul6-wifi-pentest.html" class="module-card">
+                <div class="module-icon">📡</div>
+                <div class="module-title">Modül 6: WiFi Penetrasyon</div>
+                <div class="module-description">Kablosuz ağ güvenlik testleri</div>
+                <ul class="module-topics">
+                    <li>Monitor mode</li>
+                    <li>Airodump-ng tarama</li>
+                    <li>Deauth saldırıları</li>
+                    <li>Şifre kırma</li>
+                </ul>
+                <span class="module-badge badge-dark">İleri</span>
+            </a>
+            
+            <a href="modul7-ethical-hacking.html" class="module-card">
+                <div class="module-icon">🎯</div>
+                <div class="module-title">Modül 7: Ethical Hacking</div>
+                <div class="module-description">Penetrasyon testi metodolojisi</div>
+                <ul class="module-topics">
+                    <li>Keşif ve tarama</li>
+                    <li>Exploit teknikleri</li>
+                    <li>Metasploit framework</li>
+                    <li>Yasal ve etik kurallar</li>
+                </ul>
+                <span class="module-badge badge-teal">Profesyonel</span>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>🎓 Siber Güvenlik Eğitim Sistemi</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Her modülde teori, testler ve flashcard'lar bulunmaktadır</p>
+        </div>
+    </div>
+</body>
+</html>

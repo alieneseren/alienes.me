@@ -7,7 +7,7 @@
         <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-8 sm:mb-12">Ders notlarına, örneklere ve pratik sorulara buradan ulaşabilirsiniz.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <a href="<?php echo e(route('study.category', $category->slug)); ?>" 
                class="block bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow p-5 sm:p-6 border border-gray-200 dark:border-gray-700">
                 <div class="text-4xl sm:text-5xl mb-3 sm:mb-4"><?php echo e($category->icon); ?></div>
@@ -20,10 +20,10 @@
                     <span class="truncate"><?php echo e($category->active_notes_count); ?> not</span>
                 </div>
             </a>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
     </div>
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.frontend', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/alienes/alienes.me/resources/views/study/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/alienes/alienes.me/resources/views/study/index.blade.php ENDPATH**/ ?>

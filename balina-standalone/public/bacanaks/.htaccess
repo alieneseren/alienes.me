@@ -1,0 +1,9 @@
+# Site Erişimi Kapatıldı
+# Bu subdomain geçici olarak devre dışı bırakılmıştır
+
+# Tüm erişimleri engelle
+Order deny,allow
+Deny from all
+
+# Alternatif: 403 hatası döndür
+# ErrorDocument 403 "Bu site geçici olarak kapatılmıştır."

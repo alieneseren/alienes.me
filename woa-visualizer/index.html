@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WOA Visualizer</title>
+    <link href="style.css" rel="stylesheet" />
+    <!-- Preload fonts if possible, or use system fonts as fallback -->
+  </head>
+  <body>
+    <div id="app">
+      <aside>
+        <h1>Balina Optimizasyonu</h1>
+        
+        <div class="control-group">
+          <label for="function-select">Amaç Fonksiyonu</label>
+          <select id="function-select">
+            <option value="sphere">Sphere Fonksiyonu</option>
+            <option value="rastrigin">Rastrigin Fonksiyonu</option>
+            <option value="ackley">Ackley Fonksiyonu</option>
+            <option value="booth">Booth Fonksiyonu</option>
+            <option value="rosenbrock">Rosenbrock Fonksiyonu</option>
+            <option value="griewank">Griewank Fonksiyonu</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="pop-size">Popülasyon: <span id="pop-val">30</span></label>
+          <input type="range" id="pop-size" min="10" max="200" value="30" />
+        </div>
+
+        <div class="control-group">
+            <label for="speed-control">Hız (FPS): <span id="speed-val">60</span></label>
+            <input type="range" id="speed-control" min="1" max="60" value="60" />
+        </div>
+
+        <div class="control-group">
+            <button id="start-btn">Simülasyonu Başlat</button>
+            <button id="reset-btn" class="secondary">Sıfırla</button>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="fitness-chart" width="260" height="100"></canvas>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span>İterasyon</span>
+                <span id="iter-count">0</span>
+            </div>
+            <div class="stat-item">
+                <span>En İyi Uygunluk</span>
+                <span id="best-fit">-</span>
+            </div>
+             <div class="stat-item">
+                <span>En İyi Konum</span>
+                <span id="best-pos">-</span>
+            </div>
+        </div>
+      </aside>
+
+      <main>
+        <canvas id="visualizer"></canvas>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

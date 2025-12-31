@@ -1,0 +1,42 @@
+✅ SİBER GÜVENLIK MODÜLLERI - NAVIGATION SISTEMI
+
+YAPILANDIRMA:
+- 7 Modül: Bash → Kali Komutları → Terminal → Kurulum → Ağ Tarama → WiFi → Ethical Hacking
+- Her modülde: Önceki/Sonraki Modül butonları + Modül No göstergesi
+- İlk modüle: Önceki butonu DISABLED
+- Son modüle: Sonraki butonu DISABLED
+
+NAVIGATION BUTONLARI:
+✓ Modül 1: Önceki (disabled) | Modül 1/7 | Sonraki → modul2-kali-komutlari.html
+✓ Modül 2: Önceki → modul1-bash.html | Modül 2/7 | Sonraki → modul3-terminal.html
+✓ Modül 3: Önceki → modul2-kali-komutlari.html | Modül 3/7 | Sonraki → modul4-kali-kurulum.html
+✓ Modül 4: Önceki → modul3-terminal.html | Modül 4/7 | Sonraki → modul5-ag-tarama.html
+✓ Modül 5: Önceki → modul4-kali-kurulum.html | Modül 5/7 | Sonraki → modul6-wifi-pentest.html
+✓ Modül 6: Önceki → modul5-ag-tarama.html | Modül 6/7 | Sonraki → modul7-ethical-hacking.html
+✓ Modül 7: Önceki → modul6-wifi-pentest.html | Modül 7/7 | Sonraki (disabled)
+
+CSS TASARIMI:
+- display: flex (justify-content: space-between)
+- margin-top: 30px, padding-top: 20px
+- border-top: 2px solid #e0e0e0
+- Her modülün renk teması ile uyumlu nav-button renkleri
+
+HTML YAPISI:
+<div class="navigation-buttons">
+    <a href="..." class="nav-button">← Önceki Modül</a>
+    <div class="nav-center">Modül X / 7</div>
+    <a href="..." class="nav-button">Sonraki Modül →</a>
+</div>
+
+DOSYALAR:
+✓ /Users/alienes/mikroişlemciler/siber/html/modul1-bash.html (660+ satır)
+✓ /Users/alienes/mikroişlemciler/siber/html/modul2-kali-komutlari.html (679+ satır)
+✓ /Users/alienes/mikroişlemciler/siber/html/modul3-terminal.html
+✓ /Users/alienes/mikroişlemciler/siber/html/modul4-kali-kurulum.html
+✓ /Users/alienes/mikroişlemciler/siber/html/modul5-ag-tarama.html
+✓ /Users/alienes/mikroişlemciler/siber/html/modul6-wifi-pentest.html
+✓ /Users/alienes/mikroişlemciler/siber/html/modul7-ethical-hacking.html
+
+BONUS:
+- index.html: Ana sayfa (tüm modüllere link)
+- Her modülde "← Ana Sayfaya Dön" butonu zaten vardı

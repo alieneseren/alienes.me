@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacanaks Sağlık - Sağlık Hizmetleri</title>
+    <meta name="description" content="Bacanaks Sağlık - Sağlık teknolojileri, klinik hizmetler ve tıbbi danışmanlık.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'navy': {
+                            800: '#243b53',
+                            900: '#102a43',
+                            950: '#0a1929',
+                        },
+                        'gold': {
+                            400: '#e4b423',
+                            500: '#c9a227',
+                            600: '#a67f1a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0a1929 0%, #064e3b 50%, #0a1929 100%);
+        }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-navy-950 text-white font-sans antialiased" x-data="{ 
+    lang: localStorage.getItem('lang') || 'tr',
+    setLang(l) { this.lang = l; localStorage.setItem('lang', l); }
+}">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-navy-950/95 backdrop-blur-lg shadow-xl py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center gap-3 group">
+                    <img src="images/logo.png" alt="Bacanaks Group" class="h-10 md:h-12 w-auto">
+                    <span class="text-lg md:text-xl font-display font-bold text-white">Bacanaks <span class="text-emerald-400">Sağlık</span></span>
+                </a>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-1 bg-navy-800/50 rounded-full p-1">
+                        <button @click="setLang('tr')" class="px-3 py-1.5 rounded-full text-sm font-medium transition-all" :class="lang === 'tr' ? 'bg-emerald-500 text-white' : 'text-gray-400 hover:text-white'">TR</button>
+                        <button @click="setLang('en')" class="px-3 py-1.5 rounded-full text-sm font-medium transition-all" :class="lang === 'en' ? 'bg-emerald-500 text-white' : 'text-gray-400 hover:text-white'">EN</button>
+                    </div>
+                    <a href="/" class="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        <span x-text="lang === 'tr' ? 'Ana Sayfa' : 'Home'"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[60vh] flex items-center justify-center hero-gradient overflow-hidden pt-20">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-1/4 left-10 w-64 h-64 bg-emerald-500 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-cyan-500 rounded-full blur-3xl"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-500/30">
+                <i class="fas fa-heartbeat text-white text-4xl"></i>
+            </div>
+            <h1 class="font-display text-4xl md:text-6xl font-bold mb-6">
+                <span class="text-white">Bacanaks</span>
+                <span class="gradient-text"> Sağlık</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+                <span x-show="lang === 'tr'">Sağlık teknolojileri, klinik hizmetler ve tıbbi danışmanlık</span>
+                <span x-show="lang === 'en'" style="display: none;">Health technologies, clinical services and medical consultancy</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-navy-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">
+                        <span x-show="lang === 'tr'">Hakkımızda</span>
+                        <span x-show="lang === 'en'" style="display: none;">About Us</span>
+                    </h2>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        <span x-show="lang === 'tr'">Bacanaks Sağlık, modern sağlık hizmetleri ve teknolojileri alanında faaliyet gösteren bir şirkettir. Sağlık teknolojileri, klinik hizmetler, tıbbi danışmanlık ve ilaç dağıtımı alanlarında çalışıyoruz. İnsan sağlığını ön planda tutarak, yenilikçi çözümlerle topluma hizmet ediyoruz.</span>
+                        <span x-show="lang === 'en'" style="display: none;">Bacanaks Health is a company operating in the field of modern healthcare services and technologies. We work in health technologies, clinical services, medical consultancy and pharmaceutical distribution. We serve the community with innovative solutions, prioritizing human health.</span>
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="/#contact" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-semibold transition-all">
+                            <span x-text="lang === 'tr' ? 'İletişime Geç' : 'Contact Us'"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-navy-800 p-6 rounded-xl border border-navy-700">
+                        <i class="fas fa-laptop-medical text-emerald-400 text-3xl mb-4"></i>
+                        <h3 class="font-semibold text-white mb-2" x-text="lang === 'tr' ? 'Sağlık Teknolojileri' : 'Health Tech'"></h3>
+                        <p class="text-gray-400 text-sm" x-text="lang === 'tr' ? 'Dijital sağlık çözümleri' : 'Digital health solutions'"></p>
+                    </div>
+                    <div class="bg-navy-800 p-6 rounded-xl border border-navy-700">
+                        <i class="fas fa-clinic-medical text-emerald-400 text-3xl mb-4"></i>
+                        <h3 class="font-semibold text-white mb-2" x-text="lang === 'tr' ? 'Klinik Hizmetler' : 'Clinical Services'"></h3>
+                        <p class="text-gray-400 text-sm" x-text="lang === 'tr' ? 'Poliklinik ve tedavi hizmetleri' : 'Polyclinic and treatment services'"></p>
+                    </div>
+                    <div class="bg-navy-800 p-6 rounded-xl border border-navy-700">
+                        <i class="fas fa-stethoscope text-emerald-400 text-3xl mb-4"></i>
+                        <h3 class="font-semibold text-white mb-2" x-text="lang === 'tr' ? 'Tıbbi Danışmanlık' : 'Medical Consultancy'"></h3>
+                        <p class="text-gray-400 text-sm" x-text="lang === 'tr' ? 'Uzman hekim danışmanlığı' : 'Expert physician consultancy'"></p>
+                    </div>
+                    <div class="bg-navy-800 p-6 rounded-xl border border-navy-700">
+                        <i class="fas fa-pills text-emerald-400 text-3xl mb-4"></i>
+                        <h3 class="font-semibold text-white mb-2" x-text="lang === 'tr' ? 'İlaç Dağıtımı' : 'Pharma Distribution'"></h3>
+                        <p class="text-gray-400 text-sm" x-text="lang === 'tr' ? 'Medikal ürün dağıtımı' : 'Medical product distribution'"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-20 bg-navy-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-display text-3xl md:text-4xl font-bold text-white text-center mb-12">
+                <span x-show="lang === 'tr'">Yönetim Ekibi</span>
+                <span x-show="lang === 'en'" style="display: none;">Management Team</span>
+            </h2>
+            <div class="max-w-sm mx-auto">
+                <div class="bg-navy-900 rounded-2xl overflow-hidden border border-navy-800 text-center">
+                    <img src="images/team/Ramazan.jpeg" alt="Ramazan Emir Toklu" class="w-full aspect-square object-cover">
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold text-white">Ramazan Emir Toklu</h3>
+                        <p class="text-emerald-400 text-sm mb-2" x-text="lang === 'tr' ? 'Genel Müdür' : 'General Manager'"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-900 border-t border-navy-800 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-500 text-sm">
+                &copy; 2025 Bacanaks Sağlık. <span x-text="lang === 'tr' ? 'Bacanaks Group şirketidir.' : 'A Bacanaks Group company.'"></span>
+            </p>
+            <a href="/" class="text-emerald-400 hover:text-emerald-300 text-sm mt-2 inline-block">
+                <span x-text="lang === 'tr' ? '← Bacanaks Group Ana Sayfa' : '← Bacanaks Group Home'"></span>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Flashcard'lar - Otomata Teorisi</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Tüm Flashcard'lar</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">💡</div>
+            <h1>Otomata Teorisi - Flashcard Koleksiyonu</h1>
+            <p>Tüm modüllerdeki önemli kavramları interaktif kartlarla öğrenin</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">59</div>
+                <div class="stat-label">Toplam Flashcard</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="viewed-count">0</div>
+                <div class="stat-label">İncelenen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="progress-percent">0%</div>
+                <div class="stat-label">İlerleme</div>
+            </div>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterModule('all')">Tümü (59)</button>
+            <button class="filter-btn" onclick="filterModule('modul1')">Modül 1 (12)</button>
+            <button class="filter-btn" onclick="filterModule('modul2')">Modül 2 (15)</button>
+            <button class="filter-btn" onclick="filterModule('modul3')">Modül 3 (16)</button>
+            <button class="filter-btn" onclick="filterModule('modul4')">Modül 4 (16)</button>
+        </div>
+
+        <div class="control-buttons">
+            <button class="btn" onclick="shuffleCards()">🔀 Kartları Karıştır</button>
+            <button class="btn" onclick="resetProgress()">🔄 İlerlemeyi Sıfırla</button>
+        </div>
+
+        <!-- MODÜL 1 FLASHCARDS -->
+        <div class="section modul1">
+            <h2>📚 Modül 1: Giriş ve Temel Kavramlar</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Temel Kavramlar</div>
+                            <div class="card-question">Otomata Teorisi Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Hesaplama modellerini ve bunların güçlerini inceleyen bilgisayar biliminin teorik dalıdır. Makinelerin ve algoritmaların çözebileceği problemleri matematiksel olarak tanımlar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Alfabe</div>
+                            <div class="card-question">Alfabe (Σ) Tanımı</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Kelimelerin üretiminde kullanılan birimlerin sonlu kümesidir. Örnek: Σ = {0,1} ikili sistem alfabesi, Σ = {a,b,c} üç harfli alfabe.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Kelime</div>
+                            <div class="card-question">Kelime (Word) Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Alfabeden seçilen sonlu sayıdaki sembolün bir araya gelmesinden oluşur. Örnek: Σ={a,b} için kelimeler: a, b, aa, ab, ba, bb, aaa, vb.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Boş Kelime</div>
+                            <div class="card-question">Epsilon (ε) Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Boş kelimeyi temsil eder. Hiçbir sembol içermeyen kelimedir. Uzunluğu 0'dır: |ε| = 0.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Dil</div>
+                            <div class="card-question">Biçimsel Dil Tanımı</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir alfabe üzerinden üretilmiş kelimelerin kümesidir. Üretim kuralları tanımlanmışsa "biçimsel (formal) dil" denir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Otomat Türleri</div>
+                            <div class="card-question">Sonlu Otomatlar</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Sınırlı bellek kapasitesine sahip otomatlar. Düzenli dilleri tanımlar. DFA (Deterministik) ve NFA (Non-deterministik) türleri vardır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Otomat Türleri</div>
+                            <div class="card-question">Pushdown Otomatlar</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Yığıt (stack) belleğe sahip otomatlar. Bağlamdan bağımsız (context-free) dilleri tanırlar. Sonlu otomatlardan daha güçlüdür.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Otomat Türleri</div>
+                            <div class="card-question">Turing Makineleri</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">En güçlü otomat modeli. Tüm hesaplanabilir problemleri çözebilir. Sonsuz bant belleğe sahiptir. Recursively enumerable dilleri tanır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Uygulama</div>
+                            <div class="card-question">Derleyici Tasarımı</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Otomatlar programlama dillerinin yapılarının tanınmasında kullanılır. Lexical analysis ve parsing işlemlerinde temel rol oynar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Uygulama</div>
+                            <div class="card-question">Veritabanı Arama</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Düzenli ifadeler ve otomatlar metin arama, pattern matching ve veri doğrulama işlemlerinde kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Felsefe</div>
+                            <div class="card-question">Dil ve Anlam</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bilgisayar gerçekten 'anlayabilir' mi? Otomata teorisi dilleri biçimsel olarak ele alır: alfabe, kelime, dil, kabul edici. Makine anlamdan ziyade yapıyı kontrol eder.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Chomsky Hiyerarşisi</div>
+                            <div class="card-question">Dil Sınıfları</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Type 3: Regular (Sonlu otomatlar), Type 2: Context-Free (Pushdown), Type 1: Context-Sensitive, Type 0: Recursively Enumerable (Turing).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODÜL 2 FLASHCARDS -->
+        <div class="section modul2">
+            <h2>🔄 Modül 2: Düzenli İfadeler</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Temel</div>
+                            <div class="card-question">Düzenli İfade Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Dil tanımlayıcı ifadedir. Düzenli ifadelerle tanımlanan diller "düzenli diller (regular languages)" olarak adlandırılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Operatör</div>
+                            <div class="card-question">Kleene Star (*)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">0 veya daha fazla tekrarı ifade eder. Örnek: a* = {ε, a, aa, aaa, aaaa, ...}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Operatör</div>
+                            <div class="card-question">Kleene Plus (+)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">1 veya daha fazla tekrarı ifade eder. Örnek: a+ = {a, aa, aaa, aaaa, ...}. a+ = aa* ile eşdeğerdir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Operatör</div>
+                            <div class="card-question">Birleşim (|)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İki ifadeden birini seçer. Örnek: (a|b) = {a, b}, (0|1)* = tüm ikili dizgiler</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Operatör</div>
+                            <div class="card-question">Birleştirme (Concatenation)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İki ifadeyi arka arkaya ekler. Örnek: ab = "a ardından b", (a|b)(0|1) = {a0, a1, b0, b1}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Özel Semboller</div>
+                            <div class="card-question">Boş Dil (∅)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Hiçbir kelime içermeyen dil. ∅ ≠ {ε}. Boş dil hiçbir kelime kabul etmez, {ε} sadece boş kelimeyi kabul eder.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Özellikler</div>
+                            <div class="card-question">Kapalılık Özellikleri</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Düzenli diller birleşim, birleştirme, yıldız, kesişim ve tümleme işlemlerine kapalıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Örnek</div>
+                            <div class="card-question">x* İfadesi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Σ = {x} için L = {ε, x, xx, xxx, xxxx, ...}. x sembolünün 0 veya daha fazla tekrarı.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Örnek</div>
+                            <div class="card-question">(ab)* İfadesi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Σ = {a,b} için L = {ε, ab, abab, ababab, ...}. ab deseninin 0 veya daha fazla tekrarı.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Uygulama</div>
+                            <div class="card-question">Derleyicilerde Kullanım</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Token tanıma (lexical analysis) işlemlerinde kullanılır. Anahtar kelimeler, değişkenler, sayılar gibi yapıları tanımlar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Uygulama</div>
+                            <div class="card-question">Metin İşleme</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bul/değiştir, veri doğrulama (e-posta, telefon), form validasyonları gibi alanlarda kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Kural</div>
+                            <div class="card-question">Düzenli İfade Kuralları</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">r ve s düzenli ifadeler ise: (r)(s)=rs, (r)|(s)=r+s, (r)* düzenli ifadelerdir. ε ve ∅ temel düzenli ifadelerdir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Teori</div>
+                            <div class="card-question">Pomping Lemma</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir dilin düzenli olmadığını kanıtlamak için kullanılır. Her düzenli dil için bir pomping uzunluğu p vardır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Karar</div>
+                            <div class="card-question">Üyelik Problemi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Verilen kelimenin düzenli dilde olup olmadığını belirleme. Düzenli diller için karar verilebilir (decidable).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Denklik</div>
+                            <div class="card-question">RE ve Otomatlar</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Her düzenli ifade bir sonlu otomata dönüştürülebilir. Her sonlu otomat bir düzenli ifadeye dönüştürülebilir. İki gösterim eşdeğerdir.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODÜL 3 FLASHCARDS -->
+        <div class="section modul3">
+            <h2>🤖 Modül 3: Sonlu Otomatlar</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Temel</div>
+                            <div class="card-question">Sonlu Otomat Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Durumları içeren küme ve dışsal girdilere göre durumlar arası geçişlerden oluşur.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - DFA</div>
+                            <div class="card-question">DFA Özelliği</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Deterministik Finite Automata. Her durum için her girdi için tam olarak bir geçiş vardır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - NFA</div>
+                            <div class="card-question">NFA Özelliği</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Non-Deterministik. Bir durumdan aynı girdi için birden fazla geçiş veya ε-geçişleri olabilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Biçimsel Tanım</div>
+                            <div class="card-question">DFA'nın 5 Bileşeni</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">M = (Q, Σ, δ, s, F): Q=durumlar, Σ=alfabe, δ=geçiş fonksiyonu, s=başlangıç, F=kabul durumları</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Gösterim</div>
+                            <div class="card-question">Geçiş Diyagramı</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Durumlar yuvarlak, başlangıç okla, kabul durumları çift çember, geçişler etiketli oklarla gösterilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Gösterim</div>
+                            <div class="card-question">Geçiş Tablosu</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Satırlar durumlar, sütunlar girdi sembolleri, hücreler hedef durumları gösterir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Teori</div>
+                            <div class="card-question">NFA'dan DFA'ya</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Subset construction algoritması ile her NFA'nın eşdeğer DFA'sı vardır (üssel durum artışı ile).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Chomsky</div>
+                            <div class="card-question">Type 3 Diller</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Regular Languages - Sonlu otomatlar tarafından tanınan diller.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Chomsky</div>
+                            <div class="card-question">Type 2 Diller</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Context-Free Languages - Pushdown otomatlar tarafından tanınan diller.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Chomsky</div>
+                            <div class="card-question">Type 0 Diller</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Recursively Enumerable - Turing makineleri tarafından tanınan diller.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Tasarım</div>
+                            <div class="card-question">Otomat Tasarımı</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">1. Dili tanımla 2. Alfabeyi belirle 3. Durumları tanımla 4. Geçişleri çiz 5. Başlangıç seç 6. Kabul durumlarını belirle</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Uygulama</div>
+                            <div class="card-question">Kullanım Alanları</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Derleyici lexical analysis, metin işleme, ağ güvenliği, biyoinformatik, doğal dil işleme.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Özellikler</div>
+                            <div class="card-question">Regular Diller Kapalı mı?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Evet, birleşim, birleştirme, yıldız, kesişim ve tümleme altında kapalıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Karar</div>
+                            <div class="card-question">Üyelik Problemi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Karar verilebilir. Verilen kelimenin dilde olup olmadığı DFA simülasyonu ile belirlenebilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Minimizasyon</div>
+                            <div class="card-question">State Minimization</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Eşdeğer durumları birleştirerek otomat optimize edilir. Daha hızlı çalışma, az bellek, kolay anlama.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Örnek</div>
+                            <div class="card-question">Basit DFA</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">M = (Q={q₀,q₁,q₂}, Σ={a,b}, δ, s=q₀, F={q₂}) - a ile başlayan dizgileri kabul eder.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODÜL 4 FLASHCARDS -->
+        <div class="section modul4">
+            <h2>🎯 Modül 4: Pratik Örnekler</h2>
+            <div class="flashcard-container">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 1</div>
+                            <div class="card-question">3'e Bölünebilirlik</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">3 durum (mod 3): q₀ (kalan 0), q₁ (kalan 1), q₂ (kalan 2). Başlangıç ve kabul: q₀.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 2</div>
+                            <div class="card-question">Aynı Sembol Başlangıç/Bitiş</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">5 durum: başlangıç, 0-başladı-bitti, 1-başladı-bitti, 0-başladı 1-bitti, 1-başladı 0-bitti.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 3</div>
+                            <div class="card-question">n+m=3 Koşulu</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">L = {aaa, aab, abb, bbb}. Toplam 3 sembol, önce a'lar sonra b'ler.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 4</div>
+                            <div class="card-question">Ardışık Sembol Yok</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">00 ve 11 içermez. 4 durum: başlangıç, son 0, son 1, red. Geçerli: ε, 0, 1, 01, 10, 010, 101.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 5</div>
+                            <div class="card-question">En Çok İki 'a'</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">4 durum: 0a (kabul), 1a (kabul), 2a (kabul), 3+a (red). 'b' durumu değiştirmez.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Örnek 6</div>
+                            <div class="card-question">aⁿbᵐ, n,m ≥ 1</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">En az bir a, ardından en az bir b. b'den sonra a yok. Geçerli: ab, aab, abb, aaabbb.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Uygulama</div>
+                            <div class="card-question">E-posta Validasyonu</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">@ tam olarak bir kez, . işareti @'den sonra en az bir kez. Format: kullanici@domain.com</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Uygulama</div>
+                            <div class="card-question">Lexical Analysis</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Token tanıma: anahtar kelimeler, değişkenler, sayılar, operatörler, string literaller.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Uygulama</div>
+                            <div class="card-question">TCP Protokolü</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">CLOSED → SYN_SENT → ESTABLISHED → FIN_WAIT → CLOSED. Girdi: SYN, ACK, FIN paketleri.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Uygulama</div>
+                            <div class="card-question">DNA Analizi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Alfabe: {A,C,G,T}. Start: ATG. Stop: TAA, TAG, TGA. Gen bölgelerini tanımlar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Tasarım</div>
+                            <div class="card-question">Tasarım Adımları</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">1. Dili netleştir 2. Örnekler oluştur 3. Durumları tanımla 4. Geçişleri çiz 5. Test et 6. Optimize et</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Hatalar</div>
+                            <div class="card-question">Sık Yapılan Hatalar</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Eksik geçişler, başlangıç belirtmemek, kabul durumları yanlış, red durumundan çıkış, boş kelime unutma.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Optimizasyon</div>
+                            <div class="card-question">State Minimization</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Gereksiz durumları birleştir. Daha hızlı çalışma, az bellek, kolay anlama.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Test</div>
+                            <div class="card-question">110₂ (6₁₀) Test</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">6 mod 3 = 0. q₀ →1→ q₁ →1→ q₀ →0→ q₀ (kabul). 3'e bölünür!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Pratik</div>
+                            <div class="card-question">Red Durumu</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Artık kabul durumuna ulaşılamayacak geçersiz dizgiler için. Tüm girdi kendine döner.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 4 - Karşılaştırma</div>
+                            <div class="card-question">Tablo vs Diyagram</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Tablo: Sistematik, hesaplamaya uygun. Diyagram: Görsel, anlaması kolay, ilişkiler net.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="tum-testler.html" class="btn">← Tüm Testler</a>
+            <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+        </div>
+    </div>
+
+    <script>
+        let viewedCards = new Set();
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+            
+            if (card.classList.contains('flipped')) {
+                const cardText = card.querySelector('.card-question').textContent;
+                viewedCards.add(cardText);
+                updateProgress();
+            }
+        }
+
+        function filterModule(module) {
+            const sections = document.querySelectorAll('.section');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (module === 'all') {
+                sections.forEach(s => s.style.display = 'block');
+            } else {
+                sections.forEach(s => {
+                    if (s.classList.contains(module)) {
+                        s.style.display = 'block';
+                    } else {
+                        s.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function shuffleCards() {
+            const containers = document.querySelectorAll('.flashcard-container');
+            containers.forEach(container => {
+                const cards = Array.from(container.children);
+                cards.sort(() => Math.random() - 0.5);
+                cards.forEach(card => container.appendChild(card));
+            });
+            alert('Kartlar karıştırıldı! 🔀');
+        }
+
+        function resetProgress() {
+            viewedCards.clear();
+            document.querySelectorAll('.flashcard').forEach(card => {
+                card.classList.remove('flipped');
+            });
+            updateProgress();
+            alert('İlerleme sıfırlandı! ✨');
+        }
+
+        function updateProgress() {
+            document.getElementById('viewed-count').textContent = viewedCards.size;
+            const percent = Math.round((viewedCards.size / 59) * 100);
+            document.getElementById('progress-percent').textContent = percent + '%';
+        }
+    </script>
+
+    <style>
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-answer {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .section h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin: 40px 0 20px 0;
+        }
+    </style>
+</body>
+</html>

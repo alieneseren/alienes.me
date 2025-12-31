@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 4: Kali Kurulum & Ayarlar - Siber Güvenlik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #9b59b6;
+        }
+
+        .header h1 {
+            color: #9b59b6;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background: #9b59b6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #8e44ad;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #a8edea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #7fe3df;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab.active {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-section h2 {
+            color: #9b59b6;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+
+        .theory-section h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .theory-section h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.2em;
+        }
+
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .settings-box {
+            background: #f8f9fa;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .settings-box h4 {
+            color: #9b59b6;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            background: #e8daef;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #9b59b6;
+        }
+
+        .test-question h3 {
+            color: #9b59b6;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .test-options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            border-color: #9b59b6;
+            background: #f4ecf7;
+        }
+
+        .test-options li.selected {
+            border-color: #9b59b6;
+            background: #e8daef;
+        }
+
+        .test-options li.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-options li.wrong {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .submit-button {
+            background: #9b59b6;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #8e44ad;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #9b59b6;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>⚙️ Modül 4: Kali Kurulum & Ayarlar</h1>
+            <p>VirtualBox Optimizasyonu ve Sistem Yapılandırması</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>VirtualBox Ayarları</h2>
+            
+            <div class="note">
+                💡 <strong>Not:</strong> Bu ayarlar, Kali Linux'u VirtualBox üzerinde en iyi performansla çalıştırmak için optimize edilmiştir.
+            </div>
+
+            <h3>1. System → Motherboard</h3>
+            <div class="settings-box">
+                <h4>Base Memory (RAM)</h4>
+                <ul>
+                    <li><strong>Minimum:</strong> 2048 MB (2 GB)</li>
+                    <li><strong>Önerilen:</strong> 4096 MB (4 GB)</li>
+                    <li><strong>Ağ/Wi-Fi analizi için:</strong> 6144 MB (6 GB)</li>
+                </ul>
+
+                <h4>Diğer Ayarlar</h4>
+                <ul>
+                    <li><strong>Chipset:</strong> ICH9</li>
+                    <li><strong>Pointing Device:</strong> USB Tablet</li>
+                    <li><strong>Boot Order:</strong> Optical → Hard Disk → Network</li>
+                    <li><strong>Enable I/O APIC:</strong> ✅ (Aktif)</li>
+                    <li><strong>Enable EFI:</strong> ❌ (Kali için gerekmez)</li>
+                    <li><strong>Hardware Clock in UTC:</strong> ✅ (Aktif)</li>
+                </ul>
+            </div>
+
+            <h3>2. System → Processor</h3>
+            <div class="settings-box">
+                <h4>Processor(s)</h4>
+                <ul>
+                    <li><strong>Normal kullanım:</strong> 2 CPU</li>
+                    <li><strong>Wireshark, BurpSuite, exploit testleri:</strong> 3-4 CPU</li>
+                </ul>
+
+                <h4>Diğer Ayarlar</h4>
+                <ul>
+                    <li><strong>Execution Cap:</strong> 100%</li>
+                    <li><strong>Enable PAE/NX:</strong> ✅ (Aktif)</li>
+                    <li><strong>Enable Nested VT-x/AMD-V:</strong> ✅ (11. nesil i5+ destekliyor)</li>
+                </ul>
+            </div>
+
+            <h3>3. Display</h3>
+            <div class="settings-box">
+                <ul>
+                    <li><strong>Video Memory:</strong> 128 MB (maksimuma çek)</li>
+                    <li><strong>Monitor Count:</strong> 1</li>
+                    <li><strong>Scale Factor:</strong> 100%</li>
+                    <li><strong>Graphics Controller:</strong> VMSVGA</li>
+                    <li><strong>Enable 3D Acceleration:</strong> ✅ (Aktif - GUI performansı için)</li>
+                </ul>
+            </div>
+
+            <h3>4. Storage</h3>
+            <div class="settings-box">
+                <ul>
+                    <li><strong>Disk Boyutu:</strong> 40-50 GB (Dynamically allocated)</li>
+                    <li><strong>Controller:</strong> SATA</li>
+                    <li><strong>Type:</strong> VDI (VirtualBox Disk Image)</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                ⚠️ <strong>Önemli:</strong> Disk tipini "Dynamically allocated" seçerseniz, disk sadece kullanıldığı kadar yer kaplar.
+            </div>
+
+            <h3>5. Network</h3>
+            <div class="settings-box">
+                <h4>Adapter 1 (İnternet Erişimi)</h4>
+                <ul>
+                    <li><strong>Attached to:</strong> NAT</li>
+                    <li><strong>Adapter Type:</strong> Intel PRO/1000 MT Desktop</li>
+                    <li><strong>Cable Connected:</strong> ✅</li>
+                </ul>
+
+                <h4>Adapter 2 (Yerel Ağ - İsteğe Bağlı)</h4>
+                <ul>
+                    <li><strong>Attached to:</strong> Bridged Adapter</li>
+                    <li><strong>Name:</strong> Host'un Wi-Fi/Ethernet kartı</li>
+                </ul>
+            </div>
+
+            <h3>6. USB</h3>
+            <div class="settings-box">
+                <ul>
+                    <li><strong>Enable USB Controller:</strong> ✅</li>
+                    <li><strong>USB Version:</strong> USB 3.0 (xHCI) Controller</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                💡 <strong>Wi-Fi Adapter için:</strong> USB 3.0 seçili olmalı ve Extension Pack kurulu olmalı.
+            </div>
+
+            <h2>Kali Linux İlk Kurulum Adımları</h2>
+
+            <h3>1. ISO İndirme</h3>
+            <ul>
+                <li>Resmi site: <code>https://www.kali.org/get-kali/</code></li>
+                <li><strong>Önerilen:</strong> Kali Linux 64-bit (Installer)</li>
+                <li><strong>Boyut:</strong> ~3-4 GB</li>
+            </ul>
+
+            <h3>2. VirtualBox'ta Kurulum</h3>
+            <ol>
+                <li>VirtualBox'ı aç → "New" tıkla</li>
+                <li>Name: "Kali Linux", Type: Linux, Version: Debian (64-bit)</li>
+                <li>Yukarıdaki ayarları uygula</li>
+                <li>ISO dosyasını Optical Drive'a ekle</li>
+                <li>VM'i başlat ve kurulum sihirbazını takip et</li>
+            </ol>
+
+            <h3>3. İlk Açılış Sonrası</h3>
+            <div class="settings-box">
+                <h4>Sistem Güncelleme</h4>
+                <pre style="background:#2c3e50; color:#ecf0f1; padding:10px; border-radius:5px; overflow-x:auto;">sudo apt update
+sudo apt upgrade -y
+sudo apt dist-upgrade -y</pre>
+
+                <h4>Guest Additions Kurulumu</h4>
+                <pre style="background:#2c3e50; color:#ecf0f1; padding:10px; border-radius:5px; overflow-x:auto;">sudo apt install virtualbox-guest-x11 -y
+sudo reboot</pre>
+            </div>
+
+            <h3>4. Faydalı Araçlar</h3>
+            <ul>
+                <li><strong>Terminator:</strong> Gelişmiş terminal emülatörü</li>
+                <li><strong>Tmux:</strong> Terminal multiplexer</li>
+                <li><strong>Git:</strong> Versiyon kontrolü</li>
+                <li><strong>Python3-pip:</strong> Python paket yöneticisi</li>
+            </ul>
+
+            <h2>Performans İpuçları</h2>
+            <ol>
+                <li>Sanal makineyi kapatıp ayarları değiştirin</li>
+                <li>Host'ta gereksiz programları kapatın</li>
+                <li>VirtualBox'ı en son sürüme güncelleyin</li>
+                <li>BIOS'ta VT-x/AMD-V etkin olmalı</li>
+                <li>SSD kullanıyorsanız daha iyi performans alırsınız</li>
+            </ol>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="B">
+                <h3>Soru 1: Kali Linux için önerilen minimum RAM miktarı nedir?</h3>
+                <ul class="test-options">
+                    <li>A) 1 GB</li>
+                    <li>B) 4 GB</li>
+                    <li>C) 8 GB</li>
+                    <li>D) 16 GB</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 2: VirtualBox'ta hangi chipset önerilir?</h3>
+                <ul class="test-options">
+                    <li>A) PIIX3</li>
+                    <li>B) I440FX</li>
+                    <li>C) ICH9</li>
+                    <li>D) Q35</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 3: Video Memory maksimum kaç MB olmalı?</h3>
+                <ul class="test-options">
+                    <li>A) 128 MB</li>
+                    <li>B) 64 MB</li>
+                    <li>C) 256 MB</li>
+                    <li>D) 512 MB</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 4: İnternet erişimi için hangi network adapter modu kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Bridged Adapter</li>
+                    <li>B) NAT</li>
+                    <li>C) Host-only Adapter</li>
+                    <li>D) Internal Network</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: USB Wi-Fi adapter için hangi USB versiyonu gereklidir?</h3>
+                <ul class="test-options">
+                    <li>A) USB 1.1</li>
+                    <li>B) USB 2.0</li>
+                    <li>C) USB 3.0</li>
+                    <li>D) Farketmez</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 6: Kali Linux'u güncellemek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) sudo apt update && sudo apt upgrade</li>
+                    <li>B) sudo yum update</li>
+                    <li>C) sudo pacman -Syu</li>
+                    <li>D) sudo dnf upgrade</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 7: VirtualBox Guest Additions ne işe yarar?</h3>
+                <ul class="test-options">
+                    <li>A) Ağ bağlantısını sağlar</li>
+                    <li>B) Ekran çözünürlüğü ve performansı artırır</li>
+                    <li>C) USB desteği ekler</li>
+                    <li>D) Disk alanını genişletir</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 8: "Dynamically allocated" disk tipi ne demektir?</h3>
+                <ul class="test-options">
+                    <li>A) Disk hemen tüm alanı kaplar</li>
+                    <li>B) Disk boyutu değiştirilemez</li>
+                    <li>C) Disk sadece kullanıldığı kadar yer kaplar</li>
+                    <li>D) Disk otomatik olarak büyür ama küçülmez</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 9: Kali için önerilen disk boyutu nedir?</h3>
+                <ul class="test-options">
+                    <li>A) 40-50 GB</li>
+                    <li>B) 10-20 GB</li>
+                    <li>C) 80-100 GB</li>
+                    <li>D) 20-30 GB</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 10: Enable PAE/NX ne işe yarar?</h3>
+                <ul class="test-options">
+                    <li>A) USB desteği sağlar</li>
+                    <li>B) 4GB üzeri RAM kullanımı ve güvenlik özelliği</li>
+                    <li>C) 3D hızlandırma açar</li>
+                    <li>D) Ağ bağlantısını hızlandırır</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Kali için önerilen RAM?</div>
+                        <div class="flashcard-back">4 GB (minimum), 6 GB (ağ analizi için)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">VirtualBox Chipset?</div>
+                        <div class="flashcard-back">ICH9 (en iyi uyumluluk)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Video Memory?</div>
+                        <div class="flashcard-back">128 MB (maksimum)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Network Adapter Mode?</div>
+                        <div class="flashcard-back">NAT (internet), Bridged (yerel ağ)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">USB Version?</div>
+                        <div class="flashcard-back">USB 3.0 (xHCI) - Wi-Fi adapter için</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Guest Additions?</div>
+                        <div class="flashcard-back">Ekran çözünürlüğü ve performans artırır</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Dynamically Allocated?</div>
+                        <div class="flashcard-back">Disk sadece kullanıldığı kadar yer kaplar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Önerilen Disk Boyutu?</div>
+                        <div class="flashcard-back">40-50 GB</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Sistem Güncelleme?</div>
+                        <div class="flashcard-back">sudo apt update && sudo apt upgrade -y</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Enable PAE/NX?</div>
+                        <div class="flashcard-back">4GB+ RAM kullanımı ve güvenlik özelliği</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() {
+                selectAnswer(this);
+            });
+        });
+
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    const allOptions = question.querySelectorAll('.test-options li');
+                    
+                    allOptions.forEach(option => {
+                        const letter = option.textContent.trim().charAt(0);
+                        if (letter === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.display = 'block';
+            scoreElement.innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <a href="modul3-terminal.html" class="nav-button">← Önceki Modül</a>
+        <div class="nav-center">Modül 4 / 7</div>
+        <a href="modul5-ag-tarama.html" class="nav-button">Sonraki Modül →</a>
+    </div>
+</body>
+</html>

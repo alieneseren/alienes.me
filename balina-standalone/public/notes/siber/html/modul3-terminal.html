@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3: Terminal & Kısayollar - Siber Güvenlik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .header h1 {
+            color: #3498db;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #5568d3;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-section h2 {
+            color: #3498db;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+
+        .theory-section h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .shortcut-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .shortcut-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .shortcut-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .shortcut-table .key {
+            background: #2c3e50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .test-question h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .test-options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+
+        .test-options li.selected {
+            border-color: #3498db;
+            background: #d4e9f7;
+        }
+
+        .test-options li.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-options li.wrong {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .submit-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #2980b9;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #3498db;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>⌨️ Modül 3: Terminal & Kısayollar</h1>
+            <p>Linux Terminal Kullanımı ve Keyboard Shortcuts</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>Terminal Nedir?</h2>
+            <p>
+                <strong>Terminal</strong>, komut ekranına sahip bir Shell (Kabuk) programı ve emülatörüdür. 
+                Kullanıcı ile Kernel (Çekirdek) arasındaki yorumlayıcı olan Shell'i kullanmamızı sağlar.
+                Grafik arayüzden verilen komutların ve alınan çıktıların metinsel ortamıdır.
+            </p>
+
+            <div class="info-box">
+                💡 <strong>Önemli:</strong> Linux'un birden çok Shell türü vardır (Bash, Zsh, Fish, etc.). 
+                En yaygın kullanılanı <strong>Bash (Bourne Again Shell)</strong>'dir.
+            </div>
+
+            <h2>Terminal Kısayolları</h2>
+            
+            <h3>İmleç Hareketleri</h3>
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Tuş Kombinasyonu</th>
+                        <th>İşlev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key">Ctrl + A</span></td>
+                        <td>İmleci satır başına götürür</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + E</span></td>
+                        <td>İmleci satır sonuna götürür</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + B</span></td>
+                        <td>İmleç, birer karakter geri gider (← ok tuşu gibi)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + F</span></td>
+                        <td>İmleç, birer karakter ileri gider (→ ok tuşu gibi)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Alt + B</span></td>
+                        <td>İmleç, bir kelime geri gider</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Alt + F</span></td>
+                        <td>İmleç, bir kelime ileri gider</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Metin Düzenleme</h3>
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Tuş Kombinasyonu</th>
+                        <th>İşlev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key">Ctrl + U</span></td>
+                        <td>İmlecin solundaki her şey silinir</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + K</span></td>
+                        <td>İmlecin sağındaki her şey silinir</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + W</span></td>
+                        <td>İmlecin solundaki kelimeyi siler</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + Y</span></td>
+                        <td>Silinen metni geri yapıştırır (Yank)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + L</span></td>
+                        <td>Ekranı temizler (clear komutu gibi)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Komut Kontrolü</h3>
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Tuş Kombinasyonu</th>
+                        <th>İşlev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key">Ctrl + C</span></td>
+                        <td>Komutu sonlandırır (SIGINT)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + Z</span></td>
+                        <td>Komutu durdurur ve arka plana gönderir</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + D</span></td>
+                        <td>Terminal oturumunu kapatır (EOF)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + S</span></td>
+                        <td>Terminal çıktısını dondurur</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + Q</span></td>
+                        <td>Donmuş terminal çıktısını devam ettirir</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Komut Geçmişi</h3>
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Tuş Kombinasyonu</th>
+                        <th>İşlev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key">↑</span> / <span class="key">↓</span></td>
+                        <td>Komut geçmişinde gezinme</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + R</span></td>
+                        <td>Komut geçmişinde arama (reverse search)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + G</span></td>
+                        <td>Reverse search'ten çık</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">!!</span></td>
+                        <td>Son komutu tekrarlar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">!$</span></td>
+                        <td>Son komutun son parametresini kullanır</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Terminal Penceresi</h3>
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Tuş Kombinasyonu</th>
+                        <th>İşlev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key">Ctrl + Shift + T</span></td>
+                        <td>Yeni terminal sekmesi açar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + Shift + W</span></td>
+                        <td>Mevcut sekmeyi kapatır</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + Shift + N</span></td>
+                        <td>Yeni terminal penceresi açar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + PageUp/PageDown</span></td>
+                        <td>Sekmeler arasında geçiş yapar</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">Ctrl + +/-</span></td>
+                        <td>Terminal font boyutunu büyüt/küçült</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Tab Completion (Otomatik Tamamlama)</h2>
+            <p>
+                <span class="key">Tab</span> tuşu, Linux terminal'inde en kullanışlı özelliklerden biridir. 
+                Komutları, dosya/klasör isimlerini otomatik olarak tamamlar.
+            </p>
+            
+            <div class="info-box">
+                <strong>Örnek:</strong><br>
+                • <code>cd Doc</code> yazıp <span class="key">Tab</span> → <code>cd Documents/</code><br>
+                • <code>systemc</code> yazıp <span class="key">Tab Tab</span> → Tüm systemctl komutlarını gösterir<br>
+                • <code>apt install fire</code> yazıp <span class="key">Tab</span> → firefox önerisi
+            </div>
+
+            <h2>Yararlı Terminal Tüyoları</h2>
+            <ul>
+                <li><strong>history:</strong> Komut geçmişini gösterir</li>
+                <li><strong>clear veya Ctrl+L:</strong> Ekranı temizler</li>
+                <li><strong>exit veya Ctrl+D:</strong> Terminal'den çıkar</li>
+                <li><strong>reset:</strong> Terminal'i tamamen resetler</li>
+                <li><strong>alias:</strong> Kısa komut tanımla (örn: alias ll='ls -la')</li>
+            </ul>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="A">
+                <h3>Soru 1: İmleci satır başına götürmek için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + A</li>
+                    <li>B) Ctrl + E</li>
+                    <li>C) Ctrl + B</li>
+                    <li>D) Alt + A</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 2: Terminal ekranını temizlemek için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + C</li>
+                    <li>B) Ctrl + L</li>
+                    <li>C) Ctrl + K</li>
+                    <li>D) Ctrl + R</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 3: Çalışan bir komutu sonlandırmak için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + Z</li>
+                    <li>B) Ctrl + D</li>
+                    <li>C) Ctrl + C</li>
+                    <li>D) Ctrl + Q</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 4: İmlecin sağındaki tüm metni silmek için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + U</li>
+                    <li>B) Ctrl + K</li>
+                    <li>C) Ctrl + W</li>
+                    <li>D) Ctrl + Y</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: Komut geçmişinde arama yapmak için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + P</li>
+                    <li>B) Ctrl + H</li>
+                    <li>C) Ctrl + R</li>
+                    <li>D) Ctrl + F</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 6: Terminal oturumunu kapatmak için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + D</li>
+                    <li>B) Ctrl + C</li>
+                    <li>C) Ctrl + X</li>
+                    <li>D) Ctrl + Q</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 7: Yeni terminal sekmesi açmak için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + T</li>
+                    <li>B) Ctrl + Shift + T</li>
+                    <li>C) Alt + T</li>
+                    <li>D) Ctrl + N</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 8: İmlecin solundaki kelimeyi silmek için hangi kısayol kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Ctrl + U</li>
+                    <li>B) Ctrl + K</li>
+                    <li>C) Ctrl + W</li>
+                    <li>D) Ctrl + D</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 9: Dosya/komut isimlerini otomatik tamamlamak için hangi tuş kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Tab</li>
+                    <li>B) Space</li>
+                    <li>C) Enter</li>
+                    <li>D) Ctrl + T</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 10: Son komutu tekrar çalıştırmak için hangi ifade kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) !*</li>
+                    <li>B) !!</li>
+                    <li>C) !$</li>
+                    <li>D) !#</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + A</div>
+                        <div class="flashcard-back">İmleci satır başına götürür</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + E</div>
+                        <div class="flashcard-back">İmleci satır sonuna götürür</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + C</div>
+                        <div class="flashcard-back">Çalışan komutu sonlandırır (SIGINT)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + L</div>
+                        <div class="flashcard-back">Terminal ekranını temizler</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + R</div>
+                        <div class="flashcard-back">Komut geçmişinde arama (reverse search)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + U</div>
+                        <div class="flashcard-back">İmlecin solundaki her şeyi siler</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + K</div>
+                        <div class="flashcard-back">İmlecin sağındaki her şeyi siler</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Tab tuşu</div>
+                        <div class="flashcard-back">Komut/dosya isimlerini otomatik tamamlar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">!!</div>
+                        <div class="flashcard-back">Son komutu tekrar çalıştırır</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ctrl + D</div>
+                        <div class="flashcard-back">Terminal oturumunu kapatır (EOF)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() {
+                selectAnswer(this);
+            });
+        });
+
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    const allOptions = question.querySelectorAll('.test-options li');
+                    
+                    allOptions.forEach(option => {
+                        const letter = option.textContent.trim().charAt(0);
+                        if (letter === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.display = 'block';
+            scoreElement.innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <a href="modul2-kali-komutlari.html" class="nav-button">← Önceki Modül</a>
+        <div class="nav-center">Modül 3 / 7</div>
+        <a href="modul4-kali-kurulum.html" class="nav-button">Sonraki Modül →</a>
+    </div>
+</body>
+</html>

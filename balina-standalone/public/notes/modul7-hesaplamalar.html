@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 7: Hesaplama Problemleri</title>
+    <link rel="stylesheet" href="style.css?v=1762791407">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 7</span>
+        </nav>
+        <header class="module-header">
+            <div class="module-icon">🔢</div>
+            <h1>Modül 7: Hesaplama Problemleri</h1>
+            <p>Bellek, Transfer Hızı ve Pratik Hesaplamalar</p>
+        </header>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Formüller ve Örnekler</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (30 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards</button>
+        </div>
+        <div class="content">
+            <div id="teori" class="tab-content active">
+                <div class="section">
+                    <h2>🔢 Temel Hesaplama Formülleri</h2>
+                    <p>Mikroişlemciler dersinde sıkça kullanılan hesaplama formülleri ve pratik örnekler.</p>
+                </div>
+                
+                <div class="section">
+                    <h2>💾 1. Bellek Adresleme Hesaplamaları</h2>
+                    <div class="formula-box">
+                        <h3>Formül 1: Adreslenebilir Bellek</h3>
+                        <p><strong>Adreslenebilir Bellek = 2<sup>n</sup> byte</strong></p>
+                        <p><strong>n:</strong> Adres biti sayısı</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 16-bit adres: 2<sup>16</sup> = 65,536 byte = <strong>64 KB</strong></p>
+                        <p>🔹 20-bit adres: 2<sup>20</sup> = 1,048,576 byte = <strong>1 MB</strong></p>
+                        <p>🔹 24-bit adres: 2<sup>24</sup> = 16,777,216 byte = <strong>16 MB</strong></p>
+                        <p>🔹 32-bit adres: 2<sup>32</sup> = 4,294,967,296 byte = <strong>4 GB</strong></p>
+                        <p>🔹 64-bit adres: 2<sup>64</sup> = <strong>16 Exabyte</strong></p>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <h3>Formül 2: Gerekli Adres Biti</h3>
+                        <p><strong>n = log<sub>2</sub>(Bellek Boyutu)</strong></p>
+                        <p>veya <strong>n = ⌈log<sub>2</sub>(byte sayısı)⌉</strong></p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 64 KB bellek: log<sub>2</sub>(65536) = <strong>16 bit adres</strong></p>
+                        <p>🔹 1 MB bellek: log<sub>2</sub>(1048576) = <strong>20 bit adres</strong></p>
+                        <p>🔹 4 GB bellek: log<sub>2</sub>(4×10<sup>9</sup>) ≈ <strong>32 bit adres</strong></p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⚡ 2. Veri Transfer Hızı Hesaplamaları</h2>
+                    <div class="formula-box">
+                        <h3>Formül 3: Transfer Hızı</h3>
+                        <p><strong>Transfer Rate = Frekans × (Veri Yolu Genişliği / 8)</strong></p>
+                        <p><strong>Birim:</strong> Byte/saniye (B/s)</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 50 MHz, 16-bit: 50M × (16/8) = 50M × 2 = <strong>100 MB/s</strong></p>
+                        <p>🔹 100 MHz, 32-bit: 100M × (32/8) = 100M × 4 = <strong>400 MB/s</strong></p>
+                        <p>🔹 200 MHz, 64-bit: 200M × (64/8) = 200M × 8 = <strong>1600 MB/s = 1.6 GB/s</strong></p>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <h3>Formül 4: Gerekli Cycle Sayısı</h3>
+                        <p><strong>Cycle = Toplam Veri (byte) / (Veri Yolu / 8)</strong></p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 512 byte, 16-bit bus: 512 / (16/8) = 512 / 2 = <strong>256 cycle</strong></p>
+                        <p>🔹 1 KB, 32-bit bus: 1024 / (32/8) = 1024 / 4 = <strong>256 cycle</strong></p>
+                        <p>🔹 4 KB, 64-bit bus: 4096 / (64/8) = 4096 / 8 = <strong>512 cycle</strong></p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>⏱️ 3. Zaman ve Frekans Hesaplamaları</h2>
+                    <div class="formula-box">
+                        <h3>Formül 5: Periyot ve Frekans</h3>
+                        <p><strong>T = 1 / f</strong> (Periyot = 1 / Frekans)</p>
+                        <p><strong>f = 1 / T</strong> (Frekans = 1 / Periyot)</p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 100 MHz → T = 1/100M = <strong>10 nanosaniye (ns)</strong></p>
+                        <p>🔹 1 GHz → T = 1/1G = <strong>1 nanosaniye</strong></p>
+                        <p>🔹 T = 20ns → f = 1/20ns = <strong>50 MHz</strong></p>
+                    </div>
+                    
+                    <div class="formula-box">
+                        <h3>Formül 6: Toplam Transfer Süresi</h3>
+                        <p><strong>Süre = Cycle Sayısı × Periyot</strong></p>
+                    </div>
+                    <div class="example-box">
+                        <h4>Örnekler:</h4>
+                        <p>🔹 256 cycle, 100 MHz (T=10ns): 256 × 10ns = <strong>2560 ns = 2.56 μs</strong></p>
+                        <p>🔹 1000 cycle, 50 MHz (T=20ns): 1000 × 20ns = <strong>20 μs</strong></p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 4. Birim Dönüşümleri</h2>
+                    <div class="component-card">
+                        <h3>Bellek Birimleri (İkili Sistem)</h3>
+                        <ul>
+                            <li><strong>1 Byte</strong> = 8 bit</li>
+                            <li><strong>1 KB</strong> = 1024 byte = 2<sup>10</sup> byte</li>
+                            <li><strong>1 MB</strong> = 1024 KB = 2<sup>20</sup> byte</li>
+                            <li><strong>1 GB</strong> = 1024 MB = 2<sup>30</sup> byte</li>
+                            <li><strong>1 TB</strong> = 1024 GB = 2<sup>40</sup> byte</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-card">
+                        <h3>Zaman Birimleri</h3>
+                        <ul>
+                            <li><strong>1 saniye (s)</strong> = 1,000 milisaniye (ms)</li>
+                            <li><strong>1 milisaniye (ms)</strong> = 1,000 mikrosaniye (μs)</li>
+                            <li><strong>1 mikrosaniye (μs)</strong> = 1,000 nanosaniye (ns)</li>
+                            <li><strong>1 nanosaniye (ns)</strong> = 10<sup>-9</sup> saniye</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Dönüşüm Örnekleri:</h4>
+                        <p>🔹 512 KB = 512 × 1024 = <strong>524,288 byte</strong></p>
+                        <p>🔹 2 GB = 2 × 1024 × 1024 × 1024 = <strong>2,147,483,648 byte</strong></p>
+                        <p>🔹 5000 ns = 5000 / 1000 = <strong>5 μs</strong></p>
+                        <p>🔹 0.002 s = 2 ms = 2000 μs = <strong>2,000,000 ns</strong></p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🎯 5. Pratik Problem Çözme Adımları</h2>
+                    <div class="important-box">
+                        <h3>Problem Çözme Stratejisi:</h3>
+                        <ol>
+                            <li><strong>Verilenler:</strong> Neler biliniyor? (frekans, veri yolu, bellek boyutu...)</li>
+                            <li><strong>İstenen:</strong> Ne hesaplanacak? (transfer hızı, cycle, adres biti...)</li>
+                            <li><strong>Formül Seç:</strong> Hangi formül gerekli?</li>
+                            <li><strong>Hesapla:</strong> Değerleri formüle yerleştir</li>
+                            <li><strong>Birim Dönüşümü:</strong> Gerekiyorsa KB/MB/GB dönüşümü yap</li>
+                            <li><strong>Kontrol:</strong> Sonuç mantıklı mı?</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📝 Örnek Soru Çözümleri</h2>
+                    
+                    <div class="example-box">
+                        <h4>Soru 1: 32-bit adres yolu olan bir sistemde kaç GB bellek adreslenebilir?</h4>
+                        <p><strong>Çözüm:</strong></p>
+                        <p>• Adreslenebilir Bellek = 2<sup>32</sup> byte</p>
+                        <p>• 2<sup>32</sup> = 4,294,967,296 byte</p>
+                        <p>• 4,294,967,296 / (1024×1024×1024) = <strong>4 GB</strong></p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Soru 2: 200 MHz frekans, 64-bit veri yolu → Transfer hızı?</h4>
+                        <p><strong>Çözüm:</strong></p>
+                        <p>• Transfer Rate = Frekans × (Veri Yolu / 8)</p>
+                        <p>• = 200M × (64/8)</p>
+                        <p>• = 200M × 8</p>
+                        <p>• = <strong>1600 MB/s = 1.6 GB/s</strong></p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4>Soru 3: 2 MB veriyi 32-bit bus ile kaç cycle'da transfer ederiz?</h4>
+                        <p><strong>Çözüm:</strong></p>
+                        <p>• 2 MB = 2 × 1024 × 1024 = 2,097,152 byte</p>
+                        <p>• Cycle = Veri / (Bus / 8)</p>
+                        <p>• = 2,097,152 / (32/8)</p>
+                        <p>• = 2,097,152 / 4</p>
+                        <p>• = <strong>524,288 cycle</strong></p>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="modul6-veriyolu.html" class="btn">← Önceki</a>
+                    <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                    <a href="modul8-esp32.html" class="btn btn-next">Sonraki →</a>
+                </div>
+            </div>
+            
+            <div id="test" class="tab-content">
+                <div class="section">
+                    <h2>✅ Modül 7 Testi - 30 Soru</h2>
+                    <div class="progress-bar"><div class="progress-fill" id="testProgress">0/30</div></div>
+                    <div id="testContainer"></div>
+                    <div id="testResult"></div>
+                    <button class="btn" onclick="resetTest()">🔄 Testi Sıfırla</button>
+                </div>
+            </div>
+            
+            <div id="flashcards" class="tab-content">
+                <div class="section">
+                    <h2>💡 Flashcards - 10 Kart</h2>
+                    <div id="flashcardsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="common.js"></script>
+    <script>
+        const testQuestions = [
+            {q: "16-bit adres yolu kaç byte adresler?", options: ["32 KB", "64 KB", "128 KB", "256 KB"], correct: 1},
+            {q: "32-bit adres yolu kaç GB adresler?", options: ["2 GB", "4 GB", "8 GB", "16 GB"], correct: 1},
+            {q: "1 KB kaç byte'tır?", options: ["1000", "1024", "1048", "2048"], correct: 1},
+            {q: "1 MB kaç KB'tır?", options: ["1000", "1024", "2048", "4096"], correct: 1},
+            {q: "100 MHz frekansta periyot nedir?", options: ["1 ns", "10 ns", "100 ns", "1000 ns"], correct: 1},
+            {q: "Transfer Rate = ?", options: ["Frekans / 8", "Frekans × (Bus/8)", "Bus × 8", "Frekans + Bus"], correct: 1},
+            {q: "50 MHz, 32-bit bus → Transfer hızı?", options: ["100 MB/s", "200 MB/s", "400 MB/s", "800 MB/s"], correct: 1},
+            {q: "100 MHz, 64-bit bus → Transfer hızı?", options: ["400 MB/s", "800 MB/s", "1600 MB/s", "3200 MB/s"], correct: 1},
+            {q: "1024 byte, 16-bit bus → Kaç cycle?", options: ["256", "512", "1024", "2048"], correct: 1},
+            {q: "2 KB, 32-bit bus → Kaç cycle?", options: ["256", "512", "1024", "2048"], correct: 1},
+            {q: "20-bit adres yolu kaç MB adresler?", options: ["1 MB", "2 MB", "4 MB", "8 MB"], correct: 0},
+            {q: "24-bit adres yolu kaç MB adresler?", options: ["4 MB", "8 MB", "16 MB", "32 MB"], correct: 2},
+            {q: "1 GHz frekans → Periyot nedir?", options: ["1 ps", "1 ns", "10 ns", "100 ns"], correct: 1},
+            {q: "Periyot 5 ns → Frekans nedir?", options: ["20 MHz", "50 MHz", "100 MHz", "200 MHz"], correct: 3},
+            {q: "512 MB kaç GB'tır?", options: ["0.25 GB", "0.5 GB", "1 GB", "2 GB"], correct: 1},
+            {q: "4096 KB kaç MB'tır?", options: ["2 MB", "4 MB", "8 MB", "16 MB"], correct: 1},
+            {q: "1 ms kaç μs'dir?", options: ["100", "1000", "10000", "100000"], correct: 1},
+            {q: "5000 ns kaç μs'dir?", options: ["0.5", "5", "50", "500"], correct: 1},
+            {q: "200 MHz, 16-bit → Transfer hızı?", options: ["200 MB/s", "400 MB/s", "800 MB/s", "1600 MB/s"], correct: 1},
+            {q: "150 MHz, 32-bit → Transfer hızı?", options: ["300 MB/s", "450 MB/s", "600 MB/s", "900 MB/s"], correct: 2},
+            {q: "4 KB, 64-bit bus → Kaç cycle?", options: ["256", "512", "1024", "2048"], correct: 1},
+            {q: "8192 byte, 32-bit bus → Kaç cycle?", options: ["1024", "2048", "4096", "8192"], correct: 1},
+            {q: "28-bit adres yolu kaç MB adresler?", options: ["64 MB", "128 MB", "256 MB", "512 MB"], correct: 2},
+            {q: "Adreslenebilir bellek formülü nedir?", options: ["n^2", "2^n", "n×2", "2×n"], correct: 1},
+            {q: "1 GB kaç MB'tır?", options: ["512", "1000", "1024", "2048"], correct: 2},
+            {q: "256 cycle, 100 MHz (T=10ns) → Süre?", options: ["256 ns", "2.56 μs", "25.6 μs", "256 μs"], correct: 1},
+            {q: "500 cycle, 50 MHz (T=20ns) → Süre?", options: ["1 μs", "5 μs", "10 μs", "50 μs"], correct: 2},
+            {q: "1 TB kaç GB'tır?", options: ["512", "1000", "1024", "2048"], correct: 2},
+            {q: "64-bit veri yolu bir seferde kaç byte taşır?", options: ["4", "8", "16", "32"], correct: 1},
+            {q: "2^10 nedir?", options: ["100", "512", "1024", "2048"], correct: 2}
+        ];
+        
+        const flashcards = [
+            {front: "Adreslenebilir Bellek", back: "2^n byte (n = adres biti sayısı)"},
+            {front: "Transfer Rate", back: "Frekans × (Veri Yolu / 8) → Byte/saniye"},
+            {front: "Cycle Sayısı", back: "Toplam Veri / (Veri Yolu / 8)"},
+            {front: "Periyot", back: "T = 1/f → 100 MHz = 10 ns"},
+            {front: "1 KB", back: "1024 byte = 2^10 byte"},
+            {front: "1 MB", back: "1024 KB = 2^20 byte"},
+            {front: "1 GB", back: "1024 MB = 2^30 byte"},
+            {front: "16-bit Adres", back: "2^16 = 64 KB adreslenebilir"},
+            {front: "32-bit Adres", back: "2^32 = 4 GB adreslenebilir"},
+            {front: "100 MHz, 32-bit", back: "100M × 4 = 400 MB/s transfer hızı"}
+        ];
+        
+        initTest('testContainer', 'testProgress', 'testResult', testQuestions, 'modul7');
+        initFlashcards('flashcardsContainer', flashcards);
+    </script>
+</body>
+</html>

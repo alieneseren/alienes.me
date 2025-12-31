@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 1: Bash Dili Temelleri - Siber Güvenlik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #27ae60;
+        }
+
+        .header h1 {
+            color: #27ae60;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #229954;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #229954;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab.active {
+            background: #27ae60;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-section h2 {
+            color: #27ae60;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+
+        .theory-section h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .code-box {
+            background: #2c3e50;
+            color: #2ecc71;
+            padding: 15px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .code-box code {
+            display: block;
+            white-space: pre;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #27ae60;
+        }
+
+        .test-question h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .test-options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            border-color: #27ae60;
+            background: #e8f8f5;
+        }
+
+        .test-options li.selected {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-options li.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-options li.wrong {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .submit-button {
+            background: #27ae60;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #229954;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #27ae60;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>💻 Modül 1: Bash Dili Temelleri</h1>
+            <p>Shell Scripting ve Temel Komutlar</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>Bash Nedir?</h2>
+            <p>
+                <strong>Bash (Bourne Again Shell)</strong>, Linux ve macOS sistemlerinde kullanılan bir komut yorumlayıcısıdır. 
+                Kullanıcının komut yazarak işletim sistemine talimat vermesini sağlar. Otomasyon, dosya yönetimi ve 
+                sistem konfigürasyonu için en yaygın shell dilidir.
+            </p>
+
+            <h3>1. Değişkenler ve Yazdırma</h3>
+            <div class="code-box"><code>isim="Mustafa"
+echo "Merhaba $isim"
+
+# Çıktı: Merhaba Mustafa</code></div>
+
+            <h3>2. Kullanıcıdan Girdi Alma</h3>
+            <div class="code-box"><code>echo "Adınızı girin:"
+read ad
+echo "Hoş geldiniz, $ad!"</code></div>
+
+            <h3>3. Karar Yapıları (if / else)</h3>
+            <div class="code-box"><code>sayi=5
+if [ $sayi -gt 3 ]; then
+  echo "Sayi 3'ten büyük"
+else
+  echo "Sayi 3 veya küçük"
+fi
+
+# Karşılaştırma operatörleri:
+# -eq (eşit), -ne (eşit değil)
+# -lt (küçük), -le (küçük eşit)
+# -gt (büyük), -ge (büyük eşit)</code></div>
+
+            <h3>4. Döngüler</h3>
+            <h4>For Döngüsü:</h4>
+            <div class="code-box"><code>for i in {1..5}; do
+  echo "Sayi: $i"
+done</code></div>
+
+            <h4>While Döngüsü:</h4>
+            <div class="code-box"><code>i=1
+while [ $i -le 5 ]; do
+  echo "Adım: $i"
+  ((i++))
+done</code></div>
+
+            <h3>5. Fonksiyonlar</h3>
+            <div class="code-box"><code>merhaba() {
+  echo "Merhaba $1"
+}
+
+merhaba "Mustafa"
+# NOT: Direkt merhaba Mustafa diye çağrılır</code></div>
+
+            <h3>6. Dosya ve Klasör Kontrolleri</h3>
+            <div class="code-box"><code># Dosya kontrolü
+if [ -f "deneme.txt" ]; then
+  echo "Dosya mevcut"
+else
+  echo "Dosya yok"
+fi
+
+# Klasör kontrolü
+if [ -d "/opt/test" ]; then
+  echo "Klasör bulundu"
+fi</code></div>
+
+            <h3>7. Parametrelerle Çalışmak</h3>
+            <div class="code-box"><code>echo "1. Argüman: $1"
+echo "2. Argüman: $2"
+
+# Komut satırından:
+# bash script.sh Ankara 2025</code></div>
+
+            <h3>8. Basit Yedekleme Scripti</h3>
+            <div class="code-box"><code>#!/bin/bash
+kaynak="/home/kali/Desktop/proje"
+hedef="/home/kali/backup"
+
+tarih=$(date +%Y-%m-%d)
+mkdir -p "$hedef/$tarih"
+cp -r "$kaynak" "$hedef/$tarih"
+
+echo "Yedekleme tamamlandı: $hedef/$tarih"</code></div>
+
+            <h3>9. Bash Script Nasıl Çalıştırılır?</h3>
+            <div class="code-box"><code># 1. Script dosyası oluştur
+nano script.sh
+
+# 2. Çalıştırma izni ver
+chmod +x script.sh
+
+# 3. Çalıştır
+./script.sh</code></div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="B">
+                <h3>Soru 1: Bash'te değişken tanımlamak için doğru syntax hangisidir?</h3>
+                <ul class="test-options">
+                    <li>A) var isim = "Ali"</li>
+                    <li>B) isim="Ali"</li>
+                    <li>C) $isim = "Ali"</li>
+                    <li>D) declare isim = "Ali"</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 2: "Sayı 5'ten büyüktür" kontrolü hangi operatörle yapılır?</h3>
+                <ul class="test-options">
+                    <li>A) if [ $sayi > 5 ]</li>
+                    <li>B) if [ $sayi -eq 5 ]</li>
+                    <li>C) if [ $sayi -gt 5 ]</li>
+                    <li>D) if [ $sayi >= 5 ]</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 3: Kullanıcıdan girdi almak için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) input</li>
+                    <li>B) read</li>
+                    <li>C) scanf</li>
+                    <li>D) get</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 4: Bir bash script dosyasına çalıştırma izni vermek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) chmod +x script.sh</li>
+                    <li>B) run script.sh</li>
+                    <li>C) execute script.sh</li>
+                    <li>D) bash --enable script.sh</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: For döngüsünde 1'den 10'a kadar sayıları yazdırmak için doğru syntax hangisidir?</h3>
+                <ul class="test-options">
+                    <li>A) for (i=1; i<=10; i++)</li>
+                    <li>B) for i in 1..10</li>
+                    <li>C) for i in {1..10}; do</li>
+                    <li>D) for i = 1 to 10</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 6: Bir dosyanın var olup olmadığını kontrol etmek için hangi ifade kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) if [ -e dosya.txt ]</li>
+                    <li>B) if [ -f dosya.txt ]</li>
+                    <li>C) if [ -x dosya.txt ]</li>
+                    <li>D) if [ -d dosya.txt ]</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 7: Bash fonksiyonuna gönderilen ilk parametre nasıl alınır?</h3>
+                <ul class="test-options">
+                    <li>A) $1</li>
+                    <li>B) $arg1</li>
+                    <li>C) param[0]</li>
+                    <li>D) args[1]</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 8: Komut çıktısını bir değişkene atamak için hangisi kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) tarih = date</li>
+                    <li>B) tarih=$(date)</li>
+                    <li>C) tarih = $(date)</li>
+                    <li>D) tarih=&date</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 9: While döngüsünde sayı değişkenini 1 artırmak için hangisi kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) sayi++</li>
+                    <li>B) $sayi = $sayi + 1</li>
+                    <li>C) ((sayi++))</li>
+                    <li>D) increment sayi</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 10: Bash script'inin ilk satırı (shebang) nedir?</h3>
+                <ul class="test-options">
+                    <li>A) #!/bin/bash</li>
+                    <li>B) #!bash</li>
+                    <li>C) <bash></li>
+                    <li>D) //bin/bash</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Bash nedir?</div>
+                        <div class="flashcard-back">Linux ve macOS'ta kullanılan komut yorumlayıcısı (shell)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Değişken nasıl tanımlanır?</div>
+                        <div class="flashcard-back">isim="değer" (eşittir işaretinin yanında boşluk YOK)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">-gt operatörü ne demek?</div>
+                        <div class="flashcard-back">Greater than (büyüktür) - sayısal karşılaştırma</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">read komutu ne işe yarar?</div>
+                        <div class="flashcard-back">Kullanıcıdan girdi almaya yarar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">chmod +x ne yapar?</div>
+                        <div class="flashcard-back">Dosyaya çalıştırma (execute) izni verir</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">For döngüsü syntax'ı?</div>
+                        <div class="flashcard-back">for i in {1..10}; do echo $i; done</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">-f ne kontrol eder?</div>
+                        <div class="flashcard-back">Dosyanın (file) var olup olmadığını kontrol eder</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">$1, $2 ne demek?</div>
+                        <div class="flashcard-back">Script veya fonksiyona gönderilen parametreler</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">$(komut) ne yapar?</div>
+                        <div class="flashcard-back">Komut çıktısını değişkene atar (command substitution)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Shebang nedir?</div>
+                        <div class="flashcard-back">#!/bin/bash - Script'in hangi yorumlayıcıyla çalışacağını belirtir</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Tüm tab-content'leri gizle
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Tüm tab butonlarından active class'ını kaldır
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Seçilen tab'i göster
+            document.getElementById(tabName).classList.add('active');
+            
+            // İlgili tab butonuna active class ekle
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            // Aynı soru içindeki diğer seçeneklerin seçimini kaldır
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            
+            // Tıklanan seçeneği işaretle
+            element.classList.add('selected');
+        }
+
+        // Test seçeneklerine tıklama olayı ekle
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() {
+                selectAnswer(this);
+            });
+        });
+
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    const allOptions = question.querySelectorAll('.test-options li');
+                    
+                    allOptions.forEach(option => {
+                        const letter = option.textContent.trim().charAt(0);
+                        if (letter === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.display = 'block';
+            scoreElement.innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <button class="nav-button" disabled>← Önceki Modül</button>
+        <div class="nav-center">Modül 1 / 7</div>
+        <a href="modul2-kali-komutlari.html" class="nav-button">Sonraki Modül →</a>
+    </div>
+</body>
+</html>

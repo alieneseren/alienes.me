@@ -33,11 +33,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <?php if(file_exists(public_path('build/manifest.json'))): ?>
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(file_exists(public_path('build/manifest.json'))): ?>
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     <?php else: ?>
         <link rel="stylesheet" href="<?php echo e(asset('build/assets/app-ddec999e.css')); ?>">
-    <?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ali Enes Eren",
+        "alternateName": "alienes",
+        "jobTitle": "<?php echo e($profile->title ?? 'Senior Software Architect'); ?>",
+        "url": "https://alienes.me",
+        "sameAs": [
+            <?php if($profile && $profile->github_url): ?>"<?php echo e($profile->github_url); ?>"<?php endif; ?>
+            <?php if($profile && $profile->linkedin_url): ?>, "<?php echo e($profile->linkedin_url); ?>"<?php endif; ?>
+        ],
+        "description": "<?php echo e($profile->bio ?? 'Full Stack Developer specializing in Laravel, PHP, and modern web technologies.'); ?>",
+        "knowsAbout": ["Laravel", "PHP", "Vue.js", "Livewire", "FilamentPHP", "Full Stack Development"]
+    }
+    </script>
 </head>
 <body class="antialiased">
     <!-- Navigation -->
@@ -52,19 +70,18 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="<?php echo e(route('home')); ?>" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Ana Sayfa</a>
-                    <a href="<?php echo e(route('home')); ?>#about" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Hakkımda</a>
-                    <?php if($hasExperiences): ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasExperiences): ?>
                     <a href="<?php echo e(route('home')); ?>#experience" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Deneyim</a>
-                    <?php endif; ?>
-                    <?php if($hasSkills): ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSkills): ?>
                     <a href="<?php echo e(route('home')); ?>#skills" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Yetenekler</a>
-                    <?php endif; ?>
-                    <?php if($hasProjects): ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasProjects): ?>
                     <a href="<?php echo e(route('projects')); ?>" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Projeler</a>
-                    <?php endif; ?>
-                    <?php if(\App\Models\Cv::where('is_published', true)->exists()): ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(\App\Models\Cv::where('is_published', true)->exists()): ?>
                     <a href="<?php echo e(route('cv.show')); ?>" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📄 CV</a>
-                    <?php endif; ?>
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     <a href="https://games.alienes.me" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition font-semibold">🎮 Oyunlar</a>
                     <a href="<?php echo e(route('study.index')); ?>" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📚 Çalışma Notları</a>
                     <a href="<?php echo e(route('contact')); ?>" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">İletişim</a>
@@ -93,19 +110,18 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700">
             <div class="px-4 py-4 space-y-3">
                 <a href="<?php echo e(route('home')); ?>" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Ana Sayfa</a>
-                <a href="<?php echo e(route('home')); ?>#about" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Hakkımda</a>
-                <?php if($hasExperiences): ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasExperiences): ?>
                 <a href="<?php echo e(route('home')); ?>#experience" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Deneyim</a>
-                <?php endif; ?>
-                <?php if($hasSkills): ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasSkills): ?>
                 <a href="<?php echo e(route('home')); ?>#skills" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Yetenekler</a>
-                <?php endif; ?>
-                <?php if($hasProjects): ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($hasProjects): ?>
                 <a href="<?php echo e(route('projects')); ?>" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Projeler</a>
-                <?php endif; ?>
-                <?php if(\App\Models\Cv::where('is_published', true)->exists()): ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(\App\Models\Cv::where('is_published', true)->exists()): ?>
                 <a href="<?php echo e(route('cv.show')); ?>" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">📄 CV</a>
-                <?php endif; ?>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 <a href="https://games.alienes.me" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600 font-semibold">🎮 Oyunlar</a>
                 <a href="<?php echo e(route('study.index')); ?>" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">📚 Çalışma Notları</a>
                 <a href="<?php echo e(route('contact')); ?>" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">İletişim</a>
@@ -125,9 +141,7 @@
                 <p class="text-gray-600 dark:text-gray-400">
                     © <?php echo e(date('Y')); ?> alienes.me. Tüm hakları saklıdır.
                 </p>
-                <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">
-                    Laravel ve ❤️ ile geliştirildi.
-                </p>
+
             </div>
         </div>
     </footer>

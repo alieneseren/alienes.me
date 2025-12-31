@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 5: Ağ Tarama & Keşif - Siber Güvenlik</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e67e22;
+        }
+        .header h1 {
+            color: #e67e22;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            background: #e67e22;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        .back-button:hover { background: #d35400; }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #f5576c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #e23a4f;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+        .tab.active {
+            background: #e67e22;
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .theory-section h2 {
+            color: #e67e22;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+        .theory-section h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .code-box {
+            background: #2c3e50;
+            color: #e67e22;
+            padding: 15px;
+            border-left: 4px solid #e67e22;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .code-box code {
+            display: block;
+            white-space: pre;
+            color: #ecf0f1;
+        }
+        .test-question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #e67e22;
+        }
+        .test-question h3 {
+            color: #e67e22;
+            margin-bottom: 15px;
+        }
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+        .test-options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .test-options li:hover {
+            border-color: #e67e22;
+            background: #fef5e7;
+        }
+        .test-options li.selected {
+            border-color: #e67e22;
+            background: #fdebd0;
+        }
+        .test-options li.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+        .test-options li.wrong {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+        .submit-button {
+            background: #e67e22;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .submit-button:hover { background: #d35400; }
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #e67e22;
+            margin-top: 20px;
+            display: none;
+        }
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .flashcard-front {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+        }
+        .flashcard-back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>🔍 Modül 5: Ağ Tarama & Keşif</h1>
+            <p>Nmap, Netdiscover ve Bilgi Toplama Teknikleri</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>Ağ Tarama Nedir?</h2>
+            <p>
+                Ağ tarama, bir ağdaki cihazları, açık portları ve çalışan servisleri keşfetme işlemidir. 
+                Penetrasyon testlerinin ilk ve en önemli adımıdır.
+            </p>
+
+            <h2>1. Nmap (Network Mapper)</h2>
+            <p>En popüler ve güçlü ağ tarama aracıdır. Port tarama, servis tespiti, OS detection gibi özelliklere sahiptir.</p>
+
+            <h3>Temel Nmap Komutları</h3>
+            
+            <h4>Basit Host Tarama</h4>
+            <div class="code-box"><code>nmap 192.168.1.1                    # Tek IP tara
+nmap 192.168.1.0/24                 # Tüm subnet'i tara
+nmap 192.168.1.1-254                # IP aralığı tara</code></div>
+
+            <h4>Port Tarama Tipleri</h4>
+            <div class="code-box"><code>nmap -sT 192.168.1.1                # TCP Connect scan
+nmap -sS 192.168.1.1                # SYN scan (stealth)
+nmap -sU 192.168.1.1                # UDP scan
+nmap -sA 192.168.1.1                # ACK scan</code></div>
+
+            <h4>Servis ve Versiyon Tespiti</h4>
+            <div class="code-box"><code>nmap -sV 192.168.1.1                # Servis versiyonları
+nmap -O 192.168.1.1                 # İşletim sistemi tespiti
+nmap -A 192.168.1.1                 # Agresif tarama (OS, servis, script)</code></div>
+
+            <h4>Port Aralığı Belirleme</h4>
+            <div class="code-box"><code>nmap -p 80 192.168.1.1              # Tek port
+nmap -p 80,443,8080 192.168.1.1     # Belirli portlar
+nmap -p 1-1000 192.168.1.1          # Port aralığı
+nmap -p- 192.168.1.1                # Tüm portlar (1-65535)</code></div>
+
+            <h4>Hız Ayarları</h4>
+            <div class="code-box"><code>nmap -T0 192.168.1.1                # Paranoid (çok yavaş)
+nmap -T1 192.168.1.1                # Sneaky
+nmap -T2 192.168.1.1                # Polite
+nmap -T3 192.168.1.1                # Normal (varsayılan)
+nmap -T4 192.168.1.1                # Aggressive (hızlı)
+nmap -T5 192.168.1.1                # Insane (çok hızlı)</code></div>
+
+            <h4>Çıktı Kaydetme</h4>
+            <div class="code-box"><code>nmap -oN sonuc.txt 192.168.1.1      # Normal format
+nmap -oX sonuc.xml 192.168.1.1      # XML format
+nmap -oG sonuc.txt 192.168.1.1      # Grepable format
+nmap -oA tum_sonuclar 192.168.1.1   # Tüm formatlar</code></div>
+
+            <h2>2. Netdiscover</h2>
+            <p>ARP protokolünü kullanarak yerel ağdaki cihazları keşfeden araçtır.</p>
+
+            <h3>Netdiscover Kullanımı</h3>
+            <div class="code-box"><code># Otomatik ağ tespiti
+sudo netdiscover
+
+# Belirli IP aralığı
+sudo netdiscover -r 192.168.1.0/24
+
+# Pasif mod (ARP isteği göndermez)
+sudo netdiscover -p
+
+# Belirli arayüz
+sudo netdiscover -i eth0</code></div>
+
+            <h2>3. Diğer Keşif Araçları</h2>
+            
+            <h3>ARP-Scan</h3>
+            <div class="code-box"><code>sudo arp-scan -l                    # Yerel ağı tara
+sudo arp-scan 192.168.1.0/24        # Belirli ağı tara</code></div>
+
+            <h3>Ping Sweep</h3>
+            <div class="code-box"><code>nmap -sn 192.168.1.0/24             # Ping scan (port tarama yok)
+fping -ag 192.168.1.0/24            # Hızlı ping sweep</code></div>
+
+            <h3>Masscan</h3>
+            <div class="code-box"><code>sudo masscan -p80,443 192.168.1.0/24 --rate=1000
+# Çok hızlı port tarayıcı</code></div>
+
+            <h2>4. Nmap Script Engine (NSE)</h2>
+            <p>Nmap'in güçlü script motoru ile gelişmiş taramalar yapılabilir.</p>
+
+            <div class="code-box"><code># Varsayılan scriptler
+nmap --script=default 192.168.1.1
+
+# Zafiyet tarama
+nmap --script=vuln 192.168.1.1
+
+# HTTP bilgi toplama
+nmap --script=http-enum 192.168.1.1
+
+# SMB paylaşım tarama
+nmap --script=smb-enum-shares 192.168.1.1</code></div>
+
+            <h2>5. Pratik Senaryolar</h2>
+            
+            <h4>Senaryo 1: Hızlı Ağ Keşfi</h4>
+            <div class="code-box"><code># 1. Yerel ağı keşfet
+sudo netdiscover -r 192.168.1.0/24
+
+# 2. Aktif hostları tespit et
+nmap -sn 192.168.1.0/24
+
+# 3. Açık portları tara
+nmap -sS -p- -T4 192.168.1.10</code></div>
+
+            <h4>Senaryo 2: Detaylı Servis Analizi</h4>
+            <div class="code-box"><code># Servis versiyonları ve OS tespiti
+sudo nmap -sS -sV -O -A -p- 192.168.1.10
+
+# Çıktıyı kaydet
+sudo nmap -sS -sV -O -A -p- -oA detayli_tarama 192.168.1.10</code></div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="B">
+                <h3>Soru 1: Nmap'te SYN scan (stealth scan) için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -sT</li>
+                    <li>B) -sS</li>
+                    <li>C) -sU</li>
+                    <li>D) -sA</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 2: Tüm portları taramak için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -p 1-1000</li>
+                    <li>B) -p all</li>
+                    <li>C) -p-</li>
+                    <li>D) -pAll</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 3: Servis versiyonlarını tespit etmek için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -sV</li>
+                    <li>B) -sS</li>
+                    <li>C) -O</li>
+                    <li>D) -A</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 4: Netdiscover hangi protokolü kullanır?</h3>
+                <ul class="test-options">
+                    <li>A) ICMP</li>
+                    <li>B) ARP</li>
+                    <li>C) TCP</li>
+                    <li>D) UDP</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: Nmap'te agresif tarama modu hangi parametredir?</h3>
+                <ul class="test-options">
+                    <li>A) -T5</li>
+                    <li>B) -sS</li>
+                    <li>C) -A</li>
+                    <li>D) -F</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 6: Sadece ping scan yapmak için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -sP</li>
+                    <li>B) -sn</li>
+                    <li>C) -Pn</li>
+                    <li>D) -PS</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 7: İşletim sistemi tespiti için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -O</li>
+                    <li>B) -OS</li>
+                    <li>C) -sO</li>
+                    <li>D) -D</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 8: Nmap çıktısını XML formatında kaydetmek için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -oN</li>
+                    <li>B) -oG</li>
+                    <li>C) -oX</li>
+                    <li>D) -oA</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 9: Hızlı tarama için önerilen timing parametresi hangisidir?</h3>
+                <ul class="test-options">
+                    <li>A) -T3</li>
+                    <li>B) -T4</li>
+                    <li>C) -T5</li>
+                    <li>D) -T2</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 10: UDP port taraması için hangi parametre kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) -sU</li>
+                    <li>B) -sT</li>
+                    <li>C) -sS</li>
+                    <li>D) -sP</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -sS</div>
+                        <div class="flashcard-back">SYN scan (stealth scan) - yarım bağlantı</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -sV</div>
+                        <div class="flashcard-back">Servis versiyonlarını tespit eder</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -p-</div>
+                        <div class="flashcard-back">Tüm portları tarar (1-65535)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -A</div>
+                        <div class="flashcard-back">Agresif tarama (OS, servis, script)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">netdiscover</div>
+                        <div class="flashcard-back">ARP protokolü ile ağ keşfi yapar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -sn</div>
+                        <div class="flashcard-back">Ping scan - sadece host keşfi</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -O</div>
+                        <div class="flashcard-back">İşletim sistemi tespiti yapar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -T4</div>
+                        <div class="flashcard-back">Aggressive timing - hızlı tarama</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -oX</div>
+                        <div class="flashcard-back">Çıktıyı XML formatında kaydeder</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">nmap -sU</div>
+                        <div class="flashcard-back">UDP port taraması yapar</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() {
+                selectAnswer(this);
+            });
+        });
+
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    const allOptions = question.querySelectorAll('.test-options li');
+                    
+                    allOptions.forEach(option => {
+                        const letter = option.textContent.trim().charAt(0);
+                        if (letter === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.display = 'block';
+            scoreElement.innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <a href="modul4-kali-kurulum.html" class="nav-button">← Önceki Modül</a>
+        <div class="nav-center">Modül 5 / 7</div>
+        <a href="modul6-wifi-pentest.html" class="nav-button">Sonraki Modül →</a>
+    </div>
+</body>
+</html>

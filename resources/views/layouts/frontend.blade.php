@@ -38,6 +38,24 @@
     @else
         <link rel="stylesheet" href="{{ asset('build/assets/app-ddec999e.css') }}">
     @endif
+
+    {{-- Person Schema JSON-LD for SEO --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ali Enes Eren",
+        "alternateName": "alienes",
+        "jobTitle": "{{ $profile->title ?? 'Senior Software Architect' }}",
+        "url": "https://alienes.me",
+        "sameAs": [
+            @if($profile && $profile->github_url)"{{ $profile->github_url }}"@endif
+            @if($profile && $profile->linkedin_url), "{{ $profile->linkedin_url }}"@endif
+        ],
+        "description": "{{ $profile->bio ?? 'Full Stack Developer specializing in Laravel, PHP, and modern web technologies.' }}",
+        "knowsAbout": ["Laravel", "PHP", "Vue.js", "Livewire", "FilamentPHP", "Full Stack Development"]
+    }
+    </script>
 </head>
 <body class="antialiased">
     <!-- Navigation -->

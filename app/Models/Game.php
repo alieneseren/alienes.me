@@ -13,7 +13,10 @@ class Game extends Model
         'thumbnail',
         'icon',
         'order',
-        'is_active'
+        'is_active',
+        'zip_path',
+        'extracted_path',
+        'entry_file',
     ];
 
     protected $casts = [

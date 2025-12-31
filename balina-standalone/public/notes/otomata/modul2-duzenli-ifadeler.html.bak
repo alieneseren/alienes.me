@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2: Düzenli İfadeler</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Modül 2: Düzenli İfadeler</span>
+        </nav>
+
+        <header class="module-header">
+            <div class="module-icon">🔄</div>
+            <h1>Modül 2: Düzenli İfadeler</h1>
+            <p>Düzenli İfadelerin Tanımı, Operatörleri ve Düzenli Diller</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('teori')">📚 Teorik Bilgi</button>
+            <button class="tab" onclick="showTab('test')">✅ Test (10 Soru)</button>
+            <button class="tab" onclick="showTab('flashcards')">💡 Flashcards (15)</button>
+        </div>
+
+        <div class="content">
+            <!-- TEORİK BİLGİ -->
+            <div id="teori" class="tab-content active">
+            <div class="section">
+                <h2>🔤 Düzenli İfadelerin Tanımı</h2>
+                <div class="important-box">
+                    <p><strong>Düzenli ifade (regular expression)</strong>, dil tanımlayıcı ifadedir. Düzenli ifadeler ile tanımlanan diller <strong>düzenli diller (regular languages)</strong> olarak adlandırılmaktadır.</p>
+                </div>
+
+                <div class="component-card">
+                    <h3>Temel Kavramlar</h3>
+                    <ul>
+                        <li><strong>ε (epsilon):</strong> Boş kelime</li>
+                        <li><strong>∅ (phi):</strong> Boş dil</li>
+                        <li><strong>a ∈ Σ:</strong> Tek sembol (alfabe elemanı)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⚡ Düzenli İfadelerin Operatörleri</h2>
+
+                <div class="component-card">
+                    <h3>1. Birleştirme (Concatenation)</h3>
+                    <p>İki düzenli ifadeyi ardışık olarak birleştirir.</p>
+                    <p><strong>Notasyon:</strong> xy veya x·y</p>
+                    <p><strong>Örnek:</strong> Σ = {a,b} için ab = {"ab"}</p>
+                </div>
+
+                <div class="component-card">
+                    <h3>2. Birleşim (Union)</h3>
+                    <p>İki düzenli ifadeden en az birini sağlayan kelimeler.</p>
+                    <p><strong>Notasyon:</strong> x|y veya x+y</p>
+                    <p><strong>Örnek:</strong> a|b = {"a", "b"}</p>
+                </div>
+
+                <div class="component-card">
+                    <h3>3. Yıldız (Kleene Star)</h3>
+                    <p>Bir sembolün sıfır veya daha fazla kez tekrarlanması.</p>
+                    <p><strong>Notasyon:</strong> x*</p>
+                    <p><strong>Örnek:</strong> a* = {ε, a, aa, aaa, ...}</p>
+                </div>
+
+                <div class="component-card">
+                    <h3>4. Artı (Kleene Plus)</h3>
+                    <p>Bir sembolün bir veya daha fazla kez tekrarlanması.</p>
+                    <p><strong>Notasyon:</strong> x+</p>
+                    <p><strong>Örnek:</strong> a+ = {a, aa, aaa, ...}</p>
+                </div>
+
+                <div class="component-card">
+                    <h3>5. Parantez</h3>
+                    <p>Operatör önceliğini belirlemek için kullanılır.</p>
+                    <p><strong>Notasyon:</strong> (x)</p>
+                    <p><strong>Örnek:</strong> (ab)* = {ε, ab, abab, ababab, ...}</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Düzenli İfade Kuralları</h2>
+                <div class="important-box">
+                    <p>Eğer r ve s düzenli ifadeler ise:</p>
+                    <ul>
+                        <li>(r)(s) = rs → düzenli ifadedir</li>
+                        <li>(r)|(s) = r+s → düzenli ifadedir</li>
+                        <li>(r)* → düzenli ifadedir</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔍 Düzenli İfade Örnekleri</h2>
+
+                <div class="example-box">
+                    <h3>Örnek 1: Basit Tekrarlar</h3>
+                    <p><strong>Σ = {x} olmak üzere:</strong></p>
+                    <p>L = {ε, x, xx, xxx, xxxx, .....}</p>
+                    <p><strong>Düzenli ifade:</strong> x*</p>
+                    <p><em>Açıklama:</em> x sembolünün 0 veya daha fazla tekrarı</p>
+                </div>
+
+                <div class="example-box">
+                    <h3>Örnek 2: Sabit Desen</h3>
+                    <p><strong>Σ = {a,b} olmak üzere:</strong></p>
+                    <p>L = {a, ab, abb, abbb, abbbb, .....}</p>
+                    <p><strong>Düzenli ifade:</strong> ab*</p>
+                    <p><em>Açıklama:</em> a ile başlayan, sonrasında 0 veya daha fazla b</p>
+                </div>
+
+                <div class="example-box">
+                    <h3>Örnek 3: Alternatif Desenler</h3>
+                    <p><strong>Σ = {a,b} olmak üzere:</strong></p>
+                    <p>L = {ε, ab, abab, ababab, ......}</p>
+                    <p><strong>Düzenli ifade:</strong> (ab)*</p>
+                    <p><em>Açıklama:</em> ab deseninin 0 veya daha fazla tekrarı</p>
+                </div>
+
+                <div class="example-box">
+                    <h3>Örnek 4: Karmaşık Desen</h3>
+                    <p><strong>Σ = {a,b} olmak üzere:</strong></p>
+                    <p>L = {a, b, aa, ab, ba, bb, aaa, ...}</p>
+                    <p><strong>Düzenli ifade:</strong> (a|b)*</p>
+                    <p><em>Açıklama:</em> a veya b'nin herhangi bir kombinasyonu</p>
+                </div>
+
+                <div class="example-box">
+                    <h3>Örnek 5: Sayısal Desenler</h3>
+                    <p><strong>Σ = {0,1} olmak üzere:</strong></p>
+                    <p>L = 01 ile biten tüm ikili dizgiler</p>
+                    <p><strong>Düzenli ifade:</strong> (0|1)*01</p>
+                    <p><em>Açıklama:</em> Herhangi dizgi + 01</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔧 Düzenli İfadelerin Özellikleri</h2>
+
+                <div class="component-card">
+                    <h3>Kapalılık Özellikleri</h3>
+                    <p>Düzenli diller aşağıdaki işlemler altında kapalıdır:</p>
+                    <ul>
+                        <li><strong>Birleşim:</strong> Eğer L₁ ve L₂ düzenli ise, L₁ ∪ L₂ düzenli</li>
+                        <li><strong>Birleştirme:</strong> Eğer L₁ ve L₂ düzenli ise, L₁L₂ düzenli</li>
+                        <li><strong>Yıldız:</strong> Eğer L düzenli ise, L* düzenli</li>
+                        <li><strong>Kesişim:</strong> Düzenli diller kesişim altında kapalı DEĞİL</li>
+                        <li><strong>Tümleme:</strong> Düzenli diller tümleme altında kapalı DEĞİL</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <h3>Karar Özellikleri</h3>
+                    <ul>
+                        <li><strong>Boşluk Problemi:</strong> L = ∅ mı? → Karar verilebilir</li>
+                        <li><strong>Üyelik Problemi:</strong> w ∈ L mi? → Karar verilebilir</li>
+                        <li><strong>Eşitlik Problemi:</strong> L₁ = L₂ mı? → Karar verilebilir</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💻 Uygulama Alanları</h2>
+
+                <div class="component-card">
+                    <h3>Programlama ve Yazılımlar</h3>
+                    <ul>
+                        <li><strong>Metin Düzenleyiciler:</strong> Bul/Değiştir işlemleri</li>
+                        <li><strong>Derleyiciler:</strong> Token tanıma (lexical analysis)</li>
+                        <li><strong>Veri Doğrulama:</strong> E-posta, telefon, tarih formatları</li>
+                        <li><strong>Web Geliştirme:</strong> Form validasyonları</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <h3>Günlük Hayatta</h3>
+                    <ul>
+                        <li><strong>Arama Motorları:</strong> Pattern-based arama</li>
+                        <li><strong>Biyoinformatik:</strong> DNA dizilim analizi</li>
+                        <li><strong>Ağ Güvenliği:</strong> Intrusion detection</li>
+                        <li><strong>Doğal Dil İşleme:</strong> Tokenization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="section">
+                <h2>📝 Bilgi Testi - Modül 2</h2>
+                <p>Düzenli ifadeler konusundaki bilginizi test edin.</p>
+
+                <div class="test-container">
+                    <div class="question">
+                        <h4>1. Aşağıdakilerden hangisi düzenli ifade operatörü değildir?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="a"> a) * (yıldız) </label>
+                            <label><input type="radio" name="q1" value="b"> b) | (birleşim) </label>
+                            <label><input type="radio" name="q1" value="c"> c) ^ (üs) </label>
+                            <label><input type="radio" name="q1" value="d"> d) + (artı) </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: c</strong><br>
+                            ^ (üs) düzenli ifade operatörü değildir. Temel operatörler: *, |, +, () ve birleştirme.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>2. Σ = {a,b} için (ab)* düzenli ifadesi hangi dili tanımlar?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="a"> a) {ε, a, b, aa, bb} </label>
+                            <label><input type="radio" name="q2" value="b"> b) {ε, ab, abab, ababab, ...} </label>
+                            <label><input type="radio" name="q2" value="c"> c) {ab, abb, abbb, ...} </label>
+                            <label><input type="radio" name="q2" value="d"> d) {a, b, ab, ba} </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            (ab)* ifadesi ab deseninin 0 veya daha fazla tekrarıdır.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>3. Düzenli diller hangi işlem altında kapalı değildir?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="a"> a) Birleşim </label>
+                            <label><input type="radio" name="q3" value="b"> b) Birleştirme </label>
+                            <label><input type="radio" name="q3" value="c"> c) Yıldız </label>
+                            <label><input type="radio" name="q3" value="d"> d) Kesişim </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: d</strong><br>
+                            Düzenli diller kesişim işlemi altında kapalı değildir.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>4. a+ düzenli ifadesi ne anlama gelir?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q4" value="a"> a) Sıfır veya daha fazla a </label>
+                            <label><input type="radio" name="q4" value="b"> b) Bir veya daha fazla a </label>
+                            <label><input type="radio" name="q4" value="c"> c) Sadece bir a </label>
+                            <label><input type="radio" name="q4" value="d"> d) a veya b </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            + operatörü bir veya daha fazla tekrarı ifade eder.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>5. Düzenli ifadelerde ε sembolü neyi temsil eder?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q5" value="a"> a) Boş alfabeyi </label>
+                            <label><input type="radio" name="q5" value="b"> b) Boş kelimeyi </label>
+                            <label><input type="radio" name="q5" value="c"> c) İlk sembolü </label>
+                            <label><input type="radio" name="q5" value="d"> d) Son sembolü </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            ε (epsilon) boş kelimeyi temsil eder.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>6. Σ = {0,1} için (0|1)*01 ifadesi hangi dili tanımlar?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q6" value="a"> a) 01 ile başlayan dizgiler </label>
+                            <label><input type="radio" name="q6" value="b"> b) 01 ile biten dizgiler </label>
+                            <label><input type="radio" name="q6" value="c"> c) 01 içeren dizgiler </label>
+                            <label><input type="radio" name="q6" value="d"> d) Sadece 01 dizgisi </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            İfade herhangi bir dizgi + 01 anlamına gelir, yani 01 ile biten dizgiler.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>7. Düzenli ifadelerde üyelik problemi karar verilebilir mi?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q7" value="a"> a) Hayır, hiçbir zaman </label>
+                            <label><input type="radio" name="q7" value="b"> b) Evet, her zaman </label>
+                            <label><input type="radio" name="q7" value="c"> c) Sadece sonlu alfabeler için </label>
+                            <label><input type="radio" name="q7" value="d"> d) Sadece sonsuz diller için </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            Düzenli diller için üyelik problemi karar verilebilir.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>8. ab* ifadesi Σ = {a,b} için hangi dili tanımlar?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q8" value="a"> a) {ε, ab, abb, abbb, ...} </label>
+                            <label><input type="radio" name="q8" value="b"> b) {a, ab, abb, abbb, ...} </label>
+                            <label><input type="radio" name="q8" value="c"> c) {ab, abb, abbb, ...} </label>
+                            <label><input type="radio" name="q8" value="d"> d) {a, b, ab, ba} </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            ab* = a + b* yani a ile başlayan ve sonrasında 0 veya daha fazla b.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>9. Düzenli ifadelerin en yaygın uygulama alanı nedir?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q9" value="a"> a) Resim işleme </label>
+                            <label><input type="radio" name="q9" value="b"> b) Metin arama ve işleme </label>
+                            <label><input type="radio" name="q9" value="c"> c) Müzik sentezi </label>
+                            <label><input type="radio" name="q9" value="d"> d) Fizik simülasyonu </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: b</strong><br>
+                            Düzenli ifadeler metin arama, düzenleme ve doğrulama işlemlerinde yaygın olarak kullanılır.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>10. (a|b)* ifadesi ne üretir?</h4>
+                        <div class="options">
+                            <label><input type="radio" name="q10" value="a"> a) Sadece a'lar </label>
+                            <label><input type="radio" name="q10" value="b"> b) Sadece b'ler </label>
+                            <label><input type="radio" name="q10" value="c"> c) a ve b'lerin tüm kombinasyonları </label>
+                            <label><input type="radio" name="q10" value="d"> d) Sadece ab deseni </label>
+                        </div>
+                        <div class="answer" style="display: none;">
+                            <strong>Doğru Cevap: c</strong><br>
+                            (a|b)* ifadesi a ve b sembollerinin tüm olası kombinasyonlarını üretir.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-controls">
+                    <button class="btn btn-success" onclick="showAnswers()">Cevapları Göster</button>
+                    <button class="btn" onclick="resetTest()">Testi Sıfırla</button>
+                    <div class="score-display">
+                        <span>Doğru: <span id="correct-count">0</span></span>
+                        <span>Toplam: <span id="total-questions">10</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="section">
+                <h2>💡 Flashcard'lar - Modül 2</h2>
+                <p>Düzenli ifadeler konusundaki önemli kavramları tekrar edin.</p>
+
+                <div class="flashcard-container">
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Temel Kavramlar</div>
+                                <div class="card-question">Düzenli İfade Nedir?</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Dil tanımlayıcı ifadedir. Düzenli ifadeler ile tanımlanan diller düzenli diller (regular languages) olarak adlandırılmaktadır.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Operatörler</div>
+                                <div class="card-question">Birleştirme Operatörü</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">İki düzenli ifadeyi ardışık olarak birleştirir. Notasyon: xy veya x·y. Örnek: Σ = {a,b} için ab = {"ab"}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Operatörler</div>
+                                <div class="card-question">Birleşim Operatörü</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">İki düzenli ifadeden en az birini sağlayan kelimeler. Notasyon: x|y veya x+y. Örnek: a|b = {"a", "b"}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Operatörler</div>
+                                <div class="card-question">Kleene Yıldız (*)</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Bir sembolün sıfır veya daha fazla kez tekrarlanması. Örnek: a* = {ε, a, aa, aaa, ...}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Operatörler</div>
+                                <div class="card-question">Kleene Artı (+)</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Bir sembolün bir veya daha fazla kez tekrarlanması. Örnek: a+ = {a, aa, aaa, ...}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Özel Semboller</div>
+                                <div class="card-question">ε (Epsilon) Sembolü</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Boş kelimeyi temsil eder. Düzenli ifadelerde başlangıç noktası olarak kullanılır.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Özellikler</div>
+                                <div class="card-question">Düzenli Diller Kapalı mı?</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Evet, birleşim, birleştirme ve yıldız işlemleri altında kapalıdır. Ancak kesişim ve tümleme altında kapalı değildir.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Karar Problemleri</div>
+                                <div class="card-question">Üyelik Problemi</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Verilen bir kelimenin düzenli dilde olup olmadığını belirleme problemi. Düzenli diller için karar verilebilir.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Örnekler</div>
+                                <div class="card-question">x* Düzenli İfadesi</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Σ = {x} için L = {ε, x, xx, xxx, xxxx, .....} kümesini tanımlar. x sembolünün 0 veya daha fazla tekrarı.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Örnekler</div>
+                                <div class="card-question">(ab)* Düzenli İfadesi</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Σ = {a,b} için L = {ε, ab, abab, ababab, ......} kümesini tanımlar. ab deseninin 0 veya daha fazla tekrarı.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Uygulamalar</div>
+                                <div class="card-question">Derleyicilerde Kullanım</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Token tanıma (lexical analysis) işlemlerinde kullanılır. Programlama dillerinin yapılarının tanınmasında temel rol oynar.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Uygulamalar</div>
+                                <div class="card-question">Metin İşlemede Kullanım</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Bul/değiştir işlemleri, veri doğrulama (e-posta, telefon formatları), form validasyonları gibi alanlarda kullanılır.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Kurallar</div>
+                                <div class="card-question">Düzenli İfade Kuralları</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Eğer r ve s düzenli ifadeler ise: (r)(s)=rs, (r)|(s)=r+s, (r)* düzenli ifadelerdir. Ayrıca ε ve ∅ temel düzenli ifadelerdir.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div class="card-header">Modül 2 - Özellikler</div>
+                                <div class="card-question">Pomping Lemma</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div class="card-answer">Düzenli diller için geçerli olan önemli bir teoremdir. Sonsuz düzenli dillerin belirli bir yapıya sahip olduğunu gösterir.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="modul1-giris.html" class="btn">← Modül 1: Giriş</a>
+            <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+            <a href="modul3-sonlu-otomatlar.html" class="btn btn-next">Modül 3: Sonlu Otomatlar →</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Tüm tab butonlarının active class'ını kaldır
+            document.querySelectorAll('.tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Seçilen tab'ı göster
+            document.getElementById(tabName).classList.add('active');
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        function showAnswers() {
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.style.display = 'block';
+            });
+        }
+
+        function resetTest() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.style.display = 'none';
+            });
+            document.getElementById('correct-count').textContent = '0';
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+    </script>
+
+    <style>
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-answer {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .options label:hover {
+            background-color: #f8f9fa;
+        }
+
+        .answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #d4edda;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .score-display {
+            display: flex;
+            gap: 20px;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

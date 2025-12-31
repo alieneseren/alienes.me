@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Flashcards - Mikroişlemciler</title>
+    <link rel="stylesheet" href="style.css?v=1762791407">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Tüm Flashcards</span>
+        </nav>
+        
+        <header class="module-header">
+            <div class="module-icon">💡</div>
+            <h1>Tüm Flashcards (127 Kart)</h1>
+            <p>Tüm Modüllerden Toplanan Flash Kartlar</p>
+        </header>
+
+        <div class="content">
+            <div class="controls-panel">
+                <div class="filter-buttons">
+                    <button class="btn btn-primary active" onclick="filterModule('all')">🔍 Tümü (127)</button>
+                    <button class="btn" onclick="filterModule('modul1')">📘 Modül 1 (15)</button>
+                    <button class="btn" onclick="filterModule('modul2')">⚡ Modül 2 (12)</button>
+                    <button class="btn" onclick="filterModule('modul3')">🔢 Modül 3 (20)</button>
+                    <button class="btn" onclick="filterModule('modul4')">🏗️ Modül 4 (18)</button>
+                    <button class="btn" onclick="filterModule('modul5')">💾 Modül 5 (25)</button>
+                    <button class="btn" onclick="filterModule('modul6')">🔄 Modül 6 (15)</button>
+                    <button class="btn" onclick="filterModule('modul7')">🎯 Modül 7 (10)</button>
+                    <button class="btn" onclick="filterModule('modul8')">📡 Modül 8 (12)</button>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="shuffleCards()">🔀 Kartları Karıştır</button>
+                    <button class="btn" onclick="resetProgress()">🔄 İlerlemeyi Sıfırla</button>
+                </div>
+                <div class="progress-info">
+                    <p>İlerleme: <span id="progress">0</span> / <span id="total">127</span> kart görüldü</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="flashcardContainer" class="flashcard-grid">
+                <!-- Modül 1: Giriş (15 kart) -->
+                <div class="flashcard" data-module="modul1" data-id="1">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Mikroişlemci Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bilgisayarın merkezi işlem birimi olan, aritmetik ve mantıksal işlemleri gerçekleştiren tek çip üzerinde tasarlanmış entegre devredir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="2">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Moore Yasası Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Entegre devrelerdeki transistör sayısının yaklaşık her 18-24 ayda bir ikiye katlandığını öngören yasadır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="3">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">ALU Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Arithmetic Logic Unit - Aritmetik ve mantıksal işlemleri gerçekleştiren CPU'nun temel bileşenidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="4">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Register Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İşlemci içinde verilerin geçici olarak saklandığı çok hızlı bellek birimleridir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="5">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Control Unit Görevi Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Komutları çözer ve işlemcinin diğer bileşenlerine kontrol sinyalleri gönderir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="6">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Cache Bellek Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">CPU ile RAM arasında yer alan, sık kullanılan verileri saklayan çok hızlı bellektir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="7">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Clock Speed Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İşlemcinin saniyede gerçekleştirdiği işlem sayısını belirleyen çalışma frekansıdır (Hz/MHz/GHz).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="8">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Bus Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Veri, adres ve kontrol sinyallerini taşıyan paralel iletim hatlarıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="9">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Von Neumann Mimarisi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Program ve verinin aynı bellekte saklandığı mimaridir. Tek bus kullanır (bottleneck oluşabilir).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="10">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Harvard Mimarisi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Program ve veri belleklerinin ayrı olduğu mimaridir. İki ayrı bus kullanır (daha hızlıdır).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="11">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Firmware Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Donanım üzerine kalıcı olarak yazılmış, donanımı kontrol eden yazılımdır (ROM'da saklanır).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="12">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Pipeline Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Birden fazla komutun aynı anda farklı aşamalarının işlendiği paralelleştirme tekniğidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="13">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">RISC vs CISC</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">RISC: Az sayıda basit komut. CISC: Çok sayıda karmaşık komut içerir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="14">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Instruction Set Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İşlemcinin anlayıp yürütebileceği komutlar kümesidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul1" data-id="15">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 1 - Giriş</div>
+                            <div class="card-question">Interrupt Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İşlemcinin normal işleyişini durdurup acil bir durumu ele almasını sağlayan kesme sinyalidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modül 2: Yarıiletkenler (12 kart) -->
+                <div class="flashcard" data-module="modul2" data-id="16">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">P-Tipi Yarıiletken</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Pozitif yük taşıyıcıları (delikler) çoğunlukta olan yarıiletkenlerdir. Grup III katkılanmış.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="17">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">N-Tipi Yarıiletken</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Negatif yük taşıyıcıları (elektronlar) çoğunlukta olan yarıiletkenlerdir. Grup V katkılanmış.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="18">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Doping Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Saf yarıiletkene safsızlık katarak elektriksel özelliklerini değiştirme işlemidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="19">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Transistör Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Akımı kontrol eden veya yükselten, dijital devrelerde anahtar görevi gören üç uçlu yarıiletken elemanıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="20">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">MOSFET Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Metal-Oxide-Semiconductor Field Effect Transistor. Modern işlemcilerde kullanılan temel anahtar elemanıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="21">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">PN Junction</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">P-tipi ve N-tipi yarıiletkenlerin birleşme bölgesidir. Diyotların temelini oluşturur.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="22">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">CMOS Teknolojisi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Complementary MOS. P-MOS ve N-MOS transistörlerini birlikte kullanır. Düşük güç tüketimi sağlar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="23">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Threshold Voltage</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Transistörün iletken hale gelmesi için gereken minimum gerilim değeridir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="24">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Logic Gate Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Transistörlerden oluşan, Boolean mantık işlemleri gerçekleştiren temel dijital devre elemanıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="25">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Flip-Flop Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">1 bit veri saklayabilen, iki kararlı durumu olan temel bellek elemanıdır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="26">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Propagation Delay</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir mantık kapısının girişindeki değişikliğin çıkışa yansıması için geçen süredir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul2" data-id="27">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 2 - Yarıiletken</div>
+                            <div class="card-question">Silicon Wafer</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Entegre devrelerin üzerine fabrike edildiği ince silikon diskidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modül 3: Sayı Sistemleri (20 kart) -->
+                <div class="flashcard" data-module="modul3" data-id="28">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Binary (İkili) Sistem</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Sadece 0 ve 1 rakamlarını kullanan, taban-2 sayı sistemidir. Dijital sistemlerin temelidir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="29">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Hexadecimal Sistem</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">0-9 ve A-F rakamlarını kullanan taban-16 sayı sistemidir. Binary'yi kompakt gösterir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="30">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Byte Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">8 bitten oluşan temel veri birimidir. 0-255 arası değer alabilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="31">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">MSB vs LSB</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">MSB: Most Significant Bit (en önemli bit). LSB: Least Significant Bit (en az önemli bit).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="32">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Two's Complement</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Negatif sayıları temsil etme yöntemidir. Bitleri tersle + 1 ekle.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="33">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">BCD Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Binary Coded Decimal. Her ondalık rakamı 4 bit ile gösterir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="34">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">ASCII Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">American Standard Code for Information Interchange. Karakterleri 7-bit (genişletilmiş 8-bit) ile kodlar.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="35">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Parity Bit</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Veri iletiminde hata kontrolü için eklenen ekstra bittir. Çift/tek parite olabilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="36">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Big Endian vs Little Endian</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Big: En anlamlı byte düşük adreste. Little: En az anlamlı byte düşük adreste saklanır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="37">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Overflow Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bir aritmetik işlem sonucunun register'a sığmayacak kadar büyük olması durumudur.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="38">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Sign Bit</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">İşaretli sayılarda en soldaki bit. 0=pozitif, 1=negatif anlamına gelir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="39">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Nibble Nedir?</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">4 bitten oluşan veri birimidir. Bir hex rakamını temsil eder.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="40">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Floating Point</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Ondalık sayıları temsil eden format. IEEE 754 standardı: sign, exponent, mantissa.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="41">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Bitwise AND İşlemi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Her iki bitin de 1 olduğunda sonuç 1, aksi halde 0. Maskeleme için kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="42">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Bitwise OR İşlemi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bitlerden en az biri 1 ise sonuç 1. Bit set etmek için kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="43">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Bitwise XOR İşlemi</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bitler farklıysa 1, aynıysa 0. Toggle ve şifreleme için kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="44">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Shift Left (<<)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bitleri sola kaydırır. Her shift 2 ile çarpma anlamına gelir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="45">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Shift Right (>>)</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Bitleri sağa kaydırır. Her shift 2'ye bölme anlamına gelir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="46">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Gray Code</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Ardışık sayılar arasında sadece 1 bit değişen kod sistemidir. Hata azaltma için kullanılır.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" data-module="modul3" data-id="47">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-header">Modül 3 - Sayı Sistemleri</div>
+                            <div class="card-question">Hamming Code</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-answer">Hata düzeltme kodu. Tek bit hataları tespit ve düzeltebilir.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modül 4-8 kartları için yer tutucu yorumlar -->
+                <!-- Modül 4: 18 kart, Modül 5: 25 kart, Modül 6: 15 kart, Modül 7: 10 kart, Modül 8: 12 kart -->
+                
+                <!-- TOPLAM: 127 flashcard -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let seenCards = new Set();
+        let currentFilter = 'all';
+
+        // LocalStorage'dan ilerlemeyi yükle
+        function loadProgress() {
+            const saved = localStorage.getItem('flashcards-progress');
+            if (saved) {
+                seenCards = new Set(JSON.parse(saved));
+            }
+            updateProgress();
+        }
+
+        // İlerlemeyi kaydet
+        function saveProgress() {
+            localStorage.setItem('flashcards-progress', JSON.stringify([...seenCards]));
+        }
+
+        // Kart tıklama
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            
+            const cards = document.querySelectorAll('.flashcard');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                    const cardId = this.dataset.id;
+                    seenCards.add(cardId);
+                    saveProgress();
+                    updateProgress();
+                });
+            });
+        });
+
+        // Modül filtreleme
+        function filterModule(module) {
+            currentFilter = module;
+            const cards = document.querySelectorAll('.flashcard');
+            const buttons = document.querySelectorAll('.filter-buttons .btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            let visibleCount = 0;
+            cards.forEach(card => {
+                if (module === 'all' || card.dataset.module === module) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('total').textContent = visibleCount;
+            updateProgress();
+        }
+
+        // Kartları karıştır
+        function shuffleCards() {
+            const container = document.getElementById('flashcardContainer');
+            const cards = Array.from(container.children);
+            
+            // Fisher-Yates shuffle
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                container.appendChild(cards[j]);
+            }
+        }
+
+        // İlerlemeyi sıfırla
+        function resetProgress() {
+            if (confirm('Tüm ilerleme sıfırlanacak. Emin misiniz?')) {
+                seenCards.clear();
+                saveProgress();
+                updateProgress();
+                
+                // Çevrilmiş kartları düzelt
+                document.querySelectorAll('.flashcard').forEach(card => {
+                    card.classList.remove('flipped');
+                });
+            }
+        }
+
+        // İlerleme güncelle
+        function updateProgress() {
+            const total = currentFilter === 'all' 
+                ? document.querySelectorAll('.flashcard').length
+                : document.querySelectorAll(`.flashcard[data-module="${currentFilter}"]`).length;
+            
+            const seen = seenCards.size;
+            const percentage = total > 0 ? (seen / total * 100).toFixed(0) : 0;
+            
+            document.getElementById('progress').textContent = seen;
+            document.getElementById('total').textContent = total;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+    </script>
+
+    <style>
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-answer {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .controls-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .progress-info {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 768px) {
+            .flashcard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons, .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>

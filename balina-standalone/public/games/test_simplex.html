@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+</head>
+
+<body>
+    <script>
+        try {
+            const simplex = new SimplexNoise();
+            console.log("SimplexNoise initialized successfully");
+            document.body.innerText = "Success";
+        } catch (e) {
+            console.error("SimplexNoise failed:", e);
+            document.body.innerText = "Failed: " + e.message;
+        }
+    </script>
+</body>
+
+</html>

@@ -37,5 +37,6 @@ class Kernel extends HttpKernel
         'guest' => \Illuminate\Auth\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'no-cache' => \App\Http\Middleware\NoCacheMiddleware::class,
+        'admin_protect' => \App\Http\Middleware\AdminProtect::class,
     ];
 }

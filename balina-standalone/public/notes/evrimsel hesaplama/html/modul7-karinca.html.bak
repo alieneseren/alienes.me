@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 7 - Karınca Kolonisi Algoritması</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 2.5em; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 1.2em; }
+        .back-button { display: inline-block; margin-bottom: 20px; padding: 12px 24px; background: white; color: #667eea; text-decoration: none; border-radius: 25px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.3s; font-weight: bold; }
+        .back-button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .content-box { background: white; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); overflow: hidden; }
+        .tabs { display: flex; background: #f8f9fa; border-bottom: 2px solid #e0e0e0; }
+        .tab-button { flex: 1; padding: 20px; background: none; border: none; cursor: pointer; font-size: 1.1em; font-weight: bold; color: #666; transition: all 0.3s; position: relative; }
+        .tab-button:hover { background: #e9ecef; }
+        .tab-button.active { color: #667eea; background: white; }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #667eea; }
+        .tab-content { display: none; padding: 40px; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .theory-content h2 { color: #667eea; margin-top: 30px; margin-bottom: 15px; font-size: 1.8em; }
+        .theory-content h3 { color: #764ba2; margin-top: 25px; margin-bottom: 12px; font-size: 1.4em; }
+        .theory-content p { line-height: 1.8; color: #444; margin-bottom: 15px; text-align: justify; }
+        .theory-content ul, .theory-content ol { margin-left: 30px; margin-bottom: 20px; line-height: 1.8; }
+        .theory-content li { margin-bottom: 10px; color: #444; }
+        .highlight-box { background: #f3e5f5; border-left: 4px solid #9c27b0; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .test-question { background: #f8f9fa; padding: 25px; margin-bottom: 20px; border-radius: 10px; border-left: 4px solid #667eea; }
+        .test-question h3 { color: #333; margin-bottom: 15px; }
+        .test-options { list-style: none; margin-top: 15px; }
+        .test-options li { padding: 12px; margin: 8px 0; background: white; border-radius: 5px; cursor: pointer; transition: all 0.3s; }
+        .test-options li:hover { background: #f3e5f5; transform: translateX(5px); }
+        .flashcards-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; perspective: 1000px; }
+        .flashcard { height: 200px; position: relative; cursor: pointer; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .flashcard-front { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); color: white; font-weight: bold; font-size: 1.2em; text-align: center; }
+        .flashcard-back { background: white; color: #333; transform: rotateY(180deg); border: 2px solid #9c27b0; text-align: center; font-size: 1em; line-height: 1.6; }
+        
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) { .tabs { flex-direction: column; } .flashcards-container { grid-template-columns: 1fr; } }
+    
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transform: translateX(10px);
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Ana Sayfaya Dön</a>
+        
+        <div class="header">
+            <h1>🐜 Modül 7: Karınca Kolonisi Algoritması</h1>
+            <p>Feromon izleri, graf yapısı ve en kısa yol bulma</p>
+        </div>
+
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('teori')">📚 Teori</button>
+                <button class="tab-button" onclick="showTab('test')">✍️ Test</button>
+                <button class="tab-button" onclick="showTab('flashcards')">🎴 Flashcards</button>
+            </div>
+
+            <div id="teori" class="tab-content active">
+                <div class="theory-content">
+                    <h2>🐜 Karınca Kolonisi Algoritması Nedir?</h2>
+                    <p>Bilim adamları böcek davranışlarını inceleyerek başarılı optimizasyon algoritmaları geliştirmişlerdir. <strong>Karınca Koloni Algoritması (Ant Colony Optimization - ACO)</strong> ilk olarak <strong>Dorigo ve meslektaşları</strong> tarafından Gezgin Satıcı Problemi (GSP) ve Kuadratik Atama gibi zor optimizasyon problemlerinin çözümü için geliştirilmiştir.</p>
+
+                    <div class="highlight-box">
+                        <strong>🔬 Doğal İlham:</strong> Karıncalar, yiyecek kaynaklarından yuvalarına <strong>en kısa yolu görme duyularını kullanmadan bulma yeteneğine</strong> sahiptirler. Aynı zamanda çevredeki değişime adapte olma yetenekleri vardır. Dış etkenler sonucu takip ettikleri mevcut yol artık en kısa yol değilse, yeni en kısa yolu bulabilmektedirler.
+                    </div>
+
+                    <h3>🔑 Temel Kavramlar</h3>
+                    <ul>
+                        <li><strong>Feromon:</strong> Karıncaların bıraktığı kimyasal iz, diğer karıncaları yönlendirir</li>
+                        <li><strong>Buharlaşma (ρ):</strong> Feromonun zamanla azalması, eski yolların unutulması</li>
+                        <li><strong>Graf Yapısı:</strong> Düğümler (şehirler/noktalar) ve kenarlar (yollar) ile problem temsili</li>
+                        <li><strong>Otokatalitik Davranış:</strong> Pozitif geri besleme, iyi yolun güçlenmesi</li>
+                        <li><strong>Sinerjik Etki:</strong> Karıncaların karşılıklı etkileşimi</li>
+                    </ul>
+
+                    <h3>🐜 Karınca Davranışı</h3>
+                    <p>Karıncalar başlangıçta düz bir hattı takip eder ve bu esnada <strong>feromon</strong> olarak adlandırılan bir maddeyi yol güzergahına bırakarak kendilerinden sonra gelen karıncaların yollarını bulmalarını kolaylaştırırlar.</p>
+                    
+                    <h4>📍 Engelle Karşılaşma:</h4>
+                    <ul>
+                        <li>Önlerine bir engel konulduğunda, karıncalar gidebilecekleri iki yoldan birini <strong>rastsal olarak</strong> seçerler</li>
+                        <li>Kısa olan yoldan birim zamandaki geçiş daha fazla olacağından bırakılan feromon miktarı da daha fazla olur</li>
+                        <li>Buna bağlı olarak, zaman içerisinde kısa yolu tercih eden karıncaların sayısında artış olur</li>
+                        <li>Belli bir süre sonra <strong>tüm karıncalar kısa yolu tercih eder</strong></li>
+                    </ul>
+
+                    <h3>⚙️ Algoritma Parametreleri</h3>
+                    <ul>
+                        <li><strong>α (alpha):</strong> Feromon izi miktarının ne kadar dikkate alınacağını belirler</li>
+                        <li><strong>β (beta):</strong> Şehirler arası mesafe (görünürlük) miktarının ne kadar dikkate alınacağını belirler</li>
+                        <li><strong>ρ (rho):</strong> Her iterasyonda buharlaşacak olan feromon izi miktarı (0-1 arası)</li>
+                        <li><strong>m:</strong> Algoritmada kullanılan karınca sayısı</li>
+                        <li><strong>Q:</strong> Feromon miktarı sabiti</li>
+                    </ul>
+
+                    <h3>📐 Matematiksel Formüller</h3>
+                    <div class="highlight-box">
+                        <p><strong>1. Olasılık Hesaplama (Yol Seçimi):</strong></p>
+                        <p>p<sub>ij</sub><sup>k</sup> = (τ<sub>ij</sub><sup>α</sup> × η<sub>ij</sub><sup>β</sup>) / Σ(τ<sub>il</sub><sup>α</sup> × η<sub>il</sub><sup>β</sup>)</p>
+                        <p style="margin-top: 10px;"><strong>Burada:</strong></p>
+                        <ul>
+                            <li>τ<sub>ij</sub>: i-j arasındaki feromon miktarı</li>
+                            <li>η<sub>ij</sub>: Görünürlük (genellikle 1/d<sub>ij</sub>, d mesafe)</li>
+                            <li>α, β: Önem katsayıları</li>
+                        </ul>
+
+                        <p style="margin-top: 20px;"><strong>2. Feromon Güncellemesi:</strong></p>
+                        <p>τ<sub>ij</sub> ← (1 - ρ) × τ<sub>ij</sub> + Δτ<sub>ij</sub></p>
+                        <p style="margin-top: 10px;">Δτ<sub>ij</sub> = Σ Δτ<sub>ij</sub><sup>k</sup> (tüm karıncalar için)</p>
+                        <p>Δτ<sub>ij</sub><sup>k</sup> = Q/L<sub>k</sub> (eğer karınca k bu yolu kullandıysa)</p>
+                        <p><strong>L<sub>k</sub>:</strong> Karınca k'nın tur uzunluğu</p>
+                    </div>
+
+                    <h3>📊 ACO Algoritma Adımları</h3>
+                    <ol>
+                        <li><strong>Başlatma:</strong>
+                            <ul>
+                                <li>Parametreleri belirle (α, β, ρ, m, Q)</li>
+                                <li>Feromon izlerini başlangıç değerine ayarla (τ<sub>0</sub>)</li>
+                                <li>Karıncaları rastgele başlangıç noktalarına yerleştir</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tur Oluşturma:</strong>
+                            <ul>
+                                <li>Her karınca için:</li>
+                                <li>- Ziyaret edilmemiş şehirlerden olasılığa göre sonrakini seç</li>
+                                <li>- Tüm şehirler ziyaret edilene kadar devam et</li>
+                                <li>- Tur uzunluğunu hesapla</li>
+                            </ul>
+                        </li>
+                        <li><strong>Feromon Güncelleme:</strong>
+                            <ul>
+                                <li>Buharlaşma: τ ← (1-ρ) × τ</li>
+                                <li>Yeni feromon ekleme: Δτ hesapla ve ekle</li>
+                                <li>En iyi turu kaydet</li>
+                            </ul>
+                        </li>
+                        <li><strong>Durdurma:</strong> Maksimum iterasyon veya yakınsama kontrolü</li>
+                    </ol>
+
+                    <h3>✅ ACO'nun Avantajları</h3>
+                    <ul>
+                        <li>Pozitif geri besleme ile hızlı iyi çözüm bulma</li>
+                        <li>Dağıtık hesaplama yapısı</li>
+                        <li>Dinamik problemlere uyum sağlayabilir</li>
+                        <li>Graf tabanlı problemlerde çok başarılı</li>
+                        <li>Kombinatoryal optimizasyonda etkili</li>
+                        <li>Paralel implementasyona uygun</li>
+                    </ul>
+
+                    <h3>⚠️ Dezavantajları</h3>
+                    <ul>
+                        <li>Yakınsama süresi belirsiz olabilir</li>
+                        <li>Parametre ayarı kritik (α, β, ρ)</li>
+                        <li>Erken yakınsama riski (lokal optimum)</li>
+                        <li>Büyük problemlerde hesaplama maliyeti</li>
+                    </ul>
+
+                    <h3>🔧 Uygulama Alanları</h3>
+                    <ul>
+                        <li><strong>Gezgin Satıcı Problemi (TSP):</strong> Klasik ACO uygulaması</li>
+                        <li><strong>Araç Rotalama:</strong> Lojistik ve dağıtım optimizasyonu</li>
+                        <li><strong>Ağ Yönlendirme:</strong> Telekomünikasyon ağlarında</li>
+                        <li><strong>Çizelgeleme:</strong> İş ve proje çizelgeleme</li>
+                        <li><strong>Graf Renklendirme:</strong> Kaynak atama problemleri</li>
+                        <li><strong>Kuadratik Atama:</strong> Tesis yerleşimi</li>
+                    </ul>
+
+                    <h3>🆚 ACO Varyantları</h3>
+                    <ul>
+                        <li><strong>Ant System (AS):</strong> Orijinal versiyon</li>
+                        <li><strong>Ant Colony System (ACS):</strong> Geliştirilmiş yerel feromon güncellemesi</li>
+                        <li><strong>MAX-MIN Ant System:</strong> Feromon sınırları ile</li>
+                        <li><strong>Rank-Based Ant System:</strong> Sıralamaya dayalı feromon</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 Önemli Not:</strong> Karınca Kolonisi Algoritması, özellikle graf tabanlı ve kombinatoryal optimizasyon problemlerinde çok başarılıdır. Gerçek dünya uygulamalarında (lojistik, ağ yönlendirme) yaygın olarak kullanılır. Pozitif geri besleme mekanizması sayesinde iyi çözümler hızla güçlenir ve yaygınlaşır.
+                    </div>
+                </div>
+            </div>
+
+            <div id="test" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">✍️ Test Soruları</h2>
+                
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 1: ACO algoritmasını kim geliştirmiştir?</h3>
+                    <ul class="test-options">
+                        <li>A) John Holland</li>
+                        <li>B) Marco Dorigo</li>
+                        <li>C) Kennedy ve Eberhart</li>
+                        <li>D) Derviş Karaboğa</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 2: Feromon ne işe yarar?</h3>
+                    <ul class="test-options">
+                        <li>A) Enerji sağlar</li>
+                        <li>B) Kimyasal iz bırakarak yolu işaretler</li>
+                        <li>C) Karıncaları besler</li>
+                        <li>D) Hız belirler</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 3: ρ (rho) parametresi neyi belirtir?</h3>
+                    <ul class="test-options">
+                        <li>A) Karınca sayısı</li>
+                        <li>B) Feromon buharlaşma oranı</li>
+                        <li>C) Mesafe değeri</li>
+                        <li>D) İterasyon sayısı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 4: α parametresi neyi kontrol eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Buharlaşma oranı</li>
+                        <li>B) Feromon izinin önemini</li>
+                        <li>C) Karınca sayısı</li>
+                        <li>D) Tur uzunluğu</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 5: β parametresi neyi ifade eder?</h3>
+                    <ul class="test-options">
+                        <li>A) Feromon miktarı</li>
+                        <li>B) Görünürlük/mesafenin önemini</li>
+                        <li>C) Karınca hızı</li>
+                        <li>D) Buharlaşma</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 6: Kısa yolda neden daha çok feromon birikir?</h3>
+                    <ul class="test-options">
+                        <li>A) Daha çok feromon salgılanır</li>
+                        <li>B) Birim zamanda daha fazla karınca geçer</li>
+                        <li>C) Buharlaşma daha az</li>
+                        <li>D) Rastgele oluşur</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 7: ACO hangi tür problemlerde başarılıdır?</h3>
+                    <ul class="test-options">
+                        <li>A) Sadece sürekli optimizasyon</li>
+                        <li>B) Graf tabanlı ve kombinatoryal</li>
+                        <li>C) Sadece doğrusal problemler</li>
+                        <li>D) Sadece ikili kodlama</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 8: Otokatalitik davranış ne demektir?</h3>
+                    <ul class="test-options">
+                        <li>A) Rastgele hareket</li>
+                        <li>B) Pozitif geri besleme, iyi yol güçlenir</li>
+                        <li>C) Negatif geri besleme</li>
+                        <li>D) Sabit davranış</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 9: TSP nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Total Sum Problem</li>
+                        <li>B) Gezgin Satıcı Problemi</li>
+                        <li>C) Time Series Problem</li>
+                        <li>D) Tree Search Problem</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 10: ACO'nun avantajı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Çok az parametre gerektirir</li>
+                        <li>B) Pozitif geri besleme ve dağıtık yapı</li>
+                        <li>C) Türev kullanır</li>
+                        <li>D) Sadece doğrusal problemler</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="flashcards" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎴 Flashcards - Tıklayarak Çevir</h2>
+                <div class="flashcards-container">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">ACO</div>
+                        <div class="flashcard-back">Ant Colony Optimization - Karınca kolonilerinin yiyecek arama davranışından esinlenen algoritma</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Marco Dorigo</div>
+                        <div class="flashcard-back">Karınca Kolonisi Algoritmasını geliştiren bilim insanı</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Feromon</div>
+                        <div class="flashcard-back">Karıncaların bıraktığı kimyasal iz, diğer karıncaları yönlendirir</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">ρ (Rho)</div>
+                        <div class="flashcard-back">Feromon buharlaşma oranı, eski yolların unutulması (0-1 arası)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">α (Alpha)</div>
+                        <div class="flashcard-back">Feromon izinin önem derecesi, yol seçiminde feromonun etkisi</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">β (Beta)</div>
+                        <div class="flashcard-back">Görünürlük/mesafenin önem derecesi, yakın yolların çekiciliği</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Buharlaşma</div>
+                        <div class="flashcard-back">Feromonun zamanla azalması, eski bilginin silinmesi</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Otokatalitik</div>
+                        <div class="flashcard-back">Pozitif geri besleme, iyi yolun kendini güçlendirmesi</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Sinerjik Etki</div>
+                        <div class="flashcard-back">Karıncaların karşılıklı etkileşimi, birlikte daha iyi sonuç</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">TSP</div>
+                        <div class="flashcard-back">Traveling Salesman Problem - Gezgin Satıcı Problemi, ACO'nun klasik uygulaması</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Görünürlük (η)</div>
+                        <div class="flashcard-back">Yol çekiciliği, genellikle 1/mesafe, yakın yollar daha çekici</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">m Parametresi</div>
+                        <div class="flashcard-back">Algoritmada kullanılan karınca sayısı</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Feromon Güncellemesi</div>
+                        <div class="flashcard-back">τ ← (1-ρ)×τ + Δτ, buharlaşma ve yeni feromon ekleme</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Graf Yapısı</div>
+                        <div class="flashcard-back">Düğümler (şehirler) ve kenarlar (yollar) ile problem temsili</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">ACO Avantajları</div>
+                        <div class="flashcard-back">Pozitif geri besleme, dağıtık yapı, dinamik adaptasyon, paralel hesaplama</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="module-nav">
+            <a href="modul6-tavlama-tabu.html" class="nav-button">← Önceki Modül</a>
+            <span class="nav-button disabled">Sonraki Modül →</span>
+        </div>
+</div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

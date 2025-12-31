@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 4 - Genetik Algoritmalar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: #e9ecef;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-content h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .theory-content h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .theory-content p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-content ul, .theory-content ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .theory-content li {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-question h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .test-options li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .flashcards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .flashcard-back {
+            background: white;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 2px solid #4caf50;
+            text-align: center;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .flashcards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            transform: translateX(10px);
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Ana Sayfaya Dön</a>
+        
+        <div class="header">
+            <h1>🧬 Modül 4: Genetik Algoritmalar</h1>
+            <p>Doğal seçilim, kromozom yapısı, çaprazlama, mutasyon ve fitness</p>
+        </div>
+
+        <div class="content-box">
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('teori')">📚 Teori</button>
+                <button class="tab-button" onclick="showTab('test')">✍️ Test</button>
+                <button class="tab-button" onclick="showTab('flashcards')">🎴 Flashcards</button>
+            </div>
+
+            <!-- Teori Sekmesi -->
+            <div id="teori" class="tab-content active">
+                <div class="theory-content">
+                    <h2>🧬 Genetik Algoritmalar Nedir?</h2>
+                    <p>Günümüzdeki zor ve karmaşık koşullar, problemlere hızlı ve kolay sonuç veren yeni çözüm yöntemleri geliştirilmesine neden olmuştur. Yapılan çalışmalarda klasik metotların yerine <strong>evrimsel algoritma</strong> kullanımı ön plana çıkmıştır.</p>
+
+                    <div class="highlight-box">
+                        <strong>🎯 Genetik Algoritmalar:</strong> <strong>Doğal seçim ilkelerine</strong> dayanan bir arama ve optimizasyon yöntemidir. Problemlere tek bir çözüm üretmek yerine <strong>farklı çözümlerden oluşan bir çözüm kümesi</strong> üretir, böylelikle arama uzayında aynı anda birçok nokta değerlendirilir.
+                    </div>
+
+                    <h3>📜 Tarihçe</h3>
+                    <p>Genetik Algoritma yaklaşımının ortaya çıkışı <strong>1970'lerin başında</strong> olmuştur. <strong>1975'te John Holland</strong>'ın makine öğrenmesi üzerine yaptığı çalışmalarda canlılardaki evrimden ve değişimden etkilenerek, bu genetik evrim sürecini bilgisayar ortamına aktarması sonucu geliştirilmiştir.</p>
+
+                    <h3>🔑 Temel Kavramlar</h3>
+                    <ul>
+                        <li><strong>Popülasyon:</strong> Problem için olası çözümleri temsil eden birey kümesi</li>
+                        <li><strong>Birey/Kromozom:</strong> Problemin bir aday çözümünü temsil eden yapı</li>
+                        <li><strong>Gen:</strong> Birey içindeki her bir eleman/parametre</li>
+                        <li><strong>Fitness (Uygunluk):</strong> Bireyin çözüm kalitesini ölçen fonksiyon</li>
+                        <li><strong>Çaprazlama (Crossover):</strong> İki ebeveynden yeni birey üretme</li>
+                        <li><strong>Mutasyon:</strong> Bireyde rastgele değişiklik yapma</li>
+                        <li><strong>Seçilim (Selection):</strong> Üreme için birey seçme işlemi</li>
+                    </ul>
+
+                    <h3>⚙️ Genetik Algoritmanın İşleyişi</h3>
+                    <p>Genetik algoritmalar problemlerin çözümü için <strong>evrimsel süreci bilgisayar ortamında taklit eder</strong>. Popülasyon nesilden nesile geliştikçe kötü çözümler yok olma, iyi çözümler ise daha iyi çözümler oluşturmak için kullanılma eğilimindedir.</p>
+
+                    <h3>📊 GA Adımları</h3>
+                    <ol>
+                        <li><strong>Başlatma:</strong> Rastgele başlangıç popülasyonu oluşturulur</li>
+                        <li><strong>Değerlendirme:</strong> Her bireyin fitness değeri hesaplanır</li>
+                        <li><strong>Seçilim:</strong> Üreme için ebeveynler seçilir (yüksek fitness öncelikli)
+                            <ul>
+                                <li>Rulet Tekerleği Seçimi</li>
+                                <li>Turnuva Seçimi</li>
+                                <li>Elit Seçimi</li>
+                            </ul>
+                        </li>
+                        <li><strong>Çaprazlama:</strong> Ebeveynlerden yeni bireyler (çocuklar) üretilir
+                            <ul>
+                                <li>Tek Nokta Çaprazlama</li>
+                                <li>İki Nokta Çaprazlama</li>
+                                <li>Uniform Çaprazlama</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mutasyon:</strong> Yeni bireylerde rastgele değişiklikler yapılır</li>
+                        <li><strong>Yeni Popülasyon:</strong> Eski popülasyon yenisiyle değiştirilir</li>
+                        <li><strong>Durdurma Kriteri:</strong> Maksimum nesil veya hedef fitness kontrolü</li>
+                        <li><strong>Tekrar:</strong> Kriter sağlanana kadar 2-6 arası adımlar tekrarlanır</li>
+                    </ol>
+
+                    <h3>🎲 Kodlama Yöntemleri</h3>
+                    <ul>
+                        <li><strong>İkili (Binary) Kodlama:</strong> 0 ve 1'lerden oluşan bit dizileri [1 0 1 1 0 1]</li>
+                        <li><strong>Gerçek Sayı Kodlama:</strong> Reel sayı dizileri [3.5, 2.1, 8.7]</li>
+                        <li><strong>Permütasyon Kodlama:</strong> Sıralama problemleri için [3, 1, 4, 2]</li>
+                        <li><strong>Ağaç Kodlama:</strong> Programlama ve ifade ağaçları</li>
+                    </ul>
+
+                    <h3>✅ Genetik Algoritmaların Avantajları</h3>
+                    <ul>
+                        <li>Sürekli ve ayrık parametreleri optimize eder</li>
+                        <li>Türevsel bilgi gerektirmez</li>
+                        <li>Geniş arama uzayında araştırma yapar</li>
+                        <li>Çok sayıda parametre ile çalışabilir</li>
+                        <li>Lokal minimum/maksimuma takılmadan çalışır</li>
+                        <li>Paralel arama yapabilir</li>
+                        <li>Karmaşık amaç fonksiyonlarına uygulanabilir</li>
+                    </ul>
+
+                    <h3>🎯 GA Kullanım Alanları</h3>
+                    <ul>
+                        <li><strong>Optimizasyon:</strong> Sayısal ve kombinasyonel optimizasyon, devre tasarımı</li>
+                        <li><strong>Otomatik Programlama:</strong> Network sıralama, ders programı</li>
+                        <li><strong>Makine Öğrenmesi:</strong> Robot sensörleri, yapay sinir ağları</li>
+                        <li><strong>Mühendislik:</strong> VLSI yonga tasarımı, protein yapısal analizi</li>
+                        <li><strong>Ekonomi:</strong> Ekonomik modellerin geliştirilmesi</li>
+                        <li><strong>Finans:</strong> Finansal modelleme uygulamaları</li>
+                        <li><strong>Pazarlama:</strong> Tüketici verilerini analiz etme</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <strong>💡 Önemli Not:</strong> GA'lar probleme en iyi çözümün bulunabilmesi için:
+                        <ul>
+                            <li>✅ Bireylerin gösterimi doğru yapılmalı</li>
+                            <li>✅ Uygunluk fonksiyonu etkin oluşturulmalı</li>
+                            <li>✅ Doğru genetik işlemciler seçilmeli</li>
+                        </ul>
+                    </div>
+
+                    <h3>🆚 Diğer Yöntemlerden Farkları</h3>
+                    <ul>
+                        <li><strong>Parametrelerin kodlarıyla çalışır:</strong> Değerler yerine kodlar kullanılır</li>
+                        <li><strong>Noktalar kümesinden başlar:</strong> Tek nokta yerine popülasyon kullanır</li>
+                        <li><strong>Türev kullanmaz:</strong> Sadece fitness değerini kullanır</li>
+                        <li><strong>Olasılıklı kurallar:</strong> Deterministik değil, stokastik yaklaşım</li>
+                    </ul>
+
+                    <h3>⚠️ GA Ne Zaman Kullanılmalı?</h3>
+                    <ul>
+                        <li>✅ Arama uzayı büyük ve karmaşık olduğunda</li>
+                        <li>✅ Mevcut bilgiyle sınırlı arama zor olduğunda</li>
+                        <li>✅ Problem matematiksel model ile ifade edilemediğinde</li>
+                        <li>✅ Geleneksel yöntemlerden sonuç alınamadığında</li>
+                        <li>❌ Kesin ve hızlı sonuç gereken özel problemlerde kullanılmaz</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Test Sekmesi -->
+            <div id="test" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">✍️ Test Soruları</h2>
+                
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 1: Genetik algoritmaları kim geliştirmiştir?</h3>
+                    <ul class="test-options">
+                        <li>A) Charles Darwin</li>
+                        <li>B) John Holland</li>
+                        <li>C) Kennedy ve Eberhart</li>
+                        <li>D) Derviş Karaboğa</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 2: GA hangi yıllarda ortaya çıkmıştır?</h3>
+                    <ul class="test-options">
+                        <li>A) 1950'ler</li>
+                        <li>B) 1970'ler</li>
+                        <li>C) 1990'lar</li>
+                        <li>D) 2000'ler</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 3: Popülasyon nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Tek bir çözüm</li>
+                        <li>B) Olası çözümlerden oluşan birey kümesi</li>
+                        <li>C) Fitness fonksiyonu</li>
+                        <li>D) Mutasyon oranı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 4: Kromozom/Birey neyi temsil eder?</h3>
+                    <ul class="test-options">
+                        <li>A) İterasyon sayısı</li>
+                        <li>B) Problemin bir aday çözümü</li>
+                        <li>C) Fitness değeri</li>
+                        <li>D) Mutasyon oranı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 5: Çaprazlama (Crossover) ne işe yarar?</h3>
+                    <ul class="test-options">
+                        <li>A) Popülasyon başlatır</li>
+                        <li>B) İki ebeveynden yeni birey üretir</li>
+                        <li>C) Fitness hesaplar</li>
+                        <li>D) Algoritma sonlandırır</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 6: Mutasyon operatörünün amacı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Popülasyonu başlatmak</li>
+                        <li>B) Bireyde rastgele değişiklik yaparak çeşitliliği artırmak</li>
+                        <li>C) En iyi bireyi seçmek</li>
+                        <li>D) Fitness hesaplamak</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 7: Fitness fonksiyonu neyi ölçer?</h3>
+                    <ul class="test-options">
+                        <li>A) Popülasyon büyüklüğü</li>
+                        <li>B) İterasyon sayısı</li>
+                        <li>C) Bireyin çözüm kalitesi</li>
+                        <li>D) Mutasyon oranı</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="C">
+                    <h3>Soru 8: GA'nın avantajı nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Türev bilgisi gerektirir</li>
+                        <li>B) Sadece tek noktada arama yapar</li>
+                        <li>C) Türev gerektirmez ve lokal optimumdan kaçınır</li>
+                        <li>D) Sadece doğrusal problemlere uygulanır</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="A">
+                    <h3>Soru 9: Seçilim operatörünün görevi nedir?</h3>
+                    <ul class="test-options">
+                        <li>A) Mutasyon yapmak</li>
+                        <li>B) Üreme için ebeveyn seçmek</li>
+                        <li>C) Fitness hesaplamak</li>
+                        <li>D) Popülasyon başlatmak</li>
+                    </ul>
+                </div>
+
+                <div class="test-question" data-correct="B">
+                    <h3>Soru 10: GA diğer yöntemlerden nasıl farklıdır?</h3>
+                    <ul class="test-options">
+                        <li>A) Türev kullanır</li>
+                        <li>B) Tek noktadan başlar</li>
+                        <li>C) Parametrelerin kodlarıyla çalışır ve popülasyon kullanır</li>
+                        <li>D) Deterministik kurallara dayanır</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flashcards Sekmesi -->
+            <div id="flashcards" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎴 Flashcards - Tıklayarak Çevir</h2>
+                <div class="flashcards-container">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Genetik Algoritma</div>
+                        <div class="flashcard-back">Doğal seçim ilkelerine dayanan evrimsel arama ve optimizasyon yöntemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">John Holland</div>
+                        <div class="flashcard-back">1975'te genetik algoritmaları geliştiren bilim insanı</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Popülasyon</div>
+                        <div class="flashcard-back">Problemin olası çözümlerini temsil eden bireyler kümesi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Birey/Kromozom</div>
+                        <div class="flashcard-back">Problemin bir aday çözümünü temsil eden yapı, genlerden oluşur</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Gen</div>
+                        <div class="flashcard-back">Birey içindeki her bir eleman veya parametre</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Fitness (Uygunluk)</div>
+                        <div class="flashcard-back">Bireyin çözüm kalitesini ölçen fonksiyon, yüksek değer daha iyi çözüm</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Çaprazlama (Crossover)</div>
+                        <div class="flashcard-back">İki ebeveynin genlerini birleştirerek yeni birey (çocuk) üretme işlemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Mutasyon</div>
+                        <div class="flashcard-back">Bireyde rastgele değişiklik yaparak genetik çeşitliliği artırma</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Seçilim (Selection)</div>
+                        <div class="flashcard-back">Fitness değerine göre üreme için ebeveyn seçme işlemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Rulet Tekerleği Seçimi</div>
+                        <div class="flashcard-back">Fitness oranına göre olasılıksal ebeveyn seçim yöntemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Turnuva Seçimi</div>
+                        <div class="flashcard-back">Rastgele grup içinden en iyi bireyi seçme yöntemi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Elit Seçimi</div>
+                        <div class="flashcard-back">En iyi bireyleri doğrudan yeni nesle aktarma stratejisi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">İkili Kodlama</div>
+                        <div class="flashcard-back">Bireylerin 0 ve 1'lerden oluşan bit dizileri ile gösterimi</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Tek Nokta Çaprazlama</div>
+                        <div class="flashcard-back">Kromozomlar bir noktadan bölünüp parçaları değiştirilerek yeni birey üretme</div>
+                    </div>
+
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-front">Evrimsel Algoritma</div>
+                        <div class="flashcard-back">Doğal evrimi taklit eden, popülasyon tabanlı optimizasyon yöntemleri</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="module-nav">
+            <a href="modul3-abc.html" class="nav-button">← Önceki Modül</a>
+            <a href="modul5-diferansiyel.html" class="nav-button">Sonraki Modül →</a>
+        </div>
+</div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 - Alienes.me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            850: '#1f2937',
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grid-cell {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tile-2 {
+            background: #eee4da;
+            color: #776e65;
+            box-shadow: 0 0 10px rgba(238, 228, 218, 0.2);
+        }
+
+        .tile-4 {
+            background: #ede0c8;
+            color: #776e65;
+            box-shadow: 0 0 10px rgba(237, 224, 200, 0.2);
+        }
+
+        .tile-8 {
+            background: #f2b179;
+            color: #f9f6f2;
+            box-shadow: 0 0 15px rgba(242, 177, 121, 0.3);
+        }
+
+        .tile-16 {
+            background: #f59563;
+            color: #f9f6f2;
+            box-shadow: 0 0 15px rgba(245, 149, 99, 0.3);
+        }
+
+        .tile-32 {
+            background: #f67c5f;
+            color: #f9f6f2;
+            box-shadow: 0 0 20px rgba(246, 124, 95, 0.4);
+        }
+
+        .tile-64 {
+            background: #f65e3b;
+            color: #f9f6f2;
+            box-shadow: 0 0 20px rgba(246, 94, 59, 0.4);
+        }
+
+        .tile-128 {
+            background: #edcf72;
+            color: #f9f6f2;
+            box-shadow: 0 0 25px rgba(237, 207, 114, 0.5);
+        }
+
+        .tile-256 {
+            background: #edcc61;
+            color: #f9f6f2;
+            box-shadow: 0 0 25px rgba(237, 204, 97, 0.5);
+        }
+
+        .tile-512 {
+            background: #edc850;
+            color: #f9f6f2;
+            box-shadow: 0 0 30px rgba(237, 200, 80, 0.6);
+        }
+
+        .tile-1024 {
+            background: #edc53f;
+            color: #f9f6f2;
+            box-shadow: 0 0 35px rgba(237, 197, 63, 0.7);
+        }
+
+        .tile-2048 {
+            background: #edc22e;
+            color: #f9f6f2;
+            box-shadow: 0 0 40px rgba(237, 194, 46, 0.8);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .grid-cell.new {
+            animation: pop 0.2s ease-in-out;
+        }
+    </style>
+    <script src="game-auth.js?v=4"></script>
+</head>
+
+<body class="text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div id="userInfo" class="absolute top-4 right-4 z-50"></div>
+
+
+    <div class="fixed top-4 left-4 z-50">
+        <button onclick="gameAuth.showLeaderboard()"
+            class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg transition-transform hover:scale-105 flex items-center gap-2">
+            <i class="fas fa-trophy"></i> Skor Tablosu
+        </button>
+    </div>
+
+    <div class="w-full max-w-md relative">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1
+                    class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                    2048</h1>
+                <p class="text-gray-400 text-sm">Sayıları birleştirin!</p>
+            </div>
+            <div class="glass-panel px-4 py-2 rounded-xl text-center min-w-[100px]">
+                <div class="text-xs text-gray-400 uppercase tracking-wider">SKOR</div>
+                <div class="text-2xl font-bold text-white" id="score">0</div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 mb-6">
+            <button onclick="newGame()"
+                class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-redo-alt"></i> Yeni Oyun
+            </button>
+            <a href="https://games.alienes.me"
+                class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="fas fa-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+
+        <div class="glass-panel p-3 rounded-xl relative">
+            <div class="grid grid-cols-4 gap-3 bg-gray-800/50 p-3 rounded-lg" id="grid">
+                <!-- Grid cells will be generated here -->
+            </div>
+        </div>
+
+        <div class="mt-6 glass-panel p-4 rounded-xl text-sm text-gray-400">
+            <strong class="text-white block mb-1"><i class="fas fa-info-circle mr-1"></i> Nasıl Oynanır?</strong>
+            Ok tuşları (↑ ↓ ← →) veya WASD ile karoları hareket ettirin. Aynı sayıları birleştirerek 2048'e ulaşmaya
+            çalışın!
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOver" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="glass-panel p-8 rounded-2xl text-center max-w-sm w-full mx-4 transform scale-100 transition-all">
+            <div class="text-6xl mb-4">🎮</div>
+            <h2 class="text-3xl font-bold text-white mb-2">Oyun Bitti!</h2>
+            <p class="text-gray-300 mb-6">Skorunuz: <strong id="finalScore" class="text-blue-400 text-xl">0</strong></p>
+            <div class="flex flex-col gap-3">
+                <button onclick="newGame()"
+                    class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-redo-alt mr-2"></i> Tekrar Oyna
+                </button>
+                <a href="https://games.alienes.me"
+                    class="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-medium transition-colors">
+                    <i class="fas fa-home mr-2"></i> Ana Menü
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Game Auth
+        let gameAuth = new GameAuth('2048');
+        let gameStarted = false;
+
+        let board = [];
+        let score = 0;
+        const size = 4;
+
+        function startGameCallback() {
+            gameStarted = true;
+            document.getElementById('userInfo').innerHTML = gameAuth.showUserInfo();
+            initBoard();
+        }
+
+        function initBoard() {
+            board = Array(size).fill().map(() => Array(size).fill(0));
+            score = 0;
+            updateScore();
+            addRandomTile();
+            addRandomTile();
+            render();
+        }
+
+        function addRandomTile() {
+            let empty = [];
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (board[i][j] === 0) empty.push({ i, j });
+                }
+            }
+            if (empty.length > 0) {
+                const { i, j } = empty[Math.floor(Math.random() * empty.length)];
+                board[i][j] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+
+        function render() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    const cell = document.createElement('div');
+                    // Tailwind classes for grid cell
+                    cell.className = 'grid-cell w-full aspect-square rounded-lg flex items-center justify-center text-2xl font-bold text-gray-600 bg-gray-700/30';
+                    const value = board[i][j];
+
+                    if (value > 0) {
+                        cell.textContent = value;
+                        // Remove default bg class and add specific tile class
+                        cell.classList.remove('bg-gray-700/30');
+                        cell.classList.add('tile-' + value);
+                        if (value > 4) cell.classList.add('text-white');
+
+                        // Adjust font size for larger numbers
+                        if (value > 100 && value < 1000) cell.classList.add('text-xl');
+                        else if (value >= 1000) cell.classList.add('text-lg');
+
+                        cell.classList.add('new');
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        function move(direction) {
+            let moved = false;
+            const oldBoard = JSON.stringify(board);
+
+            if (direction === 'left') {
+                for (let i = 0; i < size; i++) {
+                    board[i] = slide(board[i]);
+                }
+            } else if (direction === 'right') {
+                for (let i = 0; i < size; i++) {
+                    board[i] = slide(board[i].reverse()).reverse();
+                }
+            } else if (direction === 'up') {
+                for (let j = 0; j < size; j++) {
+                    let col = board.map(row => row[j]);
+                    col = slide(col);
+                    for (let i = 0; i < size; i++) {
+                        board[i][j] = col[i];
+                    }
+                }
+            } else if (direction === 'down') {
+                for (let j = 0; j < size; j++) {
+                    let col = board.map(row => row[j]);
+                    col = slide(col.reverse()).reverse();
+                    for (let i = 0; i < size; i++) {
+                        board[i][j] = col[i];
+                    }
+                }
+            }
+
+            if (JSON.stringify(board) !== oldBoard) {
+                moved = true;
+                addRandomTile();
+                render();
+                updateScore();
+
+                if (isGameOver()) {
+                    setTimeout(() => showGameOver(), 500);
+                }
+            }
+        }
+
+        function slide(row) {
+            let arr = row.filter(val => val);
+            let merged = [];
+
+            for (let i = 0; i < arr.length; i++) {
+                if (i < arr.length - 1 && arr[i] === arr[i + 1]) {
+                    merged.push(arr[i] * 2);
+                    score += arr[i] * 2;
+                    i++;
+                } else {
+                    merged.push(arr[i]);
+                }
+            }
+
+            while (merged.length < size) {
+                merged.push(0);
+            }
+
+            return merged;
+        }
+
+        function isGameOver() {
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (board[i][j] === 0) return false;
+                }
+            }
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (j < size - 1 && board[i][j] === board[i][j + 1]) return false;
+                    if (i < size - 1 && board[i][j] === board[i + 1][j]) return false;
+                }
+            }
+            return true;
+        }
+
+        async function showGameOver() {
+            await gameAuth.saveScore(score, {
+                level: Math.max(...board.flat()),
+                time: Math.floor(Date.now() / 1000)
+            });
+            // document.getElementById('finalScore').textContent = score;
+            // document.getElementById('gameOver').classList.remove('hidden');
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function newGame() {
+            document.getElementById('gameOver').classList.add('hidden');
+            gameStarted = true;
+            initBoard();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowLeft', 'a', 'A'].includes(e.key)) { e.preventDefault(); move('left'); }
+            else if (['ArrowRight', 'd', 'D'].includes(e.key)) { e.preventDefault(); move('right'); }
+            else if (['ArrowUp', 'w', 'W'].includes(e.key)) { e.preventDefault(); move('up'); }
+            else if (['ArrowDown', 's', 'S'].includes(e.key)) { e.preventDefault(); move('down'); }
+        });
+
+        let touchStartX, touchStartY;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            if (!touchStartX || !touchStartY) return;
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) move('left'); else move('right');
+            } else {
+                if (diffY > 0) move('up'); else move('down');
+            }
+            touchStartX = null; touchStartY = null;
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (gameAuth.username) {
+                gameStarted = true;
+                document.getElementById('userInfo').innerHTML = gameAuth.showUserInfo();
+                initBoard();
+            } else {
+                setTimeout(() => { gameAuth.checkAuth(); }, 100);
+            }
+        });
+    </script>
+</body>
+
+</html>

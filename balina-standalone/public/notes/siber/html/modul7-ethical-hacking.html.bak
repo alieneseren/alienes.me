@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 7: Ethical Hacking - Siber Güvenlik</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #1abc9c; }
+        .header h1 { color: #1abc9c; font-size: 2.5em; margin-bottom: 10px; }
+        .back-button { background: #1abc9c; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; font-size: 1em; margin-bottom: 20px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #e0e0e0; }
+        .tab { padding: 15px 30px; background: #f5f5f5; border: none; cursor: pointer; font-size: 1.1em; border-radius: 10px 10px 0 0; }
+        .tab.active { background: #1abc9c; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .theory-section h2 { color: #1abc9c; margin: 25px 0 15px 0; font-size: 1.8em; }
+        .theory-section h3 { color: #2c3e50; margin: 20px 0 10px 0; font-size: 1.4em; }
+        .theory-section p, .theory-section li { line-height: 1.8; color: #333; margin-bottom: 10px; }
+        .theory-section ul { margin: 15px 0 15px 30px; }
+        .phase-box { background: #e8f8f5; border-left: 4px solid #1abc9c; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .test-options { list-style: none; padding: 0; }
+        .test-options li { padding: 10px; margin: 8px 0; background: white; border: 2px solid #e0e0e0; border-radius: 5px; cursor: pointer; }
+        .test-options li:hover { border-color: #1abc9c; background: #e8f8f5; }
+        .test-options li.selected { border-color: #1abc9c; background: #d1f2eb; }
+        .test-options li.correct { border-color: #27ae60; background: #d5f4e6; }
+        .test-options li.wrong { border-color: #e74c3c; background: #fadbd8; }
+        .submit-button { background: #1abc9c; color: white; padding: 12px 30px; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; }
+        .score { text-align: center; font-size: 1.5em; color: #1abc9c; margin-top: 20px; display: none; }
+        .flashcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .flashcard { height: 200px; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .flashcard-front { background: linear-gradient(135deg, #1abc9c, #16a085); color: white; }
+        .flashcard-back { background: linear-gradient(135deg, #2c3e50, #34495e); color: white; transform: rotateY(180deg); }
+        .test-question { background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 10px; border-left: 5px solid #1abc9c; }
+        .test-question h3 { color: #1abc9c; margin-bottom: 15px; }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #16a085;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>🎯 Modül 7: Ethical Hacking</h1>
+            <p>Penetrasyon Testi Temelleri ve Metodoloji</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>Ethical Hacking Nedir?</h2>
+            <p>Etik hacking, sistemlerin güvenlik zafiyetlerini keşfetmek için yasal ve etik sınırlar içinde yapılan güvenlik testleridir. Amaç sistemi korumaktır, zarar vermek değil.</p>
+
+            <h2>Penetrasyon Testi Metodolojisi</h2>
+
+            <div class="phase-box">
+                <h3>1. Keşif (Reconnaissance)</h3>
+                <ul>
+                    <li><strong>Pasif Keşif:</strong> WHOIS, DNS, Google dorking, sosyal medya</li>
+                    <li><strong>Aktif Keşif:</strong> Port tarama, ping sweep, network mapping</li>
+                    <li><strong>Araçlar:</strong> Nmap, Netdiscover, theHarvester, Maltego</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h3>2. Tarama (Scanning)</h3>
+                <ul>
+                    <li><strong>Port Tarama:</strong> Açık portları tespit et</li>
+                    <li><strong>Servis Tespiti:</strong> Çalışan servislerin versiyonları</li>
+                    <li><strong>Zafiyet Tarama:</strong> Bilinen güvenlik açıkları</li>
+                    <li><strong>Araçlar:</strong> Nmap, Nikto, OpenVAS, Nessus</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h3>3. Erişim Kazanma (Gaining Access)</h3>
+                <ul>
+                    <li><strong>Exploit:</strong> Zafiyetleri kullanarak sisteme gir</li>
+                    <li><strong>Şifre Kırma:</strong> Brute force, dictionary attack</li>
+                    <li><strong>Social Engineering:</strong> Phishing, pretexting</li>
+                    <li><strong>Araçlar:</strong> Metasploit, Hydra, John the Ripper</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h3>4. Erişimi Sürdürme (Maintaining Access)</h3>
+                <ul>
+                    <li><strong>Backdoor:</strong> Geri kapı bırak</li>
+                    <li><strong>Rootkit:</strong> Kalıcı erişim sağla</li>
+                    <li><strong>Privilege Escalation:</strong> Yetkileri yükselt</li>
+                </ul>
+            </div>
+
+            <div class="phase-box">
+                <h3>5. İzleri Silme (Covering Tracks)</h3>
+                <ul>
+                    <li><strong>Log Temizleme:</strong> Sistem kayıtlarını sil</li>
+                    <li><strong>Dosya Saklama:</strong> İzleri gizle</li>
+                    <li><strong>Anti-forensics:</strong> Adli incelemeyi engelle</li>
+                </ul>
+            </div>
+
+            <h2>Yasal ve Etik Kurallar</h2>
+            <ul>
+                <li>✅ <strong>İzin Al:</strong> Test öncesi yazılı izin şart</li>
+                <li>✅ <strong>Sınırları Belirle:</strong> Neyin test edileceğini net tanımla</li>
+                <li>✅ <strong>Gizlilik:</strong> Bulguları sadece yetkililere raporla</li>
+                <li>✅ <strong>Zarar Verme:</strong> Sisteme kalıcı zarar vermekten kaçın</li>
+                <li>❌ <strong>İzinsiz Test:</strong> Yasal sonuçları vardır</li>
+            </ul>
+
+            <h2>Popüler Pentest Araçları</h2>
+            <ul>
+                <li><strong>Metasploit:</strong> Exploit framework</li>
+                <li><strong>Burp Suite:</strong> Web uygulaması testi</li>
+                <li><strong>OWASP ZAP:</strong> Web güvenlik tarayıcı</li>
+                <li><strong>Wireshark:</strong> Ağ trafiği analizi</li>
+                <li><strong>Hydra:</strong> Brute force tool</li>
+                <li><strong>SQLmap:</strong> SQL injection</li>
+            </ul>
+
+            <h2>Sertifikasyonlar</h2>
+            <ul>
+                <li><strong>CEH:</strong> Certified Ethical Hacker</li>
+                <li><strong>OSCP:</strong> Offensive Security Certified Professional</li>
+                <li><strong>GPEN:</strong> GIAC Penetration Tester</li>
+                <li><strong>eJPT:</strong> eLearnSecurity Junior Penetration Tester</li>
+            </ul>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="B">
+                <h3>Soru 1: Penetrasyon testinin ilk aşaması nedir?</h3>
+                <ul class="test-options">
+                    <li>A) Exploit</li>
+                    <li>B) Reconnaissance (Keşif)</li>
+                    <li>C) Erişim kazanma</li>
+                    <li>D) İzleri silme</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 2: Pasif keşif örneği hangisidir?</h3>
+                <ul class="test-options">
+                    <li>A) Port tarama</li>
+                    <li>B) Ping gönderme</li>
+                    <li>C) WHOIS sorgusu</li>
+                    <li>D) Exploit çalıştırma</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 3: Metasploit ne işe yarar?</h3>
+                <ul class="test-options">
+                    <li>A) Exploit framework</li>
+                    <li>B) Port tarayıcı</li>
+                    <li>C) Şifre kırıcı</li>
+                    <li>D) Log temizleyici</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 4: Social engineering hangi kategoriye girer?</h3>
+                <ul class="test-options">
+                    <li>A) Teknik saldırı</li>
+                    <li>B) İnsan odaklı saldırı</li>
+                    <li>C) Fiziksel saldırı</li>
+                    <li>D) Ağ saldırısı</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: Ethical hacker için en önemli kural nedir?</h3>
+                <ul class="test-options">
+                    <li>A) Hızlı çalışmak</li>
+                    <li>B) Çok araç bilmek</li>
+                    <li>C) İzin almak</li>
+                    <li>D) İzleri silmek</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 6: Privilege escalation ne demektir?</h3>
+                <ul class="test-options">
+                    <li>A) Yetkileri yükseltme</li>
+                    <li>B) Şifre kırma</li>
+                    <li>C) Port açma</li>
+                    <li>D) Log silme</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 7: Web uygulaması güvenlik testi için hangi araç kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) Nmap</li>
+                    <li>B) Burp Suite</li>
+                    <li>C) Wireshark</li>
+                    <li>D) Aircrack-ng</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 8: Backdoor ne işe yarar?</h3>
+                <ul class="test-options">
+                    <li>A) Şifre kırar</li>
+                    <li>B) Port tarar</li>
+                    <li>C) Kalıcı erişim sağlar</li>
+                    <li>D) Log temizler</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 9: CEH sertifikası ne anlama gelir?</h3>
+                <ul class="test-options">
+                    <li>A) Certified Ethical Hacker</li>
+                    <li>B) Computer Expert Hacker</li>
+                    <li>C) Cyber Ethical Hacking</li>
+                    <li>D) Certified Expert Hacker</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 10: Penetrasyon testinin son aşaması nedir?</h3>
+                <ul class="test-options">
+                    <li>A) Exploit</li>
+                    <li>B) İzleri silme</li>
+                    <li>C) Keşif</li>
+                    <li>D) Tarama</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Ethical Hacking</div>
+                        <div class="flashcard-back">Yasal izinle güvenlik zafiyetlerini test etme</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Reconnaissance</div>
+                        <div class="flashcard-back">Bilgi toplama ve keşif aşaması</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Metasploit</div>
+                        <div class="flashcard-back">Popüler exploit framework</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Social Engineering</div>
+                        <div class="flashcard-back">İnsan psikolojisini kullanarak bilgi elde etme</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Privilege Escalation</div>
+                        <div class="flashcard-back">Sistemde yetkileri yükseltme</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Backdoor</div>
+                        <div class="flashcard-back">Sisteme kalıcı erişim için geri kapı</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Burp Suite</div>
+                        <div class="flashcard-back">Web uygulaması güvenlik test aracı</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">CEH</div>
+                        <div class="flashcard-back">Certified Ethical Hacker sertifikası</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Covering Tracks</div>
+                        <div class="flashcard-back">Test sonrası izleri silme ve raporlama</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Exploit</div>
+                        <div class="flashcard-back">Güvenlik zafiyetini istismar eden kod</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        function selectAnswer(element) {
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => li.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() { selectAnswer(this); });
+        });
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    question.querySelectorAll('.test-options li').forEach(option => {
+                        if (option.textContent.trim().charAt(0) === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            document.getElementById('score').style.display = 'block';
+            document.getElementById('score').innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <a href="modul6-wifi-pentest.html" class="nav-button">← Önceki Modül</a>
+        <div class="nav-center">Modül 7 / 7</div>
+        <button class="nav-button" disabled>Sonraki Modül →</button>
+    </div>
+</body>
+</html>

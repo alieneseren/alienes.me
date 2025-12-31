@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2: Kali Linux Komutları - Siber Güvenlik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .header h1 {
+            color: #e74c3c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #c0392b;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #c0392b;
+        }
+
+        .nav-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theory-section h2 {
+            color: #e74c3c;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+
+        .theory-section h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .theory-section h4 {
+            color: #34495e;
+            margin: 15px 0 8px 0;
+            font-size: 1.2em;
+        }
+
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .code-box {
+            background: #2c3e50;
+            color: #e74c3c;
+            padding: 15px;
+            border-left: 4px solid #e74c3c;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .code-box code {
+            display: block;
+            white-space: pre;
+            color: #ecf0f1;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .test-question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .test-question h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .test-options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .test-options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-options li:hover {
+            border-color: #e74c3c;
+            background: #fee;
+        }
+
+        .test-options li.selected {
+            border-color: #e74c3c;
+            background: #fdd;
+        }
+
+        .test-options li.correct {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-options li.wrong {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .submit-button {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #c0392b;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #e74c3c;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfaya Dön</button>
+        
+        <div class="header">
+            <h1>🐉 Modül 2: Kali Linux Komutları</h1>
+            <p>Sistem Yönetimi ve Temel Komutlar</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📖 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active theory-section">
+            <h2>1. Sistem / Paket Yönetimi</h2>
+            
+            <h3>Paket Güncelleme</h3>
+            <div class="code-box"><code>sudo apt update
+sudo apt upgrade -y
+sudo apt full-upgrade -y</code></div>
+            <p><strong>Açıklama:</strong> Depodaki paket listelerini günceller ve kurulu paketleri yükseltir.</p>
+
+            <h3>Kırık Paketleri Düzelt</h3>
+            <div class="code-box"><code>sudo apt --fix-broken install -y
+sudo dpkg --configure -a</code></div>
+
+            <h3>Manuel Paket Kurulumu</h3>
+            <div class="code-box"><code>wget http://example/path/package.deb
+sudo dpkg -i package.deb || sudo apt -f install -y</code></div>
+
+            <h2>2. Dosya / Dizin İşlemleri</h2>
+            
+            <div class="code-box"><code>pwd                              # Bulunduğun dizini göster
+ls -la                           # Tüm dosyaları listele (gizli dahil)
+cd /path/to/dir                  # Dizin değiştir
+mkdir -p proje/{src,bin,docs}    # İç içe dizinler oluştur
+touch yeni.txt                   # Boş dosya oluştur
+cp -r kaynak/ hedef/             # Klasörü kopyala
+mv eski.txt yeni.txt             # Taşı/yeniden adlandır
+rm file.txt                      # Dosya sil
+rm -rf klasor/                   # DİKKAT: İçeriğiyle sil (geri alınamaz)</code></div>
+
+            <div class="note">
+                <strong>⚠️ UYARI:</strong> <code>rm -rf</code> komutu dikkatli kullanılmalı! Geri alınamaz.
+            </div>
+
+            <h2>3. Dosya İçerik Görüntüleme</h2>
+            
+            <div class="code-box"><code>cat dosya.txt                    # Dosyayı ekrana yazdır
+less dosya.txt                   # Sayfa sayfa oku
+head -n 20 dosya.txt             # İlk 20 satırı göster
+tail -n 50 dosya.txt             # Son 50 satırı göster
+tail -f /var/log/syslog          # Canlı log takibi</code></div>
+
+            <h2>4. Arama ve Filtreleme</h2>
+            
+            <div class="code-box"><code>grep "hata" log.txt              # Dosyada metin ara
+grep -r "TODO" ./src             # Klasörde recursive ara
+find /home -name "*.sh"          # Dosya bul
+locate dosya.txt                 # Veritabanında hızlı ara
+which python3                    # Komutun yolunu bul
+whereis python                   # Binary, source ve man sayfası</code></div>
+
+            <h2>5. Süreç (Process) Yönetimi</h2>
+            
+            <div class="code-box"><code>ps aux                           # Tüm süreçleri listele
+ps aux | grep firefox            # Belirli süreci bul
+top                              # Canlı süreç takibi
+htop                             # Gelişmiş süreç monitörü
+kill PID                         # Süreci sonlandır
+kill -9 PID                      # Zorla sonlandır
+killall firefox                  # İsimle sonlandır
+bg                               # Arka plana gönder
+fg                               # Ön plana getir</code></div>
+
+            <h2>6. Ağ Komutları</h2>
+            
+            <div class="code-box"><code>ip a                             # IP adresi göster
+ifconfig                         # Ağ arayüzleri (eski)
+ping google.com                  # Bağlantı testi
+netstat -tuln                    # Dinlenen portlar
+ss -tuln                         # Modern netstat alternatifi
+curl http://example.com          # HTTP isteği
+wget http://example.com/file     # Dosya indir</code></div>
+
+            <h2>7. İzinler ve Sahiplik</h2>
+            
+            <div class="code-box"><code>chmod 755 script.sh              # Okuma+Yazma+Çalıştırma
+chmod +x script.sh               # Çalıştırma izni ekle
+chown user:group dosya.txt       # Sahip değiştir
+sudo chown -R kali:kali /home/kali/proje</code></div>
+
+            <h4>İzin Numaraları:</h4>
+            <ul>
+                <li><strong>4</strong> = Okuma (r)</li>
+                <li><strong>2</strong> = Yazma (w)</li>
+                <li><strong>1</strong> = Çalıştırma (x)</li>
+                <li><strong>7</strong> = rwx (4+2+1)</li>
+                <li><strong>6</strong> = rw- (4+2)</li>
+                <li><strong>5</strong> = r-x (4+1)</li>
+            </ul>
+
+            <h2>8. Arşivleme ve Sıkıştırma</h2>
+            
+            <div class="code-box"><code>tar -czf arsiv.tar.gz klasor/    # Sıkıştır
+tar -xzf arsiv.tar.gz             # Aç
+zip -r arsiv.zip klasor/          # ZIP oluştur
+unzip arsiv.zip                   # ZIP aç
+gzip dosya.txt                    # Dosya sıkıştır
+gunzip dosya.txt.gz               # Dosya aç</code></div>
+
+            <h2>9. Sistem Bilgisi</h2>
+            
+            <div class="code-box"><code>uname -a                         # Sistem bilgisi
+lsb_release -a                   # Dağıtım bilgisi
+df -h                            # Disk kullanımı
+du -sh klasor/                   # Klasör boyutu
+free -h                          # RAM kullanımı
+uptime                           # Çalışma süresi
+whoami                           # Mevcut kullanıcı
+hostname                         # Bilgisayar adı</code></div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="A">
+                <h3>Soru 1: Kali Linux'ta paket listelerini güncellemek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) sudo apt update</li>
+                    <li>B) sudo apt refresh</li>
+                    <li>C) sudo yum update</li>
+                    <li>D) sudo pacman -Syu</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 2: Bir klasörü içeriğiyle birlikte kopyalamak için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) cp klasor/ hedef/</li>
+                    <li>B) copy -all klasor/ hedef/</li>
+                    <li>C) cp -r klasor/ hedef/</li>
+                    <li>D) cp -a klasor/ hedef/</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 3: Bir dosyanın son 100 satırını görmek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) head -n 100 dosya.txt</li>
+                    <li>B) tail -n 100 dosya.txt</li>
+                    <li>C) cat -n 100 dosya.txt</li>
+                    <li>D) less -n 100 dosya.txt</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 4: Bir dosyada "error" kelimesini aramak için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) find "error" dosya.txt</li>
+                    <li>B) grep "error" dosya.txt</li>
+                    <li>C) search "error" dosya.txt</li>
+                    <li>D) locate "error" dosya.txt</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: Tüm çalışan süreçleri listelemek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) list processes</li>
+                    <li>B) show all</li>
+                    <li>C) ps aux</li>
+                    <li>D) proc -all</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 6: 755 izin numarası ne anlama gelir?</h3>
+                <ul class="test-options">
+                    <li>A) Sahip: rwx, Grup: r-x, Diğer: r-x</li>
+                    <li>B) Sahip: rw-, Grup: rw-, Diğer: r--</li>
+                    <li>C) Sahip: rwx, Grup: rwx, Diğer: rwx</li>
+                    <li>D) Sahip: r-x, Grup: r-x, Diğer: r-x</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 7: Bir klasörü tar.gz formatında sıkıştırmak için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) tar -xzf arsiv.tar.gz klasor/</li>
+                    <li>B) tar -czf arsiv.tar.gz klasor/</li>
+                    <li>C) gzip -r klasor/</li>
+                    <li>D) zip -tar klasor/</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 8: Disk kullanımını human-readable formatta görmek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) disk -h</li>
+                    <li>B) show disk</li>
+                    <li>C) df -h</li>
+                    <li>D) ls -disk</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 9: Bir process'i PID numarasıyla zorla sonlandırmak için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) kill PID</li>
+                    <li>B) kill -9 PID</li>
+                    <li>C) stop -force PID</li>
+                    <li>D) terminate PID</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 10: Log dosyasını canlı olarak takip etmek için hangi komut kullanılır?</h3>
+                <ul class="test-options">
+                    <li>A) tail -f log.txt</li>
+                    <li>B) cat -live log.txt</li>
+                    <li>C) watch log.txt</li>
+                    <li>D) monitor log.txt</li>
+                </ul>
+            </div>
+
+            <button class="submit-button" onclick="submitTest()">Cevapları Kontrol Et</button>
+            <div class="score" id="score"></div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">apt update vs apt upgrade</div>
+                        <div class="flashcard-back">update = paket listesini güncelle, upgrade = paketleri yükselt</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">cp -r ne yapar?</div>
+                        <div class="flashcard-back">Klasörü recursive (içeriğiyle) kopyalar</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">grep komutu ne işe yarar?</div>
+                        <div class="flashcard-back">Dosya içinde metin aramak için kullanılır</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">tail -f ne yapar?</div>
+                        <div class="flashcard-back">Dosyayı canlı olarak takip eder (live monitoring)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">chmod 755 anlamı?</div>
+                        <div class="flashcard-back">Sahip: rwx (7), Grup: r-x (5), Diğer: r-x (5)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">ps aux ne gösterir?</div>
+                        <div class="flashcard-back">Sistemdeki tüm çalışan process'leri listeler</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">tar -czf ne yapar?</div>
+                        <div class="flashcard-back">Klasörü tar.gz formatında sıkıştırır (compress)</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">df -h ne gösterir?</div>
+                        <div class="flashcard-back">Disk kullanımını human-readable formatta gösterir</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">kill -9 ne demek?</div>
+                        <div class="flashcard-back">Process'i SIGKILL sinyaliyle zorla sonlandırır</div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">rm -rf tehlikeli mi?</div>
+                        <div class="flashcard-back">EVET! İçeriğiyle siler ve GERİ ALINAMAZ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element) {
+            const question = element.closest('.test-question');
+            question.querySelectorAll('.test-options li').forEach(li => {
+                li.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        document.querySelectorAll('.test-options li').forEach(option => {
+            option.addEventListener('click', function() {
+                selectAnswer(this);
+            });
+        });
+
+        function submitTest() {
+            let correct = 0;
+            let total = document.querySelectorAll('.test-question').length;
+            
+            document.querySelectorAll('.test-question').forEach(question => {
+                const correctAnswer = question.getAttribute('data-correct');
+                const selected = question.querySelector('.test-options li.selected');
+                
+                if (selected) {
+                    const selectedLetter = selected.textContent.trim().charAt(0);
+                    const allOptions = question.querySelectorAll('.test-options li');
+                    
+                    allOptions.forEach(option => {
+                        const letter = option.textContent.trim().charAt(0);
+                        if (letter === correctAnswer) {
+                            option.classList.add('correct');
+                        }
+                    });
+                    
+                    if (selectedLetter === correctAnswer) {
+                        correct++;
+                    } else {
+                        selected.classList.add('wrong');
+                    }
+                }
+            });
+            
+            const scoreElement = document.getElementById('score');
+            scoreElement.style.display = 'block';
+            scoreElement.innerHTML = `Sonuç: ${correct} / ${total} doğru (${Math.round(correct/total*100)}%)`;
+        }
+    </script>
+
+    <div class="navigation-buttons">
+        <a href="modul1-bash.html" class="nav-button">← Önceki Modül</a>
+        <div class="nav-center">Modül 2 / 7</div>
+        <a href="modul3-terminal.html" class="nav-button">Sonraki Modül →</a>
+    </div>
+</body>
+</html>

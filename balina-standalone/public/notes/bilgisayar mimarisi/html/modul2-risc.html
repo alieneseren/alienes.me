@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2: RISC Mimarisi - Bilgisayar Mimarisi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        .back-button:hover { background: #764ba2; }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .tab {
+            padding: 15px 30px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 10px 10px 0 0;
+        }
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .theory-section h2 {
+            color: #667eea;
+            margin: 25px 0 15px 0;
+            font-size: 1.8em;
+        }
+        .theory-section h3 {
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+        .theory-section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .theory-section ul {
+            margin: 15px 0 15px 30px;
+        }
+        .theory-section li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .formula {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 5px;
+        }
+        
+        .test-question h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .options li:hover {
+            background: #e8eaf6;
+            transform: translateX(5px);
+        }
+.flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard:hover .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .flashcard-back {
+            background: white;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 2px solid #667eea;
+        }
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        .nav-button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        .nav-button:hover:not(.disabled) {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .nav-button.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    
+        
+
+        
+
+        
+
+    
+        .test-question {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .test-question:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .test-question h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .test-options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .test-options li {
+            padding: 14px 18px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .test-options li:hover {
+            background: #e3f2fd;
+            border-color: #667eea;
+            transform: translateX(8px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .test-options li.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+            transform: translateX(10px);
+            font-weight: bold;
+        }
+
+        .test-options li.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+            animation: shake 0.5s;
+        }
+
+        .test-options li.correct-answer {
+            background: #8BC34A;
+            color: white;
+            border-color: #8BC34A;
+            font-weight: bold;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.location.href='index.html'">← Ana Sayfa</button>
+        
+        <div class="header">
+            <h1>⚙️ Modül 2: RISC Mimarisi</h1>
+            <p>RISC-V komut seti ve assembly programlama</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📚 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active">
+            <div class="theory-section">
+                <h2>RISC Mimarisi Nedir?</h2>
+                <p>
+                    RISC (Reduced Instruction Set Computer), basitleştirilmiş komut seti kullanan bir işlemci 
+                    mimarisidir. CISC'nin karmaşık komutlarının aksine, RISC basit, hızlı çalışan komutlar kullanır.
+                </p>
+
+                <h3>RISC Tasarım İlkeleri</h3>
+                <ul>
+                    <li><strong>Basit komutlar:</strong> Her komut bir çevrimde tamamlanır</li>
+                    <li><strong>Load/Store mimarisi:</strong> Sadece load ve store komutları belleğe erişir</li>
+                    <li><strong>Sabit uzunlukta komutlar:</strong> Tüm komutlar aynı boyutta</li>
+                    <li><strong>Çok sayıda register:</strong> Register kullanımı bellek erişimini azaltır</li>
+                    <li><strong>Pipeline uyumlu:</strong> Komutlar pipeline'da paralel çalışabilir</li>
+                </ul>
+
+                <h3>RISC-V Komut Seti</h3>
+                <p>
+                    RISC-V, açık kaynak kodlu modern bir RISC mimarisidir. Berkeley Üniversitesi'nde geliştirilmiştir 
+                    ve giderek popülerleşmektedir.
+                </p>
+
+                <h3>RISC-V Register Yapısı</h3>
+                <ul>
+                    <li><strong>32 genel amaçlı register (x0-x31)</strong></li>
+                    <li><strong>x0:</strong> Her zaman 0 değerini tutar (sabit)</li>
+                    <li><strong>x1 (ra):</strong> Return address - Geri dönüş adresi</li>
+                    <li><strong>x2 (sp):</strong> Stack pointer - Yığın göstericisi</li>
+                    <li><strong>x5-x7, x28-x31 (t0-t6):</strong> Geçici register'lar</li>
+                    <li><strong>x8-x9, x18-x27 (s0-s11):</strong> Kaydedilmiş register'lar</li>
+                    <li><strong>x10-x17 (a0-a7):</strong> Fonksiyon argümanları ve dönüş değerleri</li>
+                </ul>
+
+                <h3>Temel Komut Formatları</h3>
+                <div class="formula">
+                    R-type: register-register işlemler
+                    <br>add x1, x2, x3  → x1 = x2 + x3
+                    <br><br>I-type: immediate ve load komutları
+                    <br>addi x1, x2, 10  → x1 = x2 + 10
+                    <br>lw x1, 0(x2)     → x1 = memory[x2]
+                    <br><br>S-type: store komutları
+                    <br>sw x1, 0(x2)     → memory[x2] = x1
+                </div>
+
+                <h3>RISC vs CISC</h3>
+                <table border="1" style="width:100%; border-collapse: collapse; margin: 20px 0;">
+                    <tr style="background: #667eea; color: white;">
+                        <th style="padding: 10px;">Özellik</th>
+                        <th style="padding: 10px;">RISC</th>
+                        <th style="padding: 10px;">CISC</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"><strong>Komut sayısı</strong></td>
+                        <td style="padding: 8px;">Az (≈100)</td>
+                        <td style="padding: 8px;">Çok (≈300-1000)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"><strong>Komut uzunluğu</strong></td>
+                        <td style="padding: 8px;">Sabit (32-bit)</td>
+                        <td style="padding: 8px;">Değişken (1-15 byte)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"><strong>Pipeline</strong></td>
+                        <td style="padding: 8px;">Kolay</td>
+                        <td style="padding: 8px;">Zor</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px;"><strong>Örnekler</strong></td>
+                        <td style="padding: 8px;">ARM, RISC-V, MIPS</td>
+                        <td style="padding: 8px;">x86, x86-64</td>
+                    </tr>
+                </table>
+
+                <h3>Assembly Programlama Temelleri</h3>
+                <div class="formula">
+                    # Örnek: İki sayıyı toplama
+                    <br>li x10, 5        # x10 = 5
+                    <br>li x11, 10       # x11 = 10
+                    <br>add x12, x10, x11  # x12 = x10 + x11 = 15
+                    <br><br># Döngü örneği
+                    <br>li x10, 0        # counter = 0
+                    <br>li x11, 10       # limit = 10
+                    <br>loop:
+                    <br>&nbsp;&nbsp;addi x10, x10, 1  # counter++
+                    <br>&nbsp;&nbsp;blt x10, x11, loop  # if counter < limit goto loop
+                </div>
+            </div>
+        </div>
+
+        <div id="test" class="tab-content">
+            <div class="test-question" data-correct="B">
+                <h3>Soru 1: RISC açılımı nedir?</h3>
+                <ul class="test-options">
+                    <li>A) Random Instruction Set Computer</li>
+                    <li>B) Reduced Instruction Set Computer</li>
+                    <li>C) Rapid Instruction Set Computer</li>
+                    <li>D) Regular Instruction Set Computer</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 2: RISC mimarisinde kaç register vardır?</h3>
+                <ul class="test-options">
+                    <li>A) 16</li>
+                    <li>B) 32</li>
+                    <li>C) 64</li>
+                    <li>D) 128</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 3: x0 register'ının özelliği nedir?</h3>
+                <ul class="test-options">
+                    <li>A) Yığın göstericisi</li>
+                    <li>B) Geri dönüş adresi</li>
+                    <li>C) Her zaman 0 değerini tutar</li>
+                    <li>D) Komut sayacı</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 4: Load/Store mimarisi ne demektir?</h3>
+                <ul class="test-options">
+                    <li>A) Sadece load ve store komutları belleğe erişir</li>
+                    <li>B) Tüm komutlar belleğe erişebilir</li>
+                    <li>C) Hiçbir komut belleğe erişemez</li>
+                    <li>D) Sadece aritmetik komutlar belleğe erişir</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 5: RISC-V komutları kaç bit uzunluğundadır?</h3>
+                <ul class="test-options">
+                    <li>A) 16-bit</li>
+                    <li>B) 24-bit</li>
+                    <li>C) 32-bit</li>
+                    <li>D) 64-bit</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="A">
+                <h3>Soru 6: "add x1, x2, x3" komutu ne yapar?</h3>
+                <ul class="test-options">
+                    <li>A) x1 = x2 + x3</li>
+                    <li>B) x2 = x1 + x3</li>
+                    <li>C) x3 = x1 + x2</li>
+                    <li>D) x1 = x2 - x3</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 7: Stack pointer hangi register'dır?</h3>
+                <ul class="test-options">
+                    <li>A) x0</li>
+                    <li>B) x1</li>
+                    <li>C) x2 (sp)</li>
+                    <li>D) x10</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 8: Hangi mimari x86'ya aittir?</h3>
+                <ul class="test-options">
+                    <li>A) RISC</li>
+                    <li>B) CISC</li>
+                    <li>C) VLIW</li>
+                    <li>D) Harvard</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="B">
+                <h3>Soru 9: lw komutu ne yapar?</h3>
+                <ul class="test-options">
+                    <li>A) Store word - Belleğe yazar</li>
+                    <li>B) Load word - Bellekten okur</li>
+                    <li>C) Loop word - Döngü başlatır</li>
+                    <li>D) Link word - Bağlantı kurar</li>
+                </ul>
+            </div>
+
+            <div class="test-question" data-correct="C">
+                <h3>Soru 10: RISC-V hangi üniversitede geliştirildi?</h3>
+                <ul class="test-options">
+                    <li>A) MIT</li>
+                    <li>B) Stanford</li>
+                    <li>C) Berkeley</li>
+                    <li>D) Harvard</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="flashcards" class="tab-content">
+            <div class="flashcards">
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">RISC açılımı</div>
+                        <div class="flashcard-back">Reduced Instruction Set Computer</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">RISC-V register sayısı</div>
+                        <div class="flashcard-back">32 genel amaçlı register (x0-x31)</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">x0 register</div>
+                        <div class="flashcard-back">Her zaman 0 değerini tutar (sabit)</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">x1 (ra) register</div>
+                        <div class="flashcard-back">Return Address - Geri dönüş adresi</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">x2 (sp) register</div>
+                        <div class="flashcard-back">Stack Pointer - Yığın göstericisi</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">Load/Store mimarisi</div>
+                        <div class="flashcard-back">Sadece load ve store komutları belleğe erişir</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">RISC komut uzunluğu</div>
+                        <div class="flashcard-back">Sabit - 32 bit</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">add komutu</div>
+                        <div class="flashcard-back">add x1, x2, x3 → x1 = x2 + x3</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">addi komutu</div>
+                        <div class="flashcard-back">addi x1, x2, 10 → x1 = x2 + 10</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">lw komutu</div>
+                        <div class="flashcard-back">Load Word - Bellekten register'a okur</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">sw komutu</div>
+                        <div class="flashcard-back">Store Word - Register'dan belleğe yazar</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">RISC örnekleri</div>
+                        <div class="flashcard-back">ARM, RISC-V, MIPS, PowerPC</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">CISC örnekleri</div>
+                        <div class="flashcard-back">x86, x86-64 (Intel, AMD)</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">R-type format</div>
+                        <div class="flashcard-back">Register-Register işlemler (add, sub, and, or)</div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">I-type format</div>
+                        <div class="flashcard-back">Immediate ve Load komutları (addi, lw)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-nav">
+            <button class="nav-button" onclick="window.location.href='modul1-giris.html'">← Önceki Modül</button>
+            <button class="nav-button" onclick="window.location.href='modul3-io.html'">Sonraki Modül →</button>
+        </div>
+    </div>
+
+    <script>
+
+        // Tab değiştirme fonksiyonu
+        function showTab(tabName) {
+            // Tüm tab içeriklerini gizle
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Tüm tab butonlarından active class'ı kaldır
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Seçili tabı göster
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Tıklanan butonu active yap
+            event.target.classList.add('active');
+        }
+
+        // Test seçimi için JavaScript
+        function selectAnswer(element, questionDiv) {
+            const allOptions = questionDiv.querySelectorAll('.test-options li');
+            const correctAnswer = questionDiv.getAttribute('data-correct');
+            
+            // Daha önce seçilmişleri temizle
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected', 'wrong', 'correct-answer');
+            });
+            
+            // Seçilen şıkkın harfini al (A, B, C, D)
+            const selectedLetter = element.textContent.trim()[0];
+            
+            // Seçilen şıkkı işaretle
+            if (selectedLetter === correctAnswer) {
+                element.classList.add('correct-answer');
+            } else {
+                element.classList.add('wrong');
+                // Doğru cevabı da göster
+                allOptions.forEach(opt => {
+                    if (opt.textContent.trim()[0] === correctAnswer) {
+                        opt.classList.add('correct-answer');
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde tüm test sorularına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const testQuestions = document.querySelectorAll('.test-question');
+            
+            testQuestions.forEach(question => {
+                const options = question.querySelectorAll('.test-options li');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        selectAnswer(this, question);
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

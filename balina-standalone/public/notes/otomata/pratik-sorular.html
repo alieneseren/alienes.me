@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratik Problemler - Otomata Teorisi</title>
+    <link rel="stylesheet" href="../style.css?v=1762791517">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">🏠 Ana Sayfa</a> > <span>Pratik Problemler</span>
+        </nav>
+        
+        <header class="module-header">
+            <div class="module-icon">🔧</div>
+            <h1>Pratik Problemler</h1>
+            <p>Otomata Teorisi - Çözümlü Örnek Sorular ve Tasarım Teknikleri</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>📐 Problem Kategorileri</h2>
+                <p>Bu sayfada otomata teorisinde sıkça karşılaşılan pratik problemleri ve çözüm tekniklerini bulabilirsiniz.</p>
+            </div>
+
+            <div class="section">
+                <h2>🤖 1. DFA Tasarım Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 1: Belirli Bir Sembolle Başlayan Kelimeler</h3>
+                    <p><strong>Soru:</strong> Σ = {0, 1} alfabesi üzerinde, 1 ile başlayan tüm kelimeleri kabul eden DFA tasarlayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Durum Kümesi:</strong> Q = {q₀, q₁, q₂}</p>
+                        <p><strong>Başlangıç:</strong> q₀</p>
+                        <p><strong>Kabul Durumları:</strong> F = {q₁}</p>
+                        <p><strong>Geçiş Fonksiyonu:</strong></p>
+                        <ul>
+                            <li>δ(q₀, 0) = q₂ (reddedildi, 0 ile başladı)</li>
+                            <li>δ(q₀, 1) = q₁ (kabul, 1 ile başladı)</li>
+                            <li>δ(q₁, 0) = q₁ (kabul durumunda kal)</li>
+                            <li>δ(q₁, 1) = q₁ (kabul durumunda kal)</li>
+                            <li>δ(q₂, 0) = q₂ (red durumunda kal)</li>
+                            <li>δ(q₂, 1) = q₂ (red durumunda kal)</li>
+                        </ul>
+                        <p class="answer">✅ 3 durumlu DFA: İlk sembolü kontrol et ve sonuç durumda kal</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 2: Çift Sayıda Belirli Sembol</h3>
+                    <p><strong>Soru:</strong> Σ = {a, b} üzerinde, çift sayıda 'a' içeren kelimeleri kabul eden DFA tasarlayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Durum Kümesi:</strong> Q = {q₀, q₁}</p>
+                        <p>• q₀ = çift sayıda 'a' (kabul)</p>
+                        <p>• q₁ = tek sayıda 'a' (red)</p>
+                        <p><strong>Geçiş Fonksiyonu:</strong></p>
+                        <ul>
+                            <li>δ(q₀, a) = q₁ (çift → tek)</li>
+                            <li>δ(q₀, b) = q₀ (çift → çift)</li>
+                            <li>δ(q₁, a) = q₀ (tek → çift)</li>
+                            <li>δ(q₁, b) = q₁ (tek → tek)</li>
+                        </ul>
+                        <p class="answer">✅ 2 durumlu DFA: 'a' sayısının paritesini tut</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 3: 3'e Bölünebilen Sayılar</h3>
+                    <p><strong>Soru:</strong> İkili sayı sisteminde yazılan, 3'e tam bölünebilen sayıları kabul eden DFA tasarlayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Fikir:</strong> Her durumu "mod 3" değerine göre tanımla</p>
+                        <p><strong>Durum Kümesi:</strong> Q = {q₀, q₁, q₂}</p>
+                        <p>• q₀: sayı ≡ 0 (mod 3) - KABUL</p>
+                        <p>• q₁: sayı ≡ 1 (mod 3)</p>
+                        <p>• q₂: sayı ≡ 2 (mod 3)</p>
+                        <p><strong>Geçiş Fonksiyonu:</strong></p>
+                        <p>Yeni bit eklendiğinde: yeni_değer = (eski_değer × 2 + bit) mod 3</p>
+                        <ul>
+                            <li>δ(q₀, 0) = q₀ (0×2+0 = 0 mod 3 = 0)</li>
+                            <li>δ(q₀, 1) = q₁ (0×2+1 = 1 mod 3 = 1)</li>
+                            <li>δ(q₁, 0) = q₂ (1×2+0 = 2 mod 3 = 2)</li>
+                            <li>δ(q₁, 1) = q₀ (1×2+1 = 3 mod 3 = 0)</li>
+                            <li>δ(q₂, 0) = q₁ (2×2+0 = 4 mod 3 = 1)</li>
+                            <li>δ(q₂, 1) = q₂ (2×2+1 = 5 mod 3 = 2)</li>
+                        </ul>
+                        <p class="answer">✅ 3 durumlu DFA: Mod 3 değerini takip et</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔄 2. Düzenli İfade Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 4: Düzenli İfadeden Dil Çıkarma</h3>
+                    <p><strong>Soru:</strong> (a+b)*abb düzenli ifadesinin tanıdığı dili açıklayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Analiz:</strong></p>
+                        <ul>
+                            <li>(a+b)* → a ve b'lerden oluşan herhangi bir kelime (ε dahil)</li>
+                            <li>abb → 'abb' ile bitme zorunluluğu</li>
+                        </ul>
+                        <p><strong>Dil:</strong> L = {w | w, 'abb' ile biten kelimelerdir}</p>
+                        <p><strong>Örnekler:</strong></p>
+                        <ul>
+                            <li>✅ abb</li>
+                            <li>✅ aabb</li>
+                            <li>✅ babbabb</li>
+                            <li>✅ aababb</li>
+                            <li>❌ ab (abb ile bitmiyor)</li>
+                            <li>❌ abba (abb ile bitmiyor)</li>
+                        </ul>
+                        <p class="answer">✅ 'abb' ile biten tüm kelimeler</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 5: Dile Düzenli İfade Yazma</h3>
+                    <p><strong>Soru:</strong> Σ = {0, 1} üzerinde, en az bir 0 ve en az bir 1 içeren kelimeler için düzenli ifade yazın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Yaklaşım:</strong> Hem 0 hem 1 içermeli</p>
+                        <p><strong>Yöntem 1:</strong> (0+1)*0(0+1)*1(0+1)* + (0+1)*1(0+1)*0(0+1)*</p>
+                        <p>• Önce 0, sonra 1 VEYA önce 1, sonra 0</p>
+                        
+                        <p><strong>Yöntem 2 (Basit):</strong> </p>
+                        <p>0*(10*)*1(0+1)* + 1*(01*)*0(0+1)*</p>
+                        
+                        <p><strong>Test:</strong></p>
+                        <ul>
+                            <li>✅ 01 → kabul</li>
+                            <li>✅ 10 → kabul</li>
+                            <li>✅ 001 → kabul</li>
+                            <li>✅ 1100 → kabul</li>
+                            <li>❌ 000 → red (1 yok)</li>
+                            <li>❌ 111 → red (0 yok)</li>
+                        </ul>
+                        <p class="answer">✅ Birden fazla doğru cevap var</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 6: Düzenli İfade Eşitliği</h3>
+                    <p><strong>Soru:</strong> (a*b*)* = (a+b)* eşitliği doğru mudur? İspatlayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Sol Taraf: (a*b*)*</strong></p>
+                        <ul>
+                            <li>a*b* → önce a'lar, sonra b'ler (aaabbb gibi)</li>
+                            <li>(a*b*)* → bunların tekrarı</li>
+                            <li>Üretebilir: ε, a, b, aa, ab, ba, bb, aab, abb, ...</li>
+                        </ul>
+                        
+                        <p><strong>Sağ Taraf: (a+b)*</strong></p>
+                        <ul>
+                            <li>a ve b'lerin herhangi bir sırada tekrarı</li>
+                            <li>Üretebilir: ε, a, b, aa, ab, ba, bb, aab, abb, ...</li>
+                        </ul>
+                        
+                        <p><strong>Karşılaştırma:</strong></p>
+                        <p>Her iki ifade de Σ = {a, b} üzerindeki TÜM kelimeleri üretir.</p>
+                        <p>Örnek: "aba" kelimesi:</p>
+                        <ul>
+                            <li>Sol: (a*b*)* → (a)()(b)()(a) ✅</li>
+                            <li>Sağ: (a+b)* → a·b·a ✅</li>
+                        </ul>
+                        <p class="answer">✅ DOĞRU: (a*b*)* = (a+b)*</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔀 3. NFA ve Dönüşüm Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 7: NFA Tasarımı</h3>
+                    <p><strong>Soru:</strong> "ab" veya "ba" içeren kelimeleri kabul eden NFA tasarlayın.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>NFA Avantajı:</strong> Nondeterminizm sayesinde daha basit</p>
+                        <p><strong>Durum Kümesi:</strong> Q = {q₀, q₁, q₂, q₃, q₄, q₅}</p>
+                        <p><strong>Strateji:</strong> İki paralel yol</p>
+                        <ul>
+                            <li>Yol 1: "ab" arıyor (q₀ → q₁ → q₂)</li>
+                            <li>Yol 2: "ba" arıyor (q₀ → q₃ → q₄)</li>
+                        </ul>
+                        <p><strong>Geçişler:</strong></p>
+                        <ul>
+                            <li>δ(q₀, a) = {q₀, q₁} (devam et veya "ab" yoluna gir)</li>
+                            <li>δ(q₀, b) = {q₀, q₃} (devam et veya "ba" yoluna gir)</li>
+                            <li>δ(q₁, b) = {q₂} ("ab" bulundu!)</li>
+                            <li>δ(q₂, a) = {q₂} (kabul durumunda kal)</li>
+                            <li>δ(q₂, b) = {q₂}</li>
+                            <li>δ(q₃, a) = {q₄} ("ba" bulundu!)</li>
+                            <li>δ(q₄, a) = {q₄} (kabul durumunda kal)</li>
+                            <li>δ(q₄, b) = {q₄}</li>
+                        </ul>
+                        <p><strong>Kabul:</strong> F = {q₂, q₄}</p>
+                        <p class="answer">✅ NFA ile DFA'dan daha az durumla çözülebilir</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 8: ε-NFA Kullanımı</h3>
+                    <p><strong>Soru:</strong> (a+b)*c düzenli ifadesini ε-NFA'ya çevirin.</p>
+                    <div class="solution">
+                        <h4>Çözüm (Thompson İnşası):</h4>
+                        <p><strong>Adım 1:</strong> a ve b için temel NFA'lar</p>
+                        <p><strong>Adım 2:</strong> a+b (birleşim) için ε-geçişlerle birleştir</p>
+                        <p><strong>Adım 3:</strong> (a+b)* için döngü ekle (ε-geçişle)</p>
+                        <p><strong>Adım 4:</strong> ...c ekle</p>
+                        
+                        <p><strong>Sonuç NFA:</strong></p>
+                        <ul>
+                            <li>q₀ --ε--> q₁ (a veya b döngüsüne)</li>
+                            <li>q₁ --a--> q₂ --ε--> q₁ (döngü)</li>
+                            <li>q₁ --b--> q₃ --ε--> q₁ (döngü)</li>
+                            <li>q₁ --ε--> q₄ (döngüden çık)</li>
+                            <li>q₄ --c--> q₅ (kabul durumu)</li>
+                        </ul>
+                        <p class="answer">✅ Thompson metoduyla sistematik inşa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🔍 4. Pompalama Lemması Problemleri</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 9: Düzenli Olmayan Dil İspatı</h3>
+                    <p><strong>Soru:</strong> L = {aⁿbⁿ | n ≥ 0} dilinin düzenli olmadığını pompalama lemmasıyla gösterin.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Varsayım:</strong> L düzenli olsun.</p>
+                        <p><strong>Adım 1:</strong> p (pompalama uzunluğu) var olsun.</p>
+                        <p><strong>Adım 2:</strong> w = aᵖbᵖ seçelim (|w| = 2p ≥ p)</p>
+                        <p><strong>Adım 3:</strong> Pompalama lemmasına göre w = xyz şeklinde ayrılabilir:</p>
+                        <ul>
+                            <li>|y| > 0</li>
+                            <li>|xy| ≤ p</li>
+                            <li>∀i ≥ 0, xy^iz ∈ L</li>
+                        </ul>
+                        
+                        <p><strong>Adım 4:</strong> |xy| ≤ p olduğundan, xy sadece a'lardan oluşur.</p>
+                        <p>Dolayısıyla y = aᵏ (k > 0)</p>
+                        
+                        <p><strong>Adım 5:</strong> i = 2 için xy²z'yi kontrol edelim:</p>
+                        <p>xy²z = aᵖ⁺ᵏbᵖ (a sayısı p+k, b sayısı p)</p>
+                        <p>p+k > p olduğundan, xy²z ∉ L</p>
+                        
+                        <p><strong>Çelişki!</strong> Dolayısıyla L düzenli değildir.</p>
+                        <p class="answer">✅ L = {aⁿbⁿ} düzenli DEĞİLDİR</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 10: Palindrom Kontrolü</h3>
+                    <p><strong>Soru:</strong> L = {w | w = wᴿ} (palindromlar) dilinin düzenli olmadığını gösterin.</p>
+                    <div class="solution">
+                        <h4>Çözüm:</h4>
+                        <p><strong>Örnekler:</strong> aba, abba, aa, ε (palindromlar)</p>
+                        <p><strong>Varsayım:</strong> L düzenli olsun.</p>
+                        <p><strong>Kelime seçimi:</strong> w = aᵖbaᵖ (|w| = 2p+1 ≥ p)</p>
+                        <p>Bu kelime palindromdur: tersinden okunduğunda aᵖbaᵖ = aᵖbaᵖ</p>
+                        
+                        <p><strong>Pompalama:</strong> w = xyz ve |xy| ≤ p</p>
+                        <p>Yine, xy sadece ilk a'lardan oluşur: y = aᵏ (k > 0)</p>
+                        
+                        <p><strong>i = 2:</strong> xy²z = aᵖ⁺ᵏbaᵖ</p>
+                        <p>Bu palindrom mu? Tersinden: aᵖbaᵖ⁺ᵏ</p>
+                        <p>aᵖ⁺ᵏbaᵖ ≠ aᵖbaᵖ⁺ᵏ → Palindrom değil!</p>
+                        
+                        <p class="answer">✅ Palindromlar düzenli değildir</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 5. Karışık ve İleri Seviye Problemler</h2>
+                
+                <div class="example-box">
+                    <h3>Problem 11: Minimizasyon</h3>
+                    <p><strong>Soru:</strong> Verilen DFA'yı minimize edin.</p>
+                    <p><strong>DFA:</strong> Q = {q₀, q₁, q₂, q₃}, F = {q₂, q₃}</p>
+                    <div class="solution">
+                        <h4>Çözüm (Tablo Doldurma Yöntemi):</h4>
+                        <p><strong>Adım 1:</strong> Kabul ve red durumlarını ayır</p>
+                        <p>• Grup 1: {q₀, q₁} (red)</p>
+                        <p>• Grup 2: {q₂, q₃} (kabul)</p>
+                        
+                        <p><strong>Adım 2:</strong> Her grup içinde geçişleri kontrol et</p>
+                        <p>Eğer aynı gruptaki iki durum farklı gruplara geçiyorsa, ayır.</p>
+                        
+                        <p><strong>Adım 3:</strong> Eşdeğer durumları birleştir</p>
+                        <p>Eğer q₂ ve q₃ her sembol için aynı gruplara geçiyorsa birleştir.</p>
+                        
+                        <p class="answer">✅ Minimum DFA: Eşdeğer durumlar birleştirilir</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3>Problem 12: Kapama Özellikleri</h3>
+                    <p><strong>Soru:</strong> L₁ ve L₂ düzenli diller ise, L₁ ∩ L₂'nin de düzenli olduğunu gösterin.</p>
+                    <div class="solution">
+                        <h4>Çözüm (Çarpım İnşası):</h4>
+                        <p><strong>Verilen:</strong> M₁ = (Q₁, Σ, δ₁, q₁, F₁) ve M₂ = (Q₂, Σ, δ₂, q₂, F₂)</p>
+                        
+                        <p><strong>İnşa edelim:</strong> M = (Q, Σ, δ, q₀, F)</p>
+                        <ul>
+                            <li>Q = Q₁ × Q₂ (durum çiftleri)</li>
+                            <li>q₀ = (q₁, q₂)</li>
+                            <li>F = F₁ × F₂ (her iki otomatada da kabul)</li>
+                            <li>δ((p,q), a) = (δ₁(p,a), δ₂(q,a))</li>
+                        </ul>
+                        
+                        <p><strong>Neden çalışır?</strong></p>
+                        <p>M, w kelimesini kabul eder ⟺</p>
+                        <p>Hem M₁ hem M₂ w'yi kabul eder ⟺</p>
+                        <p>w ∈ L₁ ∩ L₂</p>
+                        
+                        <p class="answer">✅ Düzenli diller kesişim altında kapalıdır</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>💡 Tasarım İpuçları</h2>
+                <div class="important-box">
+                    <h3>DFA Tasarımı:</h3>
+                    <ul>
+                        <li>✅ Her durumun anlamını netleştir (örn: "çift sayıda a görüldü")</li>
+                        <li>✅ Minimum durum sayısıyla başla, gerekirse ekle</li>
+                        <li>✅ Tüm (durum, sembol) çiftleri için geçiş tanımla</li>
+                        <li>✅ Red durumunu unutma (çöp durumu)</li>
+                    </ul>
+                    
+                    <h3>NFA Tasarımı:</h3>
+                    <ul>
+                        <li>✅ Nondeterminizmi kullan, daha basit ol</li>
+                        <li>✅ ε-geçişlerini akıllıca kullan</li>
+                        <li>✅ Paralel yollar oluşturabilirsin</li>
+                    </ul>
+                    
+                    <h3>Düzenli İfadeler:</h3>
+                    <ul>
+                        <li>✅ Basit parçalardan başla, birleştir</li>
+                        <li>✅ Operatör önceliğine dikkat et</li>
+                        <li>✅ Test kelimeleriyle doğrula</li>
+                    </ul>
+                    
+                    <h3>Pompalama Lemması:</h3>
+                    <ul>
+                        <li>✅ Stratejik kelime seç (p parametresi kullan)</li>
+                        <li>✅ y'nin nerede olacağını tahmin et</li>
+                        <li>✅ i = 0, 1, 2 için kontrol et</li>
+                        <li>✅ Çelişki bul</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Hızlı Referans</h2>
+                <div class="formula-box">
+                    <h3>DFA vs NFA:</h3>
+                    <ul>
+                        <li><strong>DFA:</strong> Deterministik, her (q,a) için TAM BİR geçiş</li>
+                        <li><strong>NFA:</strong> Nondeterministik, ε-geçişli, birden fazla geçiş olabilir</li>
+                        <li><strong>Güç:</strong> Eşittir! Her NFA → DFA'ya dönüştürülebilir</li>
+                    </ul>
+                    
+                    <h3>Düzenli Dil Testleri:</h3>
+                    <ul>
+                        <li>✅ DFA/NFA tasarlanabiliyorsa → Düzenli</li>
+                        <li>✅ Düzenli ifade yazılabiliyorsa → Düzenli</li>
+                        <li>❌ Pompalama lemması başarısızsa → Düzenli değil</li>
+                    </ul>
+                    
+                    <h3>Klasik Düzenli Olmayan Diller:</h3>
+                    <ul>
+                        <li>❌ {aⁿbⁿ | n ≥ 0} - Eşit sayıda a ve b</li>
+                        <li>❌ {w | w = wᴿ} - Palindromlar</li>
+                        <li>❌ {aⁿ² | n ≥ 0} - Kare sayıda a</li>
+                        <li>❌ {aᵖ | p asal} - Asal sayıda a</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="index.html" class="btn">🏠 Ana Sayfa</a>
+                <a href="formul-ozet.html" class="btn btn-secondary">📐 Formül & Özet</a>
+                <a href="tum-testler.html" class="btn">📝 Tüm Testler</a>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 30px; color: #666;">
+            <p>📚 Otomata Teorisi Çalışma Platformu</p>
+            <p>Tokat Gaziosmanpaşa Üniversitesi - Bilgisayar Mühendisliği</p>
+        </footer>
+    </div>
+</body>
+</html>

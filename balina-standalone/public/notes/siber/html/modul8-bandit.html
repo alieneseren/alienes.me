@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 8: OverTheWire Bandit (Level 0-10) - Siber Güvenlik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .header h1 {
+            color: #e74c3c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .back-button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #c0392b;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1.1em;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #e74c3c;
+        }
+
+        .tab.active {
+            color: #e74c3c;
+            border-bottom-color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .level-card {
+            background: #f8f9fa;
+            border-left: 5px solid #e74c3c;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .level-card h2 {
+            color: #e74c3c;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .objective {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .objective h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .command-section {
+            margin: 20px 0;
+        }
+
+        .command-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .command-box {
+            background: #2c3e50;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .command-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .command-label {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .explanation {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .explanation h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .tip {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .password-reveal {
+            background: #ffebee;
+            border: 2px dashed #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .password-reveal strong {
+            color: #c0392b;
+            font-size: 1.1em;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-button {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-button:hover {
+            background: #c0392b;
+        }
+
+        .nav-center {
+            text-align: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .command-table th {
+            background: #e74c3c;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .command-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .command-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+            line-height: 1.8;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .level-card h2 {
+                font-size: 1.4em;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.history.back()">← Geri Dön</button>
+
+        <div class="header">
+            <h1>🎯 OverTheWire Bandit: Level 0-10</h1>
+            <p>Linux Komut Satırı ve Temel Güvenlik Pratikleri</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('theory')">📚 Teori</button>
+            <button class="tab" onclick="showTab('test')">📝 Test</button>
+            <button class="tab" onclick="showTab('flashcards')">🎴 Flashcards</button>
+        </div>
+
+        <div id="theory" class="tab-content active">
+        <!-- Level 0 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 0</span> SSH Bağlantısı</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>Bandit sunucusuna SSH ile bağlanmak</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Terminal</div>
+                    <pre>ssh bandit0@bandit.labs.overthewire.org -p 2220</pre>
+                </div>
+                <p><strong>Şifre:</strong> bandit0</p>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 SSH Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>ssh</code></td>
+                        <td>Secure Shell - Güvenli uzak bağlantı protokolü</td>
+                    </tr>
+                    <tr>
+                        <td><code>kullanıcı@sunucu</code></td>
+                        <td>Bağlanılacak kullanıcı adı ve sunucu adresi</td>
+                    </tr>
+                    <tr>
+                        <td><code>-p PORT</code></td>
+                        <td><strong>p</strong> (port): Port numarası belirt (varsayılan: 22)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-i dosya</code></td>
+                        <td><strong>i</strong> (identity): SSH private key dosyası</td>
+                    </tr>
+                    <tr>
+                        <td><code>-v</code></td>
+                        <td><strong>v</strong> (verbose): Detaylı çıktı (debug için)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-l kullanıcı</code></td>
+                        <td><strong>l</strong> (login): Kullanıcı adı (alternatif sözdizimi)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-X</code></td>
+                        <td>X11 forwarding (GUI uygulamalar için)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-L port:host:hostport</code></td>
+                        <td>Local port forwarding (tünel)</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 15px;">💡 SSH Kullanım Örnekleri</h4>
+                <ul>
+                    <li><code>ssh user@192.168.1.10</code> - IP ile bağlan</li>
+                    <li><code>ssh -p 2222 user@example.com</code> - Özel port</li>
+                    <li><code>ssh -i ~/.ssh/id_rsa user@server</code> - Key dosyası ile</li>
+                    <li><code>ssh user@server "ls -la"</code> - Tek komut çalıştır ve çık</td>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 0 → 1 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 0 → 1</span> Dosya Okuma</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>Ana dizindeki <code>readme</code> dosyasını okuyarak bir sonraki şifreyi bul</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Dosyaları Listele</div>
+                    <pre>ls
+ls -la</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Dosyayı Oku</div>
+                    <pre>cat readme</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Komut Açıklamaları</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Komut/Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>ls</code></td>
+                        <td>List - Dosya ve dizinleri listele</td>
+                    </tr>
+                    <tr>
+                        <td><code>ls -l</code></td>
+                        <td><strong>-l</strong> (long format): Detaylı liste (izinler, sahip, boyut, tarih)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ls -a</code></td>
+                        <td><strong>-a</strong> (all): Gizli dosyaları da göster (. ile başlayanlar)</td>
+                    </tr>
+                    <tr>
+                        <td><code>ls -la</code></td>
+                        <td><strong>-l + -a</strong>: Gizli dosyalar dahil detaylı liste</td>
+                    </tr>
+                    <tr>
+                        <td><code>cat dosya</code></td>
+                        <td>Concatenate - Dosya içeriğini ekrana yazdır</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 20px;">💡 Diğer Faydalı ls Parametreleri</h4>
+                <ul>
+                    <li><code>ls -h</code> - Human readable: Dosya boyutlarını okunabilir formatta göster (KB, MB)</li>
+                    <li><code>ls -t</code> - Time: Değiştirilme tarihine göre sırala</li>
+                    <li><code>ls -r</code> - Reverse: Ters sırada listele</li>
+                    <li><code>ls -lah</code> - Tüm parametreleri birleştir</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 1 → 2 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 1 → 2</span> Özel Karakterli Dosya</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>Tire (-) karakteri ile başlayan dosyayı okumak</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Problem</h3>
+                <p>Dosya adı <code>-</code> olduğunda normal <code>cat -</code> komutu çalışmaz (stdin olarak algılanır)</p>
+
+                <h3>Çözüm Yöntemleri</h3>
+                <div class="command-box">
+                    <div class="command-label">Yöntem 1: Tam Yol</div>
+                    <pre>cat ./-</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Yöntem 2: Başka Komut</div>
+                    <pre>cat &lt; -</pre>
+                </div>
+            </div>
+
+            <div class="tip">
+                <h4>💡 İpucu</h4>
+                <p><code>./</code> öneki, dosyanın mevcut dizinde olduğunu belirtir ve özel karakter sorununu çözer.</p>
+            </div>
+        </div>
+
+        <!-- Level 2 → 3 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 2 → 3</span> Boşluklu Dosya Adı</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>İçinde boşluk olan dosya adını okumak: <code>spaces in this filename</code></p>
+            </div>
+
+            <div class="command-section">
+                <h3>Çözüm Yöntemleri</h3>
+                <div class="command-box">
+                    <div class="command-label">Yöntem 1: Tırnak Kullan</div>
+                    <pre>cat "spaces in this filename"</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Yöntem 2: Escape Karakter</div>
+                    <pre>cat spaces\ in\ this\ filename</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Yöntem 3: Tab Completion</div>
+                    <pre>cat spa[TAB tuşuna bas]</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Açıklama</h4>
+                <ul>
+                    <li><code>" "</code>: Tırnak içindeki her şey tek kelime olarak algılanır</li>
+                    <li><code>\</code>: Escape karakteri - sonraki karakteri özel olarak yorumla</li>
+                    <li><code>TAB</code>: Otomatik tamamlama - dosya adını otomatik doldurur</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 3 → 4 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 3 → 4</span> Gizli Dosya</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p><code>inhere</code> dizinindeki gizli dosyayı bul</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Dizine Geç</div>
+                    <pre>cd inhere</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Gizli Dosyaları Göster</div>
+                    <pre>ls -la</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Dosyayı Oku</div>
+                    <pre>cat .hidden</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Dizin Gezinme Komutları</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Komut</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>cd dizin</code></td>
+                        <td>Change Directory - Belirtilen dizine geç</td>
+                    </tr>
+                    <tr>
+                        <td><code>cd ..</code></td>
+                        <td>Bir üst dizine çık</td>
+                    </tr>
+                    <tr>
+                        <td><code>cd ~</code></td>
+                        <td>Home (ev) dizinine git</td>
+                    </tr>
+                    <tr>
+                        <td><code>cd /</code></td>
+                        <td>Root (kök) dizine git</td>
+                    </tr>
+                    <tr>
+                        <td><code>cd -</code></td>
+                        <td>Önceki dizine geri dön</td>
+                    </tr>
+                    <tr>
+                        <td><code>pwd</code></td>
+                        <td>Print Working Directory - Mevcut dizini göster</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 20px;">📝 Gizli Dosyalar</h4>
+                <p>Linux'ta <code>.</code> ile başlayan dosyalar gizli kabul edilir.</p>
+                <ul>
+                    <li><code>.hidden</code> - Gizli dosya</li>
+                    <li><code>.bashrc</code> - Bash konfigürasyon dosyası</li>
+                    <li><code>.ssh/</code> - SSH ayarları dizini</li>
+                    <li><code>ls -a</code> - Gizli dosyaları gösterir</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 4 → 5 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 4 → 5</span> İnsan Tarafından Okunabilir Dosya</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p><code>inhere</code> dizininde 10 dosya var. Hangisi ASCII text formatında?</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Dizine Geç</div>
+                    <pre>cd inhere</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Dosya Tiplerini Kontrol Et</div>
+                    <pre>file ./*</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">ASCII Dosyayı Bul ve Oku</div>
+                    <pre>file ./* | grep "ASCII text"
+cat ./-file07</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Dosya Tipi Belirleme Komutları</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Komut/Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>file dosya</code></td>
+                        <td>Dosya tipini belirle (içeriğine bakarak)</td>
+                    </tr>
+                    <tr>
+                        <td><code>file *</code></td>
+                        <td>Mevcut dizindeki tüm dosyaların tipini göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>file ./*</code></td>
+                        <td>Gizli dosyalar dahil tüm dosyaların tipi</td>
+                    </tr>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>Wildcard - Tüm dosyaları temsil eder</td>
+                    </tr>
+                    <tr>
+                        <td><code>|</code></td>
+                        <td>Pipe - Bir komutun çıktısını diğer komuta gönder</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep "text"</code></td>
+                        <td>Çıktıda "text" içeren satırları filtrele</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 20px;">📋 Yaygın Dosya Tipleri</h4>
+                <ul>
+                    <li><code>ASCII text</code> - Metin dosyası (okunabilir)</li>
+                    <li><code>data</code> - Binary veri (okunabilir değil)</li>
+                    <li><code>executable</code> - Çalıştırılabilir dosya</li>
+                    <li><code>directory</code> - Dizin</li>
+                    <li><code>symbolic link</code> - Sembolik bağlantı</li>
+                    <li><code>empty</code> - Boş dosya</li>
+                </ul>
+                
+                <h4 style="margin-top: 15px;">💡 Pipe (|) Kullanım Örneği</h4>
+                <div class="command-box">
+                    <pre># Komut parçalara ayrılışı:
+file ./*              → Tüm dosyaların tipini göster
+|                     → Çıktıyı bir sonraki komuta gönder
+grep "ASCII text"     → Sadece ASCII text içeren satırları al</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level 5 → 6 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 5 → 6</span> Özel Özelliklere Sahip Dosya</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>Şu özelliklere sahip dosyayı bul:</p>
+                <ul>
+                    <li>İnsan tarafından okunabilir</li>
+                    <li>1033 bytes boyutunda</li>
+                    <li>Çalıştırılabilir değil</li>
+                </ul>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Find Komutu ile Arama</div>
+                    <pre>cd inhere
+find . -type f -size 1033c ! -executable</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Alternatif: Detaylı Arama</div>
+                    <pre>find . -type f -size 1033c -readable ! -executable -exec file {} \;</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Dosyayı Oku</div>
+                    <pre>cat ./maybehere07/.file2</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Find Komut Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>.</code></td>
+                        <td>Mevcut dizinden başla (başlangıç noktası)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-type f</code></td>
+                        <td><strong>f</strong> (file): Sadece dosyalar (dizinler hariç)</td>
+                    </tr>
+                    <tr>
+                        <td><code>-type d</code></td>
+                        <td><strong>d</strong> (directory): Sadece dizinler</td>
+                    </tr>
+                    <tr>
+                        <td><code>-size 1033c</code></td>
+                        <td>1033 byte boyutunda dosyalar (<strong>c</strong> = bytes/characters)</td>
+                    </tr>
+                    <tr>
+                        <td><code>! -executable</code></td>
+                        <td><strong>!</strong> (NOT): Çalıştırılabilir OLMAYAN dosyalar</td>
+                    </tr>
+                    <tr>
+                        <td><code>-readable</code></td>
+                        <td>Okunabilir izne sahip dosyalar</td>
+                    </tr>
+                    <tr>
+                        <td><code>-exec</code></td>
+                        <td>Bulunan her dosya için komut çalıştır</td>
+                    </tr>
+                    <tr>
+                        <td><code>{}</code></td>
+                        <td>Bulunan dosya adını temsil eder</td>
+                    </tr>
+                    <tr>
+                        <td><code>\;</code></td>
+                        <td>-exec komutunun sonu</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tip">
+                <h4>💡 Find Boyut Birimleri</h4>
+                <ul>
+                    <li><code>c</code> - bytes (characters)</li>
+                    <li><code>k</code> - kilobytes (1024 bytes)</li>
+                    <li><code>M</code> - megabytes (1024 KB)</li>
+                    <li><code>G</code> - gigabytes (1024 MB)</li>
+                </ul>
+                
+                <h4 style="margin-top: 15px;">🔍 Diğer Faydalı Find Parametreleri</h4>
+                <ul>
+                    <li><code>-name "*.txt"</code> - Dosya adına göre ara (wildcard destekler)</li>
+                    <li><code>-iname "*.TXT"</code> - Büyük/küçük harf duyarsız arama</li>
+                    <li><code>-mtime -7</code> - Son 7 gün içinde değiştirilen dosyalar</li>
+                    <li><code>-user bandit7</code> - Belirli kullanıcıya ait dosyalar</li>
+                    <li><code>-perm 644</code> - Belirli izinlere sahip dosyalar</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 6 → 7 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 6 → 7</span> Sunucu Genelinde Arama</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p>Sunucunun herhangi bir yerinde şu özelliklere sahip dosyayı bul:</p>
+                <ul>
+                    <li>bandit7 kullanıcısına ait</li>
+                    <li>bandit6 grubuna ait</li>
+                    <li>33 bytes boyutunda</li>
+                </ul>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Tüm Sistemde Ara</div>
+                    <pre>find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Bulunan Dosyayı Oku</div>
+                    <pre>cat /var/lib/dpkg/info/bandit7.password</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Açıklama</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Root (kök) dizinden başla - tüm sistemi tara</td>
+                    </tr>
+                    <tr>
+                        <td><code>-user bandit7</code></td>
+                        <td>Dosya sahibi <strong>bandit7</strong> olan dosyaları bul</td>
+                    </tr>
+                    <tr>
+                        <td><code>-group bandit6</code></td>
+                        <td>Grup sahibi <strong>bandit6</strong> olan dosyaları bul</td>
+                    </tr>
+                    <tr>
+                        <td><code>-size 33c</code></td>
+                        <td>Tam olarak <strong>33 byte</strong> boyutunda dosyalar</td>
+                    </tr>
+                    <tr>
+                        <td><code>2></code></td>
+                        <td>Standart hata çıktısını (stderr) yönlendir</td>
+                    </tr>
+                    <tr>
+                        <td><code>/dev/null</code></td>
+                        <td>"Çöp kutusu" - gönderilen her şeyi sil/yok say</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tip">
+                <h4>💡 Hata Yönlendirme (Redirection) Detayları</h4>
+                <table class="command-table" style="margin-top: 10px;">
+                    <tr>
+                        <th>Yönlendirme</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>1</code></td>
+                        <td>stdout - Standart çıktı (normal mesajlar)</td>
+                    </tr>
+                    <tr>
+                        <td><code>2</code></td>
+                        <td>stderr - Standart hata (error mesajları)</td>
+                    </tr>
+                    <tr>
+                        <td><code>></code></td>
+                        <td>Yönlendir (üzerine yaz)</td>
+                    </tr>
+                    <tr>
+                        <td><code>>></code></td>
+                        <td>Yönlendir (sona ekle)</td>
+                    </tr>
+                    <tr>
+                        <td><code>2>/dev/null</code></td>
+                        <td>Hataları gizle (Permission denied vb.)</td>
+                    </tr>
+                    <tr>
+                        <td><code>2>&1</code></td>
+                        <td>Hataları normal çıktıyla birleştir</td>
+                    </tr>
+                    <tr>
+                        <td><code>&>/dev/null</code></td>
+                        <td>Hem stdout hem stderr'i gizle (tüm çıktı)</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 15px;">📌 Örnekler</h4>
+                <ul>
+                    <li><code>command > output.txt</code> - Çıktıyı dosyaya yaz</li>
+                    <li><code>command 2> errors.txt</code> - Hataları dosyaya yaz</li>
+                    <li><code>command &> all.txt</code> - Her şeyi dosyaya yaz</li>
+                    <li><code>command >> log.txt</code> - Dosyanın sonuna ekle</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 7 → 8 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 7 → 8</span> Büyük Dosyada Kelime Arama</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p><code>data.txt</code> dosyasında "millionth" kelimesinin yanındaki şifreyi bul</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Grep ile Ara</div>
+                    <pre>grep "millionth" data.txt</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Alternatif: Sadece Şifreyi Al</div>
+                    <pre>grep "millionth" data.txt | awk '{print $2}'</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Grep Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>grep "kelime" dosya</code></td>
+                        <td>Dosyada kelime ara ve içeren satırları göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -i</code></td>
+                        <td><strong>i</strong> (ignore case): Büyük/küçük harf duyarsız arama</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -v</code></td>
+                        <td><strong>v</strong> (invert): Eşleşmeyenleri göster (tersi)</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -n</code></td>
+                        <td><strong>n</strong> (number): Satır numaralarını göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -c</code></td>
+                        <td><strong>c</strong> (count): Eşleşen satır sayısını göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -r</code></td>
+                        <td><strong>r</strong> (recursive): Dizinlerde özyinelemeli ara</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -w</code></td>
+                        <td><strong>w</strong> (word): Tam kelime eşleşmesi (kelime sınırları)</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -A 3</code></td>
+                        <td><strong>A</strong> (after): Eşleşmeden sonraki 3 satırı da göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -B 3</code></td>
+                        <td><strong>B</strong> (before): Eşleşmeden önceki 3 satırı da göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>grep -C 3</code></td>
+                        <td><strong>C</strong> (context): Önceki ve sonraki 3 satırı göster</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 15px;">🔧 AWK Komutu</h4>
+                <ul>
+                    <li><code>awk '{print $2}'</code> - İkinci sütunu (kelimeyi) yazdır</li>
+                    <li><code>$1, $2, $3</code> - Sütun numaraları (boşluklarla ayrılmış)</li>
+                    <li><code>$0</code> - Tüm satır</li>
+                    <li><code>$NF</code> - Son sütun</li>
+                </ul>
+                
+                <h4 style="margin-top: 15px;">📌 Grep Örnekleri</h4>
+                <ul>
+                    <li><code>grep -i "error" log.txt</code> - ERROR, error, Error hepsini bul</li>
+                    <li><code>grep -n "TODO" *.js</code> - Tüm .js dosyalarında TODO ara, satır no göster</li>
+                    <li><code>grep -r "password" /etc/</code> - /etc dizininde password ara</li>
+                    <li><code>grep -v "^#" config.txt</code> - Yorum satırlarını (# ile başlayan) gösterme</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Level 8 → 9 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 8 → 9</span> Benzersiz Satır Bulma</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p><code>data.txt</code> dosyasında sadece bir kez geçen satırı bul</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Sırala ve Benzersiz Bul</div>
+                    <pre>sort data.txt | uniq -u</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Alternatif: Detaylı Analiz</div>
+                    <pre># Tekrar sayılarını göster
+sort data.txt | uniq -c | sort -n
+
+# Sadece 1 kez geçenleri al
+sort data.txt | uniq -c | grep "^ *1 "</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Sort Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>sort</code></td>
+                        <td>Satırları alfabetik olarak sırala (A-Z)</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort -r</code></td>
+                        <td><strong>r</strong> (reverse): Ters sırada (Z-A)</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort -n</code></td>
+                        <td><strong>n</strong> (numeric): Sayısal sıralama (1,2,10 yerine doğru sıra)</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort -k 2</code></td>
+                        <td><strong>k</strong> (key): 2. sütuna göre sırala</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort -u</code></td>
+                        <td><strong>u</strong> (unique): Sırala ve tekrarları kaldır</td>
+                    </tr>
+                    <tr>
+                        <td><code>sort -t ','</code></td>
+                        <td><strong>t</strong> (delimiter): Ayırıcı karakter belirt (CSV için)</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 20px;">📝 Uniq Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>uniq</code></td>
+                        <td>Ardışık tekrarlanan satırları kaldır (1 tane bırak)</td>
+                    </tr>
+                    <tr>
+                        <td><code>uniq -u</code></td>
+                        <td><strong>u</strong> (unique): Sadece benzersiz olanları göster (tekrar edilmeyenler)</td>
+                    </tr>
+                    <tr>
+                        <td><code>uniq -d</code></td>
+                        <td><strong>d</strong> (duplicates): Sadece tekrar edenleri göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>uniq -c</code></td>
+                        <td><strong>c</strong> (count): Her satırın kaç kez geçtiğini göster</td>
+                    </tr>
+                    <tr>
+                        <td><code>uniq -i</code></td>
+                        <td><strong>i</strong> (ignore case): Büyük/küçük harf duyarsız</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="tip">
+                <h4>⚠️ Önemli Not</h4>
+                <p><code>uniq</code> komutu sadece <strong>ardışık (yan yana)</strong> tekrarları tespit eder!</p>
+                <div class="command-box" style="margin-top: 10px;">
+                    <pre># YANLIŞ - çalışmaz
+cat dosya.txt | uniq -u
+
+# DOĞRU - önce sırala
+cat dosya.txt | sort | uniq -u</pre>
+                </div>
+                
+                <h4 style="margin-top: 15px;">📌 Pipe (|) Zinciri Açıklaması</h4>
+                <div class="command-box">
+                    <pre>sort data.txt | uniq -c | sort -n</pre>
+                </div>
+                <ol>
+                    <li><code>sort data.txt</code> - Dosyayı sırala</li>
+                    <li><code>| uniq -c</code> - Tekrar sayılarını hesapla</li>
+                    <li><code>| sort -n</code> - Sayısal olarak sırala (en az tekrarlananlar önce)</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Level 9 → 10 -->
+        <div class="level-card">
+            <h2><span class="level-badge">Level 9 → 10</span> Binary Dosyada Metin Arama</h2>
+            
+            <div class="objective">
+                <h3>🎯 Hedef</h3>
+                <p><code>data.txt</code> binary dosyasında birkaç <code>=</code> karakteri ile başlayan insan tarafından okunabilir metni bul</p>
+            </div>
+
+            <div class="command-section">
+                <h3>Komutlar</h3>
+                <div class="command-box">
+                    <div class="command-label">Strings ile Okunabilir Metni Çıkar</div>
+                    <pre>strings data.txt</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">= Karakterleri ile Filtrele</div>
+                    <pre>strings data.txt | grep "=="</pre>
+                </div>
+
+                <div class="command-box">
+                    <div class="command-label">Daha Spesifik Arama</div>
+                    <pre>strings data.txt | grep "^=="</pre>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>📝 Strings Komutu Parametreleri</h4>
+                <table class="command-table">
+                    <tr>
+                        <th>Parametre</th>
+                        <th>Açıklama</th>
+                    </tr>
+                    <tr>
+                        <td><code>strings dosya</code></td>
+                        <td>Binary dosyadaki okunabilir ASCII metinleri çıkar</td>
+                    </tr>
+                    <tr>
+                        <td><code>strings -n 10</code></td>
+                        <td><strong>n</strong>: Minimum karakter uzunluğu (varsayılan 4)</td>
+                    </tr>
+                    <tr>
+                        <td><code>strings -a</code></td>
+                        <td><strong>a</strong> (all): Tüm dosyayı tara (sadece data section değil)</td>
+                    </tr>
+                    <tr>
+                        <td><code>strings -e l</code></td>
+                        <td><strong>e</strong> (encoding): Karakter kodlaması (s=single, l=little, b=big)</td>
+                    </tr>
+                    <tr>
+                        <td><code>strings -t x</code></td>
+                        <td><strong>t</strong> (radix): Offset'i göster (o=octal, x=hex, d=decimal)</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 20px;">💻 Kullanım Senaryoları</h4>
+                <ul>
+                    <li>Çalıştırılabilir dosyalarda gizli mesajlar bulmak</li>
+                    <li>Kötü amaçlı yazılım analizi</li>
+                    <li>Dosyalarda URL, email, şifre aramak</li>
+                    <li>Resim dosyalarında meta data bulmak</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <h4>� Regex (Regular Expression) Temelleri</h4>
+                <table class="command-table" style="margin-top: 10px;">
+                    <tr>
+                        <th>Sembol</th>
+                        <th>Açıklama</th>
+                        <th>Örnek</th>
+                    </tr>
+                    <tr>
+                        <td><code>^</code></td>
+                        <td>Satır başı</td>
+                        <td><code>^==</code> → == ile başlayan satırlar</td>
+                    </tr>
+                    <tr>
+                        <td><code>$</code></td>
+                        <td>Satır sonu</td>
+                        <td><code>txt$</code> → txt ile biten satırlar</td>
+                    </tr>
+                    <tr>
+                        <td><code>.</code></td>
+                        <td>Herhangi bir karakter</td>
+                        <td><code>a.b</code> → axb, a5b, a b eşleşir</td>
+                    </tr>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>0 veya daha fazla</td>
+                        <td><code>ab*c</code> → ac, abc, abbc</td>
+                    </tr>
+                    <tr>
+                        <td><code>+</code></td>
+                        <td>1 veya daha fazla</td>
+                        <td><code>ab+c</code> → abc, abbc (ac değil)</td>
+                    </tr>
+                    <tr>
+                        <td><code>?</code></td>
+                        <td>0 veya 1 (opsiyonel)</td>
+                        <td><code>colou?r</code> → color, colour</td>
+                    </tr>
+                    <tr>
+                        <td><code>[abc]</code></td>
+                        <td>Karakter seti</td>
+                        <td><code>[aeiou]</code> → herhangi bir sesli harf</td>
+                    </tr>
+                    <tr>
+                        <td><code>[^abc]</code></td>
+                        <td>Değil (NOT)</td>
+                        <td><code>[^0-9]</code> → rakam olmayan</td>
+                    </tr>
+                    <tr>
+                        <td><code>[a-z]</code></td>
+                        <td>Aralık</td>
+                        <td><code>[a-zA-Z]</code> → tüm harfler</td>
+                    </tr>
+                    <tr>
+                        <td><code>|</code></td>
+                        <td>VEYA (OR)</td>
+                        <td><code>cat|dog</code> → cat veya dog</td>
+                    </tr>
+                    <tr>
+                        <td><code>\</code></td>
+                        <td>Escape (özel karakteri normal karakter yap)</td>
+                        <td><code>\.</code> → nokta karakteri</td>
+                    </tr>
+                </table>
+                
+                <h4 style="margin-top: 15px;">📌 Pratik Regex Örnekleri</h4>
+                <ul>
+                    <li><code>grep "^#"</code> - # ile başlayan satırlar (yorumlar)</li>
+                    <li><code>grep "[0-9]\{3\}-[0-9]\{4\}"</code> - Telefon numarası formatı</li>
+                    <li><code>grep "^$"</code> - Boş satırlar</li>
+                    <li><code>grep -E "error|warning|fail"</code> - VEYA operatörü (-E extended regex)</li>
+                    <li><code>grep "[A-Z][a-z]*"</code> - Büyük harfle başlayan kelimeler</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Özet Tablo -->
+        <div class="level-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white;">📚 Komut Özet Tablosu</h2>
+            
+            <table class="command-table" style="margin-top: 20px;">
+                <tr>
+                    <th>Level</th>
+                    <th>Ana Komut</th>
+                    <th>Öğrenilen Kavram</th>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>0 → 1</td>
+                    <td><code>cat, ls</code></td>
+                    <td>Temel dosya okuma</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>1 → 2</td>
+                    <td><code>cat ./-</code></td>
+                    <td>Özel karakterli dosyalar</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>2 → 3</td>
+                    <td><code>cat "dosya adı"</code></td>
+                    <td>Boşluklu dosya adları</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>3 → 4</td>
+                    <td><code>ls -la</code></td>
+                    <td>Gizli dosyalar</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>4 → 5</td>
+                    <td><code>file</code></td>
+                    <td>Dosya tipi belirleme</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>5 → 6</td>
+                    <td><code>find -size -executable</code></td>
+                    <td>Gelişmiş dosya arama</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>6 → 7</td>
+                    <td><code>find -user -group</code></td>
+                    <td>Kullanıcı/grup filtreleme</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>7 → 8</td>
+                    <td><code>grep</code></td>
+                    <td>Metin arama</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>8 → 9</td>
+                    <td><code>sort | uniq -u</code></td>
+                    <td>Benzersiz satır bulma</td>
+                </tr>
+                <tr style="background: white; color: #2c3e50;">
+                    <td>9 → 10</td>
+                    <td><code>strings</code></td>
+                    <td>Binary dosya analizi</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Pratik İpuçları -->
+        <div class="level-card" style="border-left-color: #3498db;">
+            <h2 style="color: #3498db;">💡 Genel İpuçları ve En İyi Pratikler</h2>
+            
+            <div class="tip">
+                <h4>🔍 Dosya Arama Teknikleri</h4>
+                <ul>
+                    <li><code>find</code> komutu dosya sistemi araması için en güçlü araç</li>
+                    <li><code>locate</code> daha hızlı ama veritabanı güncel olmayabilir</li>
+                    <li><code>which</code> çalıştırılabilir dosyaların PATH'te nerede olduğunu bulur</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <h4>📝 Metin İşleme</h4>
+                <ul>
+                    <li><code>grep</code> - Metin arama ve filtreleme</li>
+                    <li><code>awk</code> - Sütun bazlı işlemler</li>
+                    <li><code>sed</code> - Metin değiştirme ve düzenleme</li>
+                    <li><code>cut</code> - Belirli alanları kesme</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <h4>🔗 Pipe (|) Kullanımı</h4>
+                <p>Komutları zincirleyerek güçlü işlemler yapın:</p>
+                <div class="command-box">
+                    <pre>cat dosya.txt | grep "aranan" | sort | uniq | wc -l</pre>
+                </div>
+            </div>
+
+            <div class="tip">
+                <h4>⚡ Klavye Kısayolları</h4>
+                <ul>
+                    <li><code>Ctrl+C</code> - Komutu iptal et</li>
+                    <li><code>Ctrl+Z</code> - Komutu arka plana at</li>
+                    <li><code>Ctrl+R</code> - Komut geçmişinde ara</li>
+                    <li><code>TAB</code> - Otomatik tamamlama</li>
+                    <li><code>↑/↓</code> - Önceki/sonraki komut</li>
+                </ul>
+            </div>
+        </div>
+
+        </div><!-- theory tab sonu -->
+
+        <!-- TEST TAB -->
+        <div id="test" class="tab-content">
+            <iframe src="bandit-test.html" style="width: 100%; min-height: 800px; border: none; border-radius: 10px;"></iframe>
+        </div>
+
+        <!-- FLASHCARDS TAB -->
+        <div id="flashcards" class="tab-content">
+            <iframe src="bandit-flashcards.html" style="width: 100%; min-height: 800px; border: none; border-radius: 10px;"></iframe>
+        </div>
+
+        <!-- Ek Çalışma Kaynakları -->
+        <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 40px;">
+            <h2 style="color: white;">📚 Ek Çalışma Kaynakları</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                <a href="bandit-flashcards.html" style="background: white; color: #667eea; padding: 30px; border-radius: 15px; text-decoration: none; text-align: center; transition: transform 0.3s; display: block;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">🃏</div>
+                    <h3 style="margin-bottom: 10px;">Flashcard'lar</h3>
+                    <p style="color: #666;">40 interaktif kart ile komutları pekiştir</p>
+                </a>
+                <a href="bandit-test.html" style="background: white; color: #764ba2; padding: 30px; border-radius: 15px; text-decoration: none; text-align: center; transition: transform 0.3s; display: block;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">📝</div>
+                    <h3 style="margin-bottom: 10px;">Test Merkezi</h3>
+                    <p style="color: #666;">30 soru ile bilgini ölç</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation-buttons">
+            <a href="modul7-ethical-hacking.html" class="nav-button">← Önceki: Ethical Hacking</a>
+            <div class="nav-center">Modül 8 / 8</div>
+            <button class="nav-button" disabled>Son Modül →</button>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Tüm tab contentleri gizle
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Tüm tab butonlarını pasif yap
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Seçilen tab'ı göster
+            document.getElementById(tabName).classList.add('active');
+            
+            // Seçilen tab butonunu aktif yap
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

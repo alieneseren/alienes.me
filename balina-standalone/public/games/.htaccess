@@ -1,0 +1,10 @@
+# Allow direct access to HTML files in games directory
+<FilesMatch "\.html?$">
+    Allow from all
+</FilesMatch>
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
