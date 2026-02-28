@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Profile;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class SyncGithubProfile extends Command
 {
@@ -27,7 +28,7 @@ class SyncGithubProfile extends Command
      */
     public function handle()
     {
-        $profile = Profile::first();
+        $profile = Profile::getCached();
         
         if (!$profile) {
             $this->error('Profil kaydı bulunamadı!');
@@ -60,6 +61,8 @@ class SyncGithubProfile extends Command
                 'github_public_repos' => $data['public_repos'],
                 'github_synced_at' => now(),
             ]);
+
+            Cache::forget('profile');
             
             $this->info('✓ GitHub profili başarıyla senkronize edildi!');
             $this->info('');

@@ -6,7 +6,7 @@
     <title>@yield('title', 'Admin Panel') - Alienes.me</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        $profile = \App\Models\Profile::getCached();
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');

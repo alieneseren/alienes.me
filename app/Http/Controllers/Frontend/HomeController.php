@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
+        $profile = Profile::getCached();
         $experiences = Experience::ordered()->get();
         $educations = Education::ordered()->get();
         $skills = Skill::ordered()->get();
@@ -30,7 +30,7 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = Profile::getCached();
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
