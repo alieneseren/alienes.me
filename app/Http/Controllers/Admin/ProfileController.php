@@ -7,12 +7,13 @@ use App\Models\Profile;
 use App\Services\GitHubService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class ProfileController extends Controller
 {
     public function edit()
     {
-        $profile = Profile::firstOrCreate([]);
+        $profile = Profile::getCached();
         return view('admin.profile.edit', compact('profile'));
     }
 
@@ -34,7 +35,7 @@ class ProfileController extends Controller
             'resume_url' => 'nullable|url',
         ]);
 
-        $profile = Profile::firstOrCreate([]);
+        $profile = Profile::getCached();
         $data = $request->except('profile_image');
 
         // Handle profile image upload
@@ -60,6 +61,7 @@ class ProfileController extends Controller
 
         try {
             $profile->update($data);
+            Cache::forget('profile');
             return redirect()->route('admin.profile.edit')->with('success', 'Profil başarıyla güncellendi.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Profil güncellenirken hata oluştu: ' . $e->getMessage());
@@ -71,7 +73,7 @@ class ProfileController extends Controller
      */
     public function syncFromGithub(Request $request, GitHubService $github)
     {
-        $profile = Profile::firstOrCreate([]);
+        $profile = Profile::getCached();
         
         $username = $request->input('username') ?: $profile->github_username ?: config('services.github.username');
         
@@ -112,6 +114,8 @@ class ProfileController extends Controller
             $profile->update(['location' => $githubData['location']]);
         }
 
+        Cache::forget('profile');
+
         return redirect()->back()->with('success', 'GitHub profiliniz başarıyla senkronize edildi!');
     }
 
@@ -120,11 +124,12 @@ class ProfileController extends Controller
      */
     public function deleteImage()
     {
-        $profile = Profile::firstOrCreate([]);
+        $profile = Profile::getCached();
 
         if ($profile->profile_image) {
             Storage::disk('public')->delete($profile->profile_image);
             $profile->update(['profile_image' => null]);
+            Cache::forget('profile');
             return redirect()->back()->with('success', 'Profil fotoğrafı silindi.');
         }
 

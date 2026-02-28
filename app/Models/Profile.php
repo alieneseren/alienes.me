@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Profile extends Model
 {
@@ -36,4 +37,16 @@ class Profile extends Model
     protected $casts = [
         'github_synced_at' => 'datetime',
     ];
+
+    /**
+     * Get the cached profile instance.
+     *
+     * @return \App\Models\Profile
+     */
+    public static function getCached()
+    {
+        return Cache::rememberForever('profile', function () {
+            return static::firstOrCreate([]);
+        });
+    }
 }
