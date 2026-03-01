@@ -18,9 +18,10 @@
             : asset('favicon.ico');
         
         // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        $hasExperiences = \App\Models\Experience::exists();
+        $hasSkills = \App\Models\Skill::exists();
+        $hasProjects = \App\Models\Project::exists();
+        $hasCv = \App\Models\Cv::where('is_published', true)->exists();
     @endphp
     
     <!-- Favicon -->
@@ -79,7 +80,7 @@
                     @if($hasProjects)
                     <a href="{{ route('projects') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Projeler</a>
                     @endif
-                    @if(\App\Models\Cv::where('is_published', true)->exists())
+                    @if($hasCv)
                     <a href="{{ route('cv.show') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📄 CV</a>
                     @endif
                     <a href="https://games.alienes.me" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition font-semibold">🎮 Oyunlar</a>
@@ -119,7 +120,7 @@
                 @if($hasProjects)
                 <a href="{{ route('projects') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Projeler</a>
                 @endif
-                @if(\App\Models\Cv::where('is_published', true)->exists())
+                @if($hasCv)
                 <a href="{{ route('cv.show') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">📄 CV</a>
                 @endif
                 <a href="https://games.alienes.me" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600 font-semibold">🎮 Oyunlar</a>

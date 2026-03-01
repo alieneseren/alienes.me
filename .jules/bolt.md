@@ -1,0 +1,3 @@
+## 2024-05-24 - Layout Optimizasyonu
+**Learning:** `\App\Models\Model::count() > 0` gibi kalıplar tüm tabloyu/indexi tarayarak bir count sorgusu çalıştırır. `exists()` kullanmak ise veritabanında limit 1 ile daha hızlı döner. Ayrıca her sayfa yüklemesinde çalıştırılan layout dosyasında, aynı model çağrılarının (`Cv::where...->exists()`) iki kere çağrılması veritabanına ek yük bindirir.
+**Action:** Boolean dönüş değeri beklenen durumlarda `count() > 0` yerine daima `exists()` kullan. Şablonlarda birden fazla yerde kullanılan veritabanı sorgularını en tepede bir PHP değişkenine atayarak optimize et.
