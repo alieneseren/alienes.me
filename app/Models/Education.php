@@ -34,4 +34,15 @@ class Education extends Model
     {
         return $query->orderBy('order')->orderBy('start_date', 'desc');
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_educations');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_educations');
+        });
+    }
 }

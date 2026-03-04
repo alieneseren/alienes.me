@@ -34,4 +34,15 @@ class Project extends Model
     {
         return $query->where('is_featured', true);
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_featured_projects');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_featured_projects');
+        });
+    }
 }
