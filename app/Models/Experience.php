@@ -30,4 +30,15 @@ class Experience extends Model
     {
         return $query->orderBy('order')->orderBy('start_date', 'desc');
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_experiences');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('home_experiences');
+        });
+    }
 }
