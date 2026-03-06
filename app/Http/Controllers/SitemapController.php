@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\StudyNote;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
-use App\Models\StudyNote;
 
 class SitemapController extends Controller
 {
@@ -20,10 +19,12 @@ class SitemapController extends Controller
         $urls[] = ['loc' => URL::to('/contact'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'];
 
         // Study notes (if any)
-        $notes = StudyNote::where('is_active', true)->orderBy('updated_at', 'desc')->get();
+        // ⚡ Bolt Optimization: Added with('category') eager loading to prevent N+1 query problem
+        // when accessing $note->category in the loop below. This reduces database queries from O(N) to O(1).
+        $notes = StudyNote::with('category')->where('is_active', true)->orderBy('updated_at', 'desc')->get();
         foreach ($notes as $note) {
             $categorySlug = $note->category ? $note->category->slug : 'study';
-            $urls[] = ['loc' => URL::to('/study/' . $categorySlug . '/' . $note->slug), 'lastmod' => $note->updated_at->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.6'];
+            $urls[] = ['loc' => URL::to('/study/'.$categorySlug.'/'.$note->slug), 'lastmod' => $note->updated_at->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.6'];
         }
 
         // Build XML
