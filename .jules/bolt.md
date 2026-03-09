@@ -1,0 +1,3 @@
+## 2024-05-18 - Blade Templates DB Queries Optimization
+**Learning:** In Laravel Blade files using `count() > 0` directly on Eloquent models forces the database to scan all rows for the count, which is much slower compared to `exists()`. Furthermore, executing identical queries for both desktop and mobile layouts inside the same file leads to N+1 equivalent issues within views.
+**Action:** When injecting data into layouts via `@php` blocks, replace `Model::count() > 0` with `Model::exists()` for existential checks, and assign results to variables to prevent redundant execution across responsive menu structures.
