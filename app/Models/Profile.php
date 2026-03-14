@@ -36,4 +36,10 @@ class Profile extends Model
     protected $casts = [
         'github_synced_at' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        static::saved(fn () => \Illuminate\Support\Facades\Cache::forget('home.profile'));
+        static::deleted(fn () => \Illuminate\Support\Facades\Cache::forget('home.profile'));
+    }
 }
