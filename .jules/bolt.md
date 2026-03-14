@@ -1,0 +1,3 @@
+## 2024-05-24 - [Frontend Cache Optimizasyonu: HomeController Veritabanı Yükünün Azaltılması]
+**Learning:** Portfolyo sitesi gibi verilerin (Eğitim, Deneyim, Yetenekler vb.) nadir güncellendiği senaryolarda Controller içinde anlık sorgular oluşturmak gereksiz veritabanı yorgunluğuna neden olur. HomeController `index` metodunda yapılan 5 ayrı veritabanı sorgusu, TTFB'yi (Time To First Byte) kötü etkiliyordu.
+**Action:** İlgili sorguları `Cache::remember` ile sararak veritabanı yükü tek seferlik sorguya indirildi ve 86400 (1 gün) saniye süreyle cache'lendi. Nadir değişen veriler için her zaman memory/file cache kullan.
