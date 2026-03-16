@@ -8,16 +8,34 @@ use App\Models\Experience;
 use App\Models\Education;
 use App\Models\Skill;
 use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // Cache for 10 minutes (600 seconds) to balance performance and freshness
+        $ttl = 600;
+
+        $profile = Cache::remember('frontend.profile', $ttl, function () {
+            return Profile::first();
+        });
+
+        $experiences = Cache::remember('frontend.experiences', $ttl, function () {
+            return Experience::ordered()->get();
+        });
+
+        $educations = Cache::remember('frontend.educations', $ttl, function () {
+            return Education::ordered()->get();
+        });
+
+        $skills = Cache::remember('frontend.skills', $ttl, function () {
+            return Skill::ordered()->get();
+        });
+
+        $featuredProjects = Cache::remember('frontend.featured_projects', $ttl, function () {
+            return Project::featured()->ordered()->take(6)->get();
+        });
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +48,12 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = Cache::remember('frontend.profile', 600, function () {
+            return Profile::first();
+        });
+
+        // We don't cache pagination easily, so we leave it as is
+        // but we saved 1 query above.
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
