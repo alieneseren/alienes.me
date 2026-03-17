@@ -13,6 +13,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        \App\Models\Profile::observe(\App\Observers\CacheClearObserver::class);
+        \App\Models\Experience::observe(\App\Observers\CacheClearObserver::class);
+        \App\Models\Education::observe(\App\Observers\CacheClearObserver::class);
+        \App\Models\Skill::observe(\App\Observers\CacheClearObserver::class);
+        \App\Models\Project::observe(\App\Observers\CacheClearObserver::class);
+        \App\Models\Cv::observe(\App\Observers\CacheClearObserver::class);
     }
 }

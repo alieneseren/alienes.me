@@ -13,11 +13,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = \Illuminate\Support\Facades\Cache::remember('profile_first', now()->addHours(24), fn() => Profile::first());
+        $experiences = \Illuminate\Support\Facades\Cache::remember('experiences_ordered', now()->addHours(24), fn() => Experience::ordered()->get());
+        $educations = \Illuminate\Support\Facades\Cache::remember('educations_ordered', now()->addHours(24), fn() => Education::ordered()->get());
+        $skills = \Illuminate\Support\Facades\Cache::remember('skills_ordered', now()->addHours(24), fn() => Skill::ordered()->get());
+        $featuredProjects = \Illuminate\Support\Facades\Cache::remember('featured_projects', now()->addHours(24), fn() => Project::featured()->ordered()->take(6)->get());
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +30,7 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = \Illuminate\Support\Facades\Cache::remember('profile_first', now()->addHours(24), fn() => Profile::first());
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
