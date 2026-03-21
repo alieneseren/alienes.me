@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GameScore;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GameController extends Controller
 {
@@ -21,6 +22,9 @@ class GameController extends Controller
         $validated['ip_address'] = $request->ip();
 
         $gameScore = GameScore::create($validated);
+
+        // Yeni bir skor eklendiğinde genel liderlik tablosu önbelleğini temizle
+        Cache::forget('all_leaderboards');
 
         return response()->json([
             'success' => true,
@@ -57,10 +61,13 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
-        $leaderboards = [];
-        foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
-        }
+        $leaderboards = Cache::remember('all_leaderboards', 60, function () use ($games) {
+            $result = [];
+            foreach ($games as $game) {
+                $result[$game] = GameScore::getTopScores($game, 5);
+            }
+            return $result;
+        });
 
         return response()->json([
             'success' => true,
