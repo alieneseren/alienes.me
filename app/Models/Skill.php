@@ -4,10 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Skill extends Model
 {
     use HasFactory;
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            Cache::forget('skills');
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('skills');
+        });
+    }
 
     protected $fillable = [
         'name',

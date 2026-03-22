@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
+        $profile = Cache::remember('profile', 86400, function () {
+            return Profile::first();
+        });
         return view('frontend.contact', compact('profile'));
     }
 

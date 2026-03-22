@@ -4,10 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Profile extends Model
 {
     use HasFactory;
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            Cache::forget('profile');
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('profile');
+        });
+    }
 
     protected $fillable = [
         'full_name',
