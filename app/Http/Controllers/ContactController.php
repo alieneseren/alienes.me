@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Profile;
 use App\Http\Requests\StoreContactRequest;
+use Illuminate\Support\Facades\Cache;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
+        $profile = Cache::remember('profile', 86400, function () {
+            return Profile::first();
+        });
         return view('contact', compact('profile'));
     }
 
@@ -20,7 +23,9 @@ class ContactController extends Controller
         $contact = Contact::create($request->validated());
         
         // Email gönderme denemesi (başarısız olsa da devam eder)
-        $profile = Profile::first();
+        $profile = Cache::remember('profile', 86400, function () {
+            return Profile::first();
+        });
         if ($profile && $profile->email) {
             try {
                 \Log::info('Contact message received', [
