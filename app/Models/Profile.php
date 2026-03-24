@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Models\Traits\ClearsHomePageCache;
 
     protected $fillable = [
         'full_name',

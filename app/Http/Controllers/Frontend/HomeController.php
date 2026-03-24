@@ -13,26 +13,38 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $data = \Illuminate\Support\Facades\Cache::remember('home_page_data', 86400, function () {
+            return [
+                'profile' => Profile::first(),
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
 
-        return view('frontend.home', compact(
-            'profile',
-            'experiences',
-            'educations',
-            'skills',
-            'featuredProjects'
-        ));
+        return view('frontend.home', [
+            'profile' => $data['profile'],
+            'experiences' => $data['experiences'],
+            'educations' => $data['educations'],
+            'skills' => $data['skills'],
+            'featuredProjects' => $data['featuredProjects'],
+        ]);
     }
 
     public function projects()
     {
-        $profile = Profile::first();
-        $projects = Project::ordered()->paginate(12);
+        $page = request()->get('page', 1);
+        $data = \Illuminate\Support\Facades\Cache::remember('projects_page_data_' . $page, 86400, function () {
+            return [
+                'profile' => Profile::first(),
+                'projects' => Project::ordered()->paginate(12),
+            ];
+        });
         
-        return view('frontend.projects', compact('profile', 'projects'));
+        return view('frontend.projects', [
+            'profile' => $data['profile'],
+            'projects' => $data['projects'],
+        ]);
     }
 }

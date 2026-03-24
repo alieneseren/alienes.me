@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Education extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Models\Traits\ClearsHomePageCache;
 
     protected $table = 'educations';
 
