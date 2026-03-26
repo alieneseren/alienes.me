@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ClearsHomePageCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsHomePageCache;
 
     protected $fillable = [
         'full_name',
