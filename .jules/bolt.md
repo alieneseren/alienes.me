@@ -1,0 +1,3 @@
+## 2024-05-18 - Model Event based Cache invalidation
+**Learning:** In order to reduce database queries on popular endpoints such as the home page which requires several models to render (Profile, Education, Skills, Experience, Projects), we should cache all queries together under a single cache entry.
+**Action:** Created `App\Models\Traits\ClearsHomePageCache` trait to easily invalidate the home page cache upon any content update of these components by hooking into `saved` and `deleted` model events.
