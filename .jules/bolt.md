@@ -1,0 +1,3 @@
+## 2024-05-18 - [Optimize Home Page Database Queries]
+**Learning:** This application heavily relies on 5 different database queries per visitor to render the home page portfolio data (`Profile`, `Experience`, `Education`, `Skill`, `Project`). Since the default cache driver doesn't support tags out of the box (`file`), traditional tagged caching cannot be safely used.
+**Action:** Implemented a single `home_page_data` cache key using `Cache::remember`. Added a custom trait `ClearsHomePageCache` and attached it to all relevant Eloquent models. This ensures the cache is automatically invalidated when any portfolio data is created, updated, or deleted, solving the N+1/heavy query problem without introducing stale data or relying on unsupported Cache Tags.
