@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Education extends Model
 {
     use HasFactory;
+    use \App\Models\Traits\ClearsHomePageCache; // ⚡ Bolt: Clear home page cache on save/delete
 
     protected $table = 'educations';
 
