@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
+    use \App\Models\Traits\ClearsHomePageCache; // ⚡ Bolt: Clear home page cache on save/delete
 
     protected $fillable = [
         'full_name',
