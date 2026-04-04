@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Models\Traits\ClearsHomePageCache;
 
     protected $fillable = [
         'name',
