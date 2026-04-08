@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\ClearsHomePageCache;
 
 class Experience extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsHomePageCache;
 
     protected $fillable = [
         'company',
