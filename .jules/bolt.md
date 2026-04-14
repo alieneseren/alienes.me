@@ -1,0 +1,3 @@
+## 2024-04-14 - [Eager Loading & Caching Database Queries]
+**Learning:** The `HomeController` previously fetched several models from the database dynamically on every request (`Profile`, `Experience`, `Education`, `Skill`, `Project`). As a portfolio application, this data is mostly read-heavy and updated infrequently, making it a prime candidate for application-level caching to prevent redundant queries.
+**Action:** Next time working with read-heavy endpoints, utilize `Cache::remember` to cache database query results and encapsulate cache invalidation inside a Model Trait using the `saved` and `deleted` event listeners to prevent stale data.
