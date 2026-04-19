@@ -1,0 +1,3 @@
+## 2026-04-19 - [Cache HomePage Query Bottleneck]
+**Learning:** [Anasayfa veritabanında 5 ayrı modelden (Profile, Experience, vs.) veri çekilmesi, rotayı oldukça yavaşlatıyordu. Verilerin sık değişmediği portfolyo tarzı sayfalarda `Cache::rememberForever` ile birlikte modellere eklenen ortak bir Traits (ör: `ClearsHomePageCache`) üzerinden önbelleğin güncel kalması performans için kritik bir kazanç sağladı. Storage ve diğer geçici dosyalar git ortamına dikkat edilerek commit edilmemeli.]
+**Action:** [Her zaman anasayfa veya sık sorgulanan sayfalarda çoklu veritabanı sorguları varsa önbellekleme kullan, cache invalidation'ı modellerin boot metotları üzerinden (Trait kullanarak) otomatik hale getir ve istenmeyen geçici dosyaların stgelenmediğinden emin ol.]
