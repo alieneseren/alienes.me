@@ -1,0 +1,3 @@
+## 2024-05-01 - [Cache Invalidation with Traits in Laravel]
+**Learning:** You can drastically reduce database queries on a heavily accessed landing page by utilizing Laravel's caching mechanisms, but the main challenge is always invalidating the cache when related entities update. A clean way to achieve this is via a custom Trait (e.g., `ClearsHomePageCache`) bound to model events like `saved` and `deleted`.
+**Action:** When implementing database query caching for multiple interconnected models, utilize a reusable Trait to handle automatic cache invalidation on lifecycle hooks to ensure data consistency without cluttering the models' boot methods or requiring explicit invalidation logic in controllers.
