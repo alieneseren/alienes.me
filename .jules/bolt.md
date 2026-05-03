@@ -1,0 +1,3 @@
+## 2025-02-18 - [Layout DB Sorguları Optimizasyonu]
+**Learning:** `resources/views/layouts/frontend.blade.php` gibi temel layout dosyalarında her sayfa yüklenmesinde aynı veritabanı tablolarının kontrol edilmesi performansı ciddi ölçüde yavaşlatıyor (1 sayfa yüklemesinde gereksiz 5 sorgu, ~63ms ek yük).
+**Action:** İlgili sorgular `Cache::rememberForever` ile önbelleğe alındı. Layout cache'in güncelliğini sağlamak için AppServiceProvider.php içinde model (`Profile`, `Experience`, `Skill`, `Project`, `Cv`) event'lerine dinleyici (listener) eklendi. `count() > 0` yerine `exists()` kullanımıyla küçük ekstra hız kazanıldı.
