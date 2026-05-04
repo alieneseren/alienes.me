@@ -6,7 +6,17 @@
     <title>@yield('title', 'Admin Panel') - Alienes.me</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        $layoutData = \Illuminate\Support\Facades\Cache::rememberForever('layout.global_data', function () {
+            return [
+                'profile' => \App\Models\Profile::first(),
+                'hasExperiences' => \App\Models\Experience::exists(),
+                'hasSkills' => \App\Models\Skill::exists(),
+                'hasProjects' => \App\Models\Project::exists(),
+                'hasCv' => \App\Models\Cv::where('is_published', true)->exists(),
+            ];
+        });
+
+        $profile = $layoutData['profile'];
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');

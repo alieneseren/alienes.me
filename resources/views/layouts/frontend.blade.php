@@ -12,15 +12,25 @@
     <title>@yield('title', 'Alienes.me - Portfolio')</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        $layoutData = \Illuminate\Support\Facades\Cache::rememberForever('layout.global_data', function () {
+            return [
+                'profile' => \App\Models\Profile::first(),
+                'hasExperiences' => \App\Models\Experience::exists(),
+                'hasSkills' => \App\Models\Skill::exists(),
+                'hasProjects' => \App\Models\Project::exists(),
+                'hasCv' => \App\Models\Cv::where('is_published', true)->exists(),
+            ];
+        });
+
+        $profile = $layoutData['profile'];
+        $hasExperiences = $layoutData['hasExperiences'];
+        $hasSkills = $layoutData['hasSkills'];
+        $hasProjects = $layoutData['hasProjects'];
+        $hasCv = $layoutData['hasCv'];
+
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
-        
-        // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
     @endphp
     
     <!-- Favicon -->
@@ -79,7 +89,7 @@
                     @if($hasProjects)
                     <a href="{{ route('projects') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Projeler</a>
                     @endif
-                    @if(\App\Models\Cv::where('is_published', true)->exists())
+                    @if($hasCv)
                     <a href="{{ route('cv.show') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📄 CV</a>
                     @endif
                     <a href="https://games.alienes.me" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition font-semibold">🎮 Oyunlar</a>
