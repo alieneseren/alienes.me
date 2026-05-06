@@ -6,7 +6,18 @@
     <title>@yield('title', 'Admin Panel') - Alienes.me</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        // ⚡ Bolt: Cache global layout variables to prevent redundant Profile queries on every page load.
+        $globalData = \Illuminate\Support\Facades\Cache::rememberForever('layout.global_data', function () {
+            return [
+                'profile' => \App\Models\Profile::first(),
+                'hasExperiences' => \App\Models\Experience::exists(),
+                'hasSkills' => \App\Models\Skill::exists(),
+                'hasProjects' => \App\Models\Project::exists(),
+                'hasCv' => \App\Models\Cv::where('is_published', true)->exists(),
+            ];
+        });
+
+        $profile = $globalData['profile'];
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
