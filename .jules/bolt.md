@@ -1,0 +1,3 @@
+## 2024-05-08 - Caching Multiple Eloquent Queries in HomeController
+**Learning:** The frontend home page previously ran 5 separate, consecutive database queries (Profile, Experience, Education, Skill, Project) synchronously on every request, creating a performance bottleneck for visitors.
+**Action:** Combined all 5 query results into a single array and cached it under a single key (`home.data`). Registered model lifecycle events (`saved` and `deleted`) in `AppServiceProvider` to intelligently flush this specific cache instead of relying solely on time-based expiration, improving page load speed while maintaining data freshness.
