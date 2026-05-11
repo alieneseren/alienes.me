@@ -8,24 +8,31 @@ use App\Models\Experience;
 use App\Models\Education;
 use App\Models\Skill;
 use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // ⚡ Bolt: Cache home page data to prevent 5 separate database queries on every page load.
+        // Impact: Reduces initial page load database queries by 5.
+        $data = Cache::rememberForever('home.data', function () {
+            return [
+                'profile' => Profile::first(),
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
 
-        return view('frontend.home', compact(
-            'profile',
-            'experiences',
-            'educations',
-            'skills',
-            'featuredProjects'
-        ));
+        return view('frontend.home', [
+            'profile' => $data['profile'],
+            'experiences' => $data['experiences'],
+            'educations' => $data['educations'],
+            'skills' => $data['skills'],
+            'featuredProjects' => $data['featuredProjects'],
+        ]);
     }
 
     public function projects()
