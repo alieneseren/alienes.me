@@ -3,6 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Profile;
+use App\Models\Experience;
+use App\Models\Education;
+use App\Models\Skill;
+use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +19,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        // ⚡ Bolt: Clear home page cache when portfolio data changes
+        $clearHomeCache = function () {
+            Cache::forget('home.data');
+        };
+
+        Profile::saved($clearHomeCache);
+        Profile::deleted($clearHomeCache);
+
+        Experience::saved($clearHomeCache);
+        Experience::deleted($clearHomeCache);
+
+        Education::saved($clearHomeCache);
+        Education::deleted($clearHomeCache);
+
+        Skill::saved($clearHomeCache);
+        Skill::deleted($clearHomeCache);
+
+        Project::saved($clearHomeCache);
+        Project::deleted($clearHomeCache);
     }
 }
