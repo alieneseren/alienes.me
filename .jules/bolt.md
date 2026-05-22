@@ -1,0 +1,3 @@
+## 2024-05-22 - [AppServiceProvider model event invalidation caching]
+**Learning:** For simple portfolio sites utilizing file-based caching (which lacks tag support), invalidating an aggregate cache key (like `home.data`) directly inside `AppServiceProvider::boot` using model event listeners (`saved`, `deleted`) is an effective and safe optimization pattern. This avoids the necessity of creating traits or complex observer classes for localized invalidation.
+**Action:** When optimizing multi-model heavy read operations for pages that seldom change, look for opportunities to bundle queries into a single Cache::remember block and cleanly invalidate them via global events in a central service provider.
