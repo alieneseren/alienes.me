@@ -13,6 +13,23 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        // Caching models for home.data
+        $models = [
+            \App\Models\Profile::class,
+            \App\Models\Experience::class,
+            \App\Models\Education::class,
+            \App\Models\Skill::class,
+            \App\Models\Project::class,
+        ];
+
+        foreach ($models as $model) {
+            $model::saved(function () {
+                \Illuminate\Support\Facades\Cache::forget('home.data');
+            });
+
+            $model::deleted(function () {
+                \Illuminate\Support\Facades\Cache::forget('home.data');
+            });
+        }
     }
 }
