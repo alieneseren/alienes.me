@@ -1,0 +1,3 @@
+## 2025-02-12 - Homepage Data Caching and Invalidation
+**Learning:** In a Laravel application where a homepage pulls multiple independent records (e.g., Profile, Experience, Education, Skills, Projects), grouping all eloquent queries within a single `Cache::rememberForever` array structure significantly optimizes response time by eliminating redundant database queries on repeated visits.
+**Action:** Always combine repetitive or static homepage database queries into a single cached array, and invalidate the entire group uniformly using `saved` and `deleted` model events via a Service Provider or Observers.
