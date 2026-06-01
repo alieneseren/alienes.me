@@ -13,19 +13,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // Cache all homepage data forever to avoid multiple DB queries on each hit.
+        // Cache invalidation is handled in AppServiceProvider on model saved/deleted events.
+        $homeData = \Illuminate\Support\Facades\Cache::rememberForever('home.data', function () {
+            return [
+                'profile' => Profile::first(),
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
 
-        return view('frontend.home', compact(
-            'profile',
-            'experiences',
-            'educations',
-            'skills',
-            'featuredProjects'
-        ));
+        return view('frontend.home', $homeData);
     }
 
     public function projects()
