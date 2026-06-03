@@ -1,0 +1,4 @@
+
+## 2024-06-03 - Cache Separation and Testing Insights
+**Learning:** In a codebase lacking standard test frameworks (PHPUnit), creating a temporary PHP script that manually boots the Laravel Kernel (`require_once 'bootstrap/app.php'`) is an effective way to test Facades like `DB` and `Cache`. Additionally, when caching large datasets for a homepage, grouping unrelated data (like `Profile` and `Experience`) into a single cache key is an anti-pattern if those models are used independently on other pages, as it leads to unnecessary database queries during cache regeneration.
+**Action:** Always separate cache keys logically based on how the data is consumed across different routes (e.g., `profile.data` vs `home_collections.data`), and utilize temporary Laravel bootstrapping scripts to robustly test caching mechanisms in environments without PHPUnit.
