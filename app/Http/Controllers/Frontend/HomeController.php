@@ -13,11 +13,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // ⚡ Bolt Optimization: Cache the profile to prevent an unnecessary query on every page load.
+        // Expected impact: Eliminates 1 query per page visit. Invalidation handled in AppServiceProvider.
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        // ⚡ Bolt Optimization: Group the homepage collections into a single cache key.
+        // Expected impact: Eliminates 4 N+1 style queries on the homepage. Reduces DB load to 0 queries on cache hit.
+        $homeCollections = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        $experiences = $homeCollections['experiences'];
+        $educations = $homeCollections['educations'];
+        $skills = $homeCollections['skills'];
+        $featuredProjects = $homeCollections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +46,12 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        // ⚡ Bolt Optimization: Reuse cached profile data.
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        // Note: Paginated projects are intentionally not cached here due to variable ?page parameters.
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
