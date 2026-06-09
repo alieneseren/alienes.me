@@ -1,0 +1,3 @@
+## 2026-06-09 - [Database Migration Issues and In-Memory Testing]
+**Learning:** [The codebase contains conflicting migration scripts that prevent standard local `php artisan migrate` operations from completing successfully. Running manual database checks utilizing actual file-based SQLite database requires careful management or complete deletion/re-creation of the db file to bypass existing table errors.]
+**Action:** [When creating temporary PHP scripts for backend testing, utilize an in-memory SQLite database configuration dynamically via `$app['config']->set('database.connections.sqlite', [... 'database' => ':memory:']);` along with `Schema::create` calls to cleanly bypass repository migration issues.]
