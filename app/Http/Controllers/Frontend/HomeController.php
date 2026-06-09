@@ -13,24 +13,38 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
 
-        return view('frontend.home', compact(
-            'profile',
-            'experiences',
-            'educations',
-            'skills',
-            'featuredProjects'
-        ));
+        $homeData = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        return view('frontend.home', [
+            'profile' => $profile,
+            'experiences' => $homeData['experiences'],
+            'educations' => $homeData['educations'],
+            'skills' => $homeData['skills'],
+            'featuredProjects' => $homeData['featuredProjects']
+        ]);
     }
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        // Paginator cache etmek sorunlu olabilir, ama query cache yapılabilir.
+        // Cacheing paginated results efficiently requires request page awareness.
+        // We'll keep it simple and just cache the first page or cache the query itself.
+        // Actually, just cache the profile here. It reduces queries.
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
