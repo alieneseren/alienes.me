@@ -1,0 +1,3 @@
+## 2025-02-18 - Avoid committing local test artifacts
+**Learning:** When using temporary PHP test scripts to bypass broken migrations and verify optimizations manually, it's crucial to `git reset HEAD` and only stage the explicitly modified files (e.g., `git add file1 file2`). Using `git add .` or not clearing `storage/framework/cache/data` caches will accidentally include local binary blobs, breaking the PR review process and polluting the codebase.
+**Action:** Always verify `git status` precisely before committing, ensuring no `storage/*` or `test_*.php` files are in the staging area, and use exact `git add <file>` commands instead of `git add .`.
