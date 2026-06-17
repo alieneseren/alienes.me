@@ -42,4 +42,16 @@ class GameScore extends Model
             ->orderBy('score', 'desc')
             ->first();
     }
+
+    public static function getTopScoresForAllGames(array $games, $limit = 5)
+    {
+        return self::fromSub(function ($query) use ($games) {
+            $query->from('game_scores')
+                  ->whereIn('game_name', $games)
+                  ->selectRaw('*, ROW_NUMBER() OVER(PARTITION BY game_name ORDER BY score DESC, created_at ASC) as row_num');
+        }, 'ranked_scores')
+        ->where('row_num', '<=', $limit)
+        ->get()
+        ->groupBy('game_name');
+    }
 }

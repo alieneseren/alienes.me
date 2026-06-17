@@ -57,9 +57,13 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
+        // Tek bir veritabanı sorgusu ile tüm oyunların en iyi skorlarını getir (N+1 optimizasyonu)
+        $scores = GameScore::getTopScoresForAllGames($games, 5);
+
         $leaderboards = [];
         foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
+            // Skoru olmayan oyunlar için boş koleksiyon döndürülmesini garanti et
+            $leaderboards[$game] = $scores->get($game, collect());
         }
 
         return response()->json([
