@@ -13,11 +13,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // ⚡ Bolt: Anasayfa verileri için önbellekleme
+        // Veritabanı sorgularını azaltmak için profil verilerini 'profile.data'
+        // ve diğer koleksiyonları 'home_collections.data' altında önbelleğe alıyoruz.
+        // Bu optimizasyon anasayfa yanıt süresini önemli ölçüde hızlandırır.
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        $collections = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        $experiences = $collections['experiences'];
+        $educations = $collections['educations'];
+        $skills = $collections['skills'];
+        $featuredProjects = $collections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
