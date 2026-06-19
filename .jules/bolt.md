@@ -1,0 +1,3 @@
+## 2026-06-19 - Anasayfa Sorguları için Önbellekleme (Caching) ve Cache Invalidation
+**Learning:** Laravel'de anasayfa gibi çoklu koleksiyon (Profile, Experience, Education, vb.) getiren sayfalarda ayrı ayrı sorgu yapmak yerine, tüm koleksiyonları tek bir önbellek anahtarında (`home_collections.data`) birleştirerek almak veritabanı yükünü ciddi oranda düşürür. Ayrıca, bu önbelleklerin geçerliliğini korumak (Cache invalidation) için modellerin `saved` ve `deleted` olaylarını `AppServiceProvider` boot metodunda dinlemek temiz bir çözümdür.
+**Action:** İleride benzer çoklu veritabanı okuması olan ve nadir güncellenen sayfalarda, modelleri gruplandırarak (`home_collections.data`) önbelleğe alıp invalidation için `AppServiceProvider` kullanarak performansı artıracağım.
