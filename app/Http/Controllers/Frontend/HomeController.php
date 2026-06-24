@@ -8,16 +8,33 @@ use App\Models\Experience;
 use App\Models\Education;
 use App\Models\Skill;
 use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // Profil verisini önbelleğe al (1 gün)
+        // Performans: Her sayfa yüklemesinde gereksiz veritabanı sorgusunu önler
+        $profile = Cache::remember('profile.data', 86400, function () {
+            return Profile::first();
+        });
+
+        // Ana sayfa koleksiyonlarını önbelleğe al (1 gün)
+        // Performans: 4 ayrı sorguyu tek bir önbellek anahtarında birleştirerek sayfa hızını artırır
+        $collections = Cache::remember('home_collections.data', 86400, function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        $experiences = $collections['experiences'];
+        $educations = $collections['educations'];
+        $skills = $collections['skills'];
+        $featuredProjects = $collections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +47,11 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        // Profil verisini önbellekten al (1 gün)
+        $profile = Cache::remember('profile.data', 86400, function () {
+            return Profile::first();
+        });
+
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
