@@ -13,11 +13,25 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        $experiences = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.experiences', function () {
+            return Experience::ordered()->get();
+        });
+
+        $educations = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.educations', function () {
+            return Education::ordered()->get();
+        });
+
+        $skills = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.skills', function () {
+            return Skill::ordered()->get();
+        });
+
+        $featuredProjects = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.featured_projects', function () {
+            return Project::featured()->ordered()->take(6)->get();
+        });
 
         return view('frontend.home', compact(
             'profile',

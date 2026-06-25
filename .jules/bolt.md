@@ -1,0 +1,3 @@
+## 2025-06-25 - [Ana Sayfa Veritabanı Sorgularının Önbelleğe Alınması]
+**Learning:** [Ana sayfada statik sayılabilecek verilerin (Profile, Experience vb.) her sayfa yüklenmesinde doğrudan veritabanından çekilmesi ciddi bir gereksiz sorgu yüküne sebep oluyordu. Cache::rememberForever kullanılarak çözüldü ve model eventleri (saved, deleted) ile AppServiceProvider üzerinden cache invalidation (önbellek temizleme) mekanizması kuruldu.]
+**Action:** [Benzer durumlarda, sürekli aynı kalan veya nadiren değişen verileri her istekte çekmek yerine Cache::remember ile önbelleğe alıp, ilgili modellerin eventlerinde önbelleği temizleyerek performansı artırabilirim.]
