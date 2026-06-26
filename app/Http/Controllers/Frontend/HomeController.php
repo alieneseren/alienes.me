@@ -13,11 +13,23 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        $collections = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get()
+            ];
+        });
+
+        $experiences = $collections['experiences'];
+        $educations = $collections['educations'];
+        $skills = $collections['skills'];
+        $featuredProjects = $collections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
@@ -30,8 +42,14 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
-        $projects = Project::ordered()->paginate(12);
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        $page = filter_var(request()->get('page', 1), FILTER_VALIDATE_INT, ['options' => ['default' => 1, 'min_range' => 1]]);
+        $projects = \Illuminate\Support\Facades\Cache::rememberForever('projects.page.' . $page, function () {
+            return Project::ordered()->paginate(12);
+        });
         
         return view('frontend.projects', compact('profile', 'projects'));
     }
