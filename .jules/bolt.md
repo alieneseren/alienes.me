@@ -1,0 +1,3 @@
+## 2024-06-28 - Anasayfa Koleksiyonlarının Caching Stratejisi
+**Learning:** Yoğun trafik alan sayfalardaki (örneğin anasayfa) birden fazla ilişkisel verinin (`Experience`, `Education`, `Skill`, `Project`) ayrık önbellek (cache) anahtarları yerine, `home_collections.data` gibi tek bir anahtarda tutulması, okuma süresini ve önbellek I/O operasyonlarını ciddi oranda düşürür. Model event'leri (saved/deleted) kullanılarak da veri tutarlılığı sağlanır.
+**Action:** Caching implementasyonlarında benzer, ilişkisel ancak birlikte okunan veri kümelerini gruplayarak (tekilleştirerek) cache I/O sayısını azalt.
