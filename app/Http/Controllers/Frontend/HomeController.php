@@ -13,11 +13,24 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        // Diğer anasayfa koleksiyonlarını tek bir cache anahtarında grupluyoruz
+        $homeCollections = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        $experiences = $homeCollections['experiences'];
+        $educations = $homeCollections['educations'];
+        $skills = $homeCollections['skills'];
+        $featuredProjects = $homeCollections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +43,12 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return Profile::first();
+        });
+
+        // Paginated verileri cachelemiyoruz (veya farklı bir key kullanmalıyız),
+        // şu an sadece pagination yapıyoruz.
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
