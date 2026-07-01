@@ -13,11 +13,23 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        $profile = Profile::getCached();
+
+        // Performans Optimizasyonu: Anasayfada gösterilen çoklu model listelerini
+        // tek bir önbellek anahtarında birleştirerek birden fazla veritabanı sorgusunu önlüyoruz.
+        $homeCollections = \Illuminate\Support\Facades\Cache::rememberForever('home_collections.data', function () {
+            return [
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
+
+        $experiences = $homeCollections['experiences'];
+        $educations = $homeCollections['educations'];
+        $skills = $homeCollections['skills'];
+        $featuredProjects = $homeCollections['featuredProjects'];
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +42,7 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = Profile::getCached();
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
