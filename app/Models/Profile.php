@@ -36,4 +36,17 @@ class Profile extends Model
     protected $casts = [
         'github_synced_at' => 'datetime',
     ];
+
+    /**
+     * Get the cached profile instance.
+     * Bu optimizasyon, veritabanı sorgularını azaltarak her sayfa yüklemesindeki
+     * N+1 veya tekrarlı Profile sorgularının önüne geçer.
+     * @return \App\Models\Profile|null
+     */
+    public static function getCached()
+    {
+        return \Illuminate\Support\Facades\Cache::rememberForever('profile.data', function () {
+            return static::first();
+        });
+    }
 }

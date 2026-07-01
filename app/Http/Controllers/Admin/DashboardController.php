@@ -24,7 +24,7 @@ class DashboardController extends Controller
         ];
 
         $recentContacts = Contact::latest()->take(5)->get();
-        $profile = Profile::first();
+        $profile = Profile::getCached();
 
         return view('admin.dashboard', compact('stats', 'recentContacts', 'profile'));
     }

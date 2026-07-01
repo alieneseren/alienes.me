@@ -11,7 +11,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
+        $profile = Profile::getCached();
         return view('frontend.contact', compact('profile'));
     }
 
