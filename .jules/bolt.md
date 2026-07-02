@@ -1,0 +1,3 @@
+## 2026-07-02 - SQLite Window Functions for N+1 Queries
+**Learning:** SQLite supports window functions like `ROW_NUMBER() OVER(PARTITION BY...)`, making it an effective choice for optimizing N+1 query problems in grouped limits (e.g. fetching the top N scores per game) while maintaining compatibility with the repository's heavy usage of SQLite for testing. Subqueries utilizing unions and limit/orders break tests, but window functions work cleanly.
+**Action:** When asked to fix N+1 issues involving grouped counts or top N limit problems in Eloquent, always prefer `fromSub` along with `selectRaw('ROW_NUMBER() OVER(PARTITION BY...)')` over executing a loop of queries or using complex subqueries which can break SQLite compatibility.
