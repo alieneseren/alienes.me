@@ -8,16 +8,32 @@ use App\Models\Experience;
 use App\Models\Education;
 use App\Models\Skill;
 use App\Models\Project;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // Ana sayfa verileri nadir değiştiği için süresiz olarak önbelleğe alınır
+        $profile = Cache::rememberForever('home_profile', function () {
+            return Profile::first();
+        });
+
+        $experiences = Cache::rememberForever('home_experiences', function () {
+            return Experience::ordered()->get();
+        });
+
+        $educations = Cache::rememberForever('home_educations', function () {
+            return Education::ordered()->get();
+        });
+
+        $skills = Cache::rememberForever('home_skills', function () {
+            return Skill::ordered()->get();
+        });
+
+        $featuredProjects = Cache::rememberForever('home_featured_projects', function () {
+            return Project::featured()->ordered()->take(6)->get();
+        });
 
         return view('frontend.home', compact(
             'profile',
@@ -30,7 +46,10 @@ class HomeController extends Controller
 
     public function projects()
     {
-        $profile = Profile::first();
+        $profile = Cache::rememberForever('home_profile', function () {
+            return Profile::first();
+        });
+
         $projects = Project::ordered()->paginate(12);
         
         return view('frontend.projects', compact('profile', 'projects'));
