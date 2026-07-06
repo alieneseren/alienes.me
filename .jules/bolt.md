@@ -1,0 +1,3 @@
+## 2024-07-06 - Anasayfa Verileri İçin Önbellekleme Optimizasyonu
+**Learning:** Laravel'de `Cache::rememberForever` ile sayfa verileri cache'lenirken, sayfalanmış (paginated) verilerin cache'e alınması, dinamik parametreler (ör: `?page=X`) nedeniyle cache exhaustion'a (ve dolaylı DoS ataklarına) yol açabilir. Ayrıca cache'lenen verilerin model olayları (`saved` ve `deleted`) aracılığıyla `AppServiceProvider` üzerinden geçersiz kılınması (invalidate), veri tutarlılığı için güvenilir bir yöntemdir.
+**Action:** İlerideki performans optimizasyonlarında sayfalanmış veri kümelerini önbelleklerken doğrudan sorguyu değil, uygun sanitizasyon yapılmış özel sayfaları ya da yalnızca sayfa bağımsız verileri önbelleklemeye öncelik verilmeli.
