@@ -1,0 +1,3 @@
+## 2024-05-18 - Eloquent'te fromSub Kullanımı ve Global Scopes
+**Learning:** Laravel Eloquent ile `fromSub()` kullanarak subquery (alt sorgu) oluşturduğumuzda rastgele bir alias (örn: 'ranked_scores') verirsek ve modelde Global Scope'lar (örn: SoftDeletes) tanımlıysa, Eloquent scope sorgularını orijinal tablo adına göre (örn: `game_scores.deleted_at`) eklemeye çalışır ve bu da SQL'de "Unknown column" hatasına neden olur.
+**Action:** Subquery alias'ı olarak modelin orijinal tablo adını (`(new static)->getTable()`) kullanmak, global scope'ların oluşturacağı çakışmaları engeller ve güvenli bir çalıştırma ortamı sunar. N+1 optimizasyonlarında `fromSub` kullanırken her zaman bu pratik uygulanmalıdır.

@@ -57,9 +57,17 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
+        // Optimize N+1 issue: Fetch top 5 scores for all games in a single query using window functions
+        $scores = GameScore::getTopScoresForGames($games, 5);
+
         $leaderboards = [];
+        // Initialize all games with empty arrays to preserve exact previous structure
         foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
+            $leaderboards[$game] = collect();
+        }
+
+        foreach ($scores->groupBy('game_name') as $gameName => $gameScores) {
+            $leaderboards[$gameName] = $gameScores;
         }
 
         return response()->json([

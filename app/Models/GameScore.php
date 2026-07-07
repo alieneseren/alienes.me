@@ -42,4 +42,16 @@ class GameScore extends Model
             ->orderBy('score', 'desc')
             ->first();
     }
+
+    public static function getTopScoresForGames(array $games, $limit = 5)
+    {
+        $tableName = (new static)->getTable();
+        $subQuery = self::whereIn('game_name', $games)
+            ->selectRaw('*, ROW_NUMBER() OVER(PARTITION BY game_name ORDER BY score DESC, created_at ASC) as row_num');
+
+        // Aliasing with the actual table name prevents potential Global Scope crashes
+        return self::fromSub($subQuery, $tableName)
+            ->where('row_num', '<=', $limit)
+            ->get();
+    }
 }
