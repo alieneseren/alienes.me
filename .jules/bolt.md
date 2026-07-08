@@ -1,0 +1,3 @@
+## 2025-02-15 - [Layout Cache Optimization]
+**Learning:** [Ana düzende (layout) yer alan \App\Models\Experience::count(), \App\Models\Cv::where('is_published', true)->exists() gibi statik veritabanı kontrolleri, sayfa her yüklendiğinde tekrar tekrar N adet sorgu oluşturarak önemli bir performans darboğazı yaratır. Bu tür kontroller tek bir Cache::remember bloğu altında birleştirilerek tek seferde önbelleğe alınabilir.]
+**Action:** [Her sayfa yüklemesinde tekrar edilen ancak nadiren değişen veritabanı kontrollerini (örneğin layout dosyalarındaki feature flag veya sayım kontrolleri) tespit et ve bunları dizi (array) halinde tek bir önbellek anahtarında gruplayarak optimize et.]
