@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ClearsFrontendCache;
 
 class Skill extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsFrontendCache;
 
     protected $fillable = [
         'name',
