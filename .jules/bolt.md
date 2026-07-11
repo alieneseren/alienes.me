@@ -1,0 +1,3 @@
+## 2024-05-18 - [Model Event Caching Lifecycle]
+**Learning:** Cache invalidation üzerinden anasayfada birden çok modele (Profile, Experience, vb.) bağımlı verileri (homepage_data) temizlerken, bir base controller kullanmak yerine Trait kullanıp bu Trait'i `use` anahtarıyla modellere eklemek, Laravel'in Model life-cycle (saved, deleted hook'ları) ile sorunsuz bir entegrasyon sağlıyor. Böylelikle model ne şekilde güncellenirse güncellensin (Admin panelden veya arka planda command ile) veriler anında önbellekten atılabiliyor ve stale data oluşumunun önüne geçiliyor.
+**Action:** Birden çok modele bağımlı bir arayüz verisi önbelleğe alınırken, cache purge işlemlerini trait'ler vasıtasıyla model event'lerine bind ederek stale cache riskini minimize et.
