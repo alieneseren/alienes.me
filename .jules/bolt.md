@@ -1,0 +1,3 @@
+## 2024-07-14 - HomeController Veri Gruplama Optimizasyonu
+**Learning:** Ana sayfa gibi yoğun okunan sayfalarda çoklu statik veritabanı sorguları (Profile, Experience, vb.) ayrı ayrı çekildiğinde gereksiz veritabanı yükü oluşturuyor. Bu verileri tek bir dizi içinde gruplayıp `Cache::rememberForever` ile önbelleğe almak sorgu sayısını 5'ten 0'a düşürüyor.
+**Action:** İlgili modellerin `saved` ve `deleted` eventlerine bağlanarak önbelleğin temizlenmesi için ayrı bir Trait (`ClearsPortfolioCache`) oluşturmak kodun modülerliğini ve okunabilirliğini artırıyor. Bir dahaki sefere benzer okuma ağırlıklı Controller'lar için verileri dizi içinde gruplamayı tercih et.
