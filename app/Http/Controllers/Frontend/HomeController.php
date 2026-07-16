@@ -13,19 +13,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
-        $experiences = Experience::ordered()->get();
-        $educations = Education::ordered()->get();
-        $skills = Skill::ordered()->get();
-        $featuredProjects = Project::featured()->ordered()->take(6)->get();
+        // ⚡ Bolt: Performance optimization
+        // Cache all static homepage data in a single array to reduce DB queries from 5 to 0 on cache hits
+        $data = \Illuminate\Support\Facades\Cache::remember('homepage_data', 3600, function () {
+            return [
+                'profile' => Profile::first(),
+                'experiences' => Experience::ordered()->get(),
+                'educations' => Education::ordered()->get(),
+                'skills' => Skill::ordered()->get(),
+                'featuredProjects' => Project::featured()->ordered()->take(6)->get(),
+            ];
+        });
 
-        return view('frontend.home', compact(
-            'profile',
-            'experiences',
-            'educations',
-            'skills',
-            'featuredProjects'
-        ));
+        return view('frontend.home', $data);
     }
 
     public function projects()
