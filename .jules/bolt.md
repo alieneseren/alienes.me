@@ -1,0 +1,3 @@
+## 2025-02-12 - [Controller Cache & Cache Invalidation with Traits]
+**Learning:** Cache hit/miss verilerini tek bir array halinde toplamak veritabanı sorgularını önemli ölçüde azaltırken, Cache invalidation işlemini her model içine yazmak yerine trait kullanmak kodu temiz tutuyor ve DRY prensibine uygun hale getiriyor. Ayrıca default "file" sürücüsü, önbellek invalidasyonunda `Cache::forget` ile direkt string key temizlemeye olanak tanıyor.
+**Action:** Gelecekte, eğer birden fazla model aynı ortak "page cache" veya "list cache" değerini bozuyorsa, her modelin `booted` metoduna ayrı ayrı müdahale etmek yerine `ClearsSpecificCache` tarzı bir Trait oluşturup ilgili modellere `use` anahtar kelimesi ile bağlayarak kullanacağım.
