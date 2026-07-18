@@ -57,10 +57,10 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
-        $leaderboards = [];
-        foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
-        }
+        // ⚡ Bolt: N+1 problem optimization.
+        // Instead of 10 separate queries (one for each game), we use a single window function query
+        // to retrieve the top 5 scores for all games at once via the Model method.
+        $leaderboards = GameScore::getAllTopScores($games, 5);
 
         return response()->json([
             'success' => true,
