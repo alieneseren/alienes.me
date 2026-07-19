@@ -1,0 +1,3 @@
+## 2024-07-19 - Toplu Önbelleğe Alma
+**Learning:** Ana sayfa gibi statik ağırlıklı sayfalarda her bölüm için ayrı veritabanı sorgusu yapmak (Profile, Experience, vb.) yerine, Controller düzeyinde tüm sayfayı tek bir `Cache::remember` fonksiyonu içinde associative array olarak (toplu veri) önbelleğe almak çok daha performanslı. Bu sayede hem veritabanı yorulmuyor hem de I/O seviyesindeki önbellek okuma maliyetleri düşürülüyor.
+**Action:** Birden fazla bağımsız sorgu gerektiren statik dashboard/ana sayfa sayfalarında verileri tek bir önbellek (cache) anahtarında topla. Eski verilerin (stale data) önüne geçmek için modeller üzerinde `saved` ve `deleted` eventlerini dinleyen ortak bir trait kullan.
