@@ -57,9 +57,25 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
+        // N+1 Query Optimization: Fetch top 5 scores for all games in a single query using Window Functions
+        $subquery = GameScore::selectRaw('*, ROW_NUMBER() OVER(PARTITION BY game_name ORDER BY score DESC, created_at ASC) as rn')
+            ->whereIn('game_name', $games);
+
+        $groupedScores = GameScore::fromSub($subquery, (new GameScore)->getTable())
+            ->where('rn', '<=', 5)
+            ->orderBy('score', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($score) {
+                // Remove the extra 'rn' attribute so it precisely matches the previous response structure
+                unset($score->rn);
+                return $score;
+            })
+            ->groupBy('game_name');
+
         $leaderboards = [];
         foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
+            $leaderboards[$game] = $groupedScores->get($game, collect())->values();
         }
 
         return response()->json([
