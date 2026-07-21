@@ -1,0 +1,3 @@
+## 2026-07-21 - [Ana Sayfa Optimizasyonu ve Önbellekleme Stratejisi]
+**Learning:** Ana sayfada profil, deneyim, eğitim, yetenek ve proje modelleri için 5 ayrı veritabanı sorgusu atılıyordu. Bu statik veriler için her model üzerinden Cache kullanıldığında önbellek yönetimi karmaşıklaşıyor ve N+1 riskleri devam edebiliyor.
+**Action:** Tüm gerekli statik verileri tek bir ilişkisel dizi içinde toplayarak tek bir `Cache::remember` bloğu altında birleştirdim ve modellerde ortak `ClearsHomePageCache` trait'i ile (saved, deleted eventlerinde) aynı cache key'in (home_page_data) temizlenmesini sağladım.
