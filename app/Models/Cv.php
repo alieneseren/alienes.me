@@ -32,4 +32,17 @@ class Cv extends Model
         'social_links' => 'array',
         'is_published' => 'boolean'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('frontend.layout.visibility');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('frontend.layout.visibility');
+        });
+    }
 }
