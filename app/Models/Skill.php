@@ -29,4 +29,17 @@ class Skill extends Model
     {
         return $query->where('category', $category);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('frontend.layout.visibility');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('frontend.layout.visibility');
+        });
+    }
 }
