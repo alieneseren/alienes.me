@@ -1,0 +1,3 @@
+## 2025-02-12 - Laravel Blade Derleme Yan Etkileri
+**Learning:** Laravel uygulamasında geçici PHP test scriptleri (örneğin view derlemesi testleri) çalıştırıldığında `storage/framework/views/` klasörü altında çok sayıda `.php` uzantılı cache dosyası oluşmaktadır.
+**Action:** Manuel view derleme testi veya `php artisan` komutları çalıştırıldıktan sonra, commit oluşturmadan hemen önce her zaman `git status` ile kontrol edilmeli ve oluşturulan framework dosyaları yanlışlıkla repoya dahil edilmemesi için `git clean -fd storage/framework/views/` ile silinmelidir. Ayrıca derleme sonrasında oluşan gereksiz `package-lock.json` dosyası da discard edilmelidir.
