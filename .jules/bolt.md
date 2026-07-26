@@ -1,0 +1,3 @@
+## 2024-05-18 - Eloquent Model Existence vs Count
+**Learning:** `count() > 0` checks run a full aggregate scan (`SELECT COUNT(*)`) over the table which might be slow on large tables while checking for basic feature availability (like having experiences, projects vs) can be much faster done with `exists()` which performs a `SELECT 1 FROM table LIMIT 1`. Ayrıca, doing bu optimizasyon on Blade view objects (in-memory collections) using `isNotEmpty()` avoids iterating/counting internal arrays dynamically, providing micro-optimizations and cleaner code.
+**Action:** Always prefer `exists()` for single database level boolean checks, and `isNotEmpty()` for loaded Laravel collections to maximize execution speed.
