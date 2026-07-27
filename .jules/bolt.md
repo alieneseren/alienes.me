@@ -1,0 +1,3 @@
+## 2024-07-27 - Frontend Layout Count Queries Optimization
+**Learning:** Checking for model existence in Blade layouts (e.g., `Model::count() > 0`) executes a heavy `SELECT COUNT(*)` query on every single page load, which is a major performance bottleneck for globally included views.
+**Action:** Always replace `count() > 0` with `exists()` (which uses `LIMIT 1`) for boolean existence checks. For layout-level database calls, group the results into a single array and cache them indefinitely using `Cache::rememberForever`, creating a model Trait hooked into Eloquent `saved`/`deleted` events to invalidate the cache when the underlying data changes.
