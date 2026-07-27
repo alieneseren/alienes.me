@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\ClearsLayoutCache;
 
     protected $fillable = [
         'title',
