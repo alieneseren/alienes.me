@@ -1,0 +1,3 @@
+## 2024-05-30 - N+1 sorgularının Window Functions ile optimize edilmesi (Laravel/SQLite)
+**Learning:** Laravel'de belirli bir kategori listesi veya ilişkili verinin en iyi N sonucunu çekmek gerektiğinde, genellikle `foreach` içinde tekrarlı veritabanı sorguları (N+1 problemi) yapılır. Bu problemi çözmek için Laravel'in `fromSub` metodu ile birlikte SQL'in `ROW_NUMBER() OVER(PARTITION BY ...)` pencere fonksiyonunu (window functions) kullanmak, hem SQLite test ortamında hem de production veritabanlarında çok verimli çalışır.
+**Action:** Döngü içinde (örn: oyun bazlı skor veya kategori bazlı en popüler makaleler) aynı tablodan limitli kayıt çekiliyorsa, doğrudan subquery ile `ROW_NUMBER()` uygulayarak bu işlemi tek bir veritabanı sorgusuna düşürün.
