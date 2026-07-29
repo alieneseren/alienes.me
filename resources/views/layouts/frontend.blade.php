@@ -17,10 +17,10 @@
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
         
-        // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        // Check if sections have content using exists() instead of count() > 0 for better performance (LIMIT 1 instead of COUNT(*))
+        $hasExperiences = \App\Models\Experience::exists();
+        $hasSkills = \App\Models\Skill::exists();
+        $hasProjects = \App\Models\Project::exists();
     @endphp
     
     <!-- Favicon -->
