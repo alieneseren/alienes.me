@@ -1,0 +1,3 @@
+## 2025-02-12 - Frontend Ana Sayfa N+1 ve Çoklu Sorgu Optimizasyonu
+**Learning:** Ana sayfada (Frontend/HomeController@index) farklı modellerden (Profile, Experience, Education, Skill, Project) veriler çekilirken her seferinde 5 ayrı veritabanı sorgusu atılıyordu. Bu statik/yarı statik bir sayfa için gereksiz veritabanı yükü oluşturuyordu.
+**Action:** Bu sorguları tek bir `$homeData` array'i altında toplayıp `Cache::remember` ile önbelleğe alarak, 5 olan sorgu sayısını ikinci yüklemeden itibaren 0'a indirdim. Model güncelleme (kaydetme/silme) durumlarında cache'in temizlenmesi için `ClearsFrontendCache` trait'i oluşturulup ilgili modellere eklendi.
