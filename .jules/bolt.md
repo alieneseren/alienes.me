@@ -1,0 +1,3 @@
+## 2024-08-04 - Blade View Collection & Query Optimizasyonu
+**Learning:** Laravel blade görünümlerinde statik veritabanı sayım işlemleri (`\App\Models\Model::count() > 0`) ve bellek içi koleksiyon denetimleri (`$collection->count() > 0`), genellikle gözden kaçan performans darboğazlarıdır. `count()` tablodaki tüm satırları sayar, `exists()` ise bir kaydın varlığını `LIMIT 1` ile kontrol eder, bu da özellikle büyük tablolarda önemli fark yaratır. Bellekte ise `isNotEmpty()` metodu gereksiz yineleme ve okuma eforunu azaltır.
+**Action:** Tüm Laravel görünümlerini ve modellerdeki şartlı ifadeleri varsayılan olarak `exists()` veya bellekteki koleksiyonlar için `isNotEmpty()` kullanacak şekilde tarayın, `count() > 0` deseninden kaçının.
