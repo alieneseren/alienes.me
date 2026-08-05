@@ -1,0 +1,3 @@
+## 2024-10-24 - Storage Framework Views Git Kirliliği
+**Learning:** `npm run build` ve PHP görünüm derleme testleri (örneğin manuel `getCompiler()->compile()`) çalıştırıldığında, `storage/framework/views/` ve `public/build/` dizinlerinde cache dosyaları ve `package-lock.json` güncellemeleri oluşturulur. Eğer `git add .` kullanılırsa, bu gereksiz dosyalar depoya eklenir ve kodu kirletir.
+**Action:** Testleri çalıştırdıktan sonra, özellikle Blade görünümleri veya frontend derlemeleriyle çalışırken `storage/framework/views/` ve `public/build/` içindeki oluşturulmuş dosyaların staging aşamasına (git add) dahil edilmediğinden her zaman emin ol ve temizle. Ayrıca `package-lock.json`'da yapılan istenmeyen değişiklikleri `git restore` ile geri al.
