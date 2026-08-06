@@ -11,21 +11,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <title>@yield('title', 'Alienes.me - Portfolio')</title>
     
-    @php
-        $profile = \App\Models\Profile::first();
-        $faviconUrl = $profile && $profile->github_avatar_url 
-            ? $profile->github_avatar_url 
-            : asset('favicon.ico');
-        
-        // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
-    @endphp
-    
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ $faviconUrl }}">
-    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
+    <link rel="icon" type="image/png" href="{{ $layoutData['faviconUrl'] ?? asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ $layoutData['faviconUrl'] ?? asset('favicon.ico') }}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,16 +58,16 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Ana Sayfa</a>
-                    @if($hasExperiences)
+                    @if(!empty($layoutData['hasExperiences']))
                     <a href="{{ route('home') }}#experience" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Deneyim</a>
                     @endif
-                    @if($hasSkills)
+                    @if(!empty($layoutData['hasSkills']))
                     <a href="{{ route('home') }}#skills" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Yetenekler</a>
                     @endif
-                    @if($hasProjects)
+                    @if(!empty($layoutData['hasProjects']))
                     <a href="{{ route('projects') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Projeler</a>
                     @endif
-                    @if(\App\Models\Cv::where('is_published', true)->exists())
+                    @if(!empty($layoutData['hasPublishedCv']))
                     <a href="{{ route('cv.show') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📄 CV</a>
                     @endif
                     <a href="https://games.alienes.me" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition font-semibold">🎮 Oyunlar</a>
@@ -110,16 +98,16 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700">
             <div class="px-4 py-4 space-y-3">
                 <a href="{{ route('home') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Ana Sayfa</a>
-                @if($hasExperiences)
+                @if(!empty($layoutData['hasExperiences']))
                 <a href="{{ route('home') }}#experience" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Deneyim</a>
                 @endif
-                @if($hasSkills)
+                @if(!empty($layoutData['hasSkills']))
                 <a href="{{ route('home') }}#skills" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Yetenekler</a>
                 @endif
-                @if($hasProjects)
+                @if(!empty($layoutData['hasProjects']))
                 <a href="{{ route('projects') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Projeler</a>
                 @endif
-                @if(\App\Models\Cv::where('is_published', true)->exists())
+                @if(!empty($layoutData['hasPublishedCv']))
                 <a href="{{ route('cv.show') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">📄 CV</a>
                 @endif
                 <a href="https://games.alienes.me" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600 font-semibold">🎮 Oyunlar</a>

@@ -1,0 +1,3 @@
+## 2024-05-18 - [View Composer ile Sorgu Optimizasyonu]
+**Learning:** Blade view'lar içerisinde model bazlı `count() > 0` veya `exists()` kontrolleri her sayfa yüklenmesinde ayrı ayrı SQL sorguları oluşturur. Bu, özellikle layout gibi her sayfada dahil edilen görünümlerde ciddi performans darboğazlarına (N+1 benzeri fazladan sorgulara) yol açar.
+**Action:** Bu tür statik/yarı statik layout verilerini bir View Composer (veya AppServiceProvider) içine taşıyıp, `Cache::remember` ile önbellekle. Model `saved` ve `deleted` eventlerinde cache temizleme işlemlerini merkezi bir Trait (ör: `ClearsLayoutCache`) ile yönet.
