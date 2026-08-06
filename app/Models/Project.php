@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ClearsLayoutCache;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsLayoutCache;
 
     protected $fillable = [
         'title',
