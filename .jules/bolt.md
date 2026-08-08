@@ -1,0 +1,3 @@
+## 2024-05-18 - Blade Şablonlarında Model/Koleksiyon Sayımı
+**Learning:** Laravel Blade şablonlarında (özellikle layout veya genel görünümlerde) model sayısını kontrol etmek için kullanılan `Model::count() > 0`, performansı olumsuz etkileyen tam tablo sayımları üretir (`SELECT COUNT(*)`). Benzer şekilde bellek içi koleksiyonlarda `$collection->count() > 0` yöntemi aşırı bellek tüketimine ve okunabilirlik kaybına yol açar.
+**Action:** `Model::count() > 0` işlemini daima `Model::exists()` ile değiştirmeliyiz (bu yaklaşım LIMIT 1 kullanarak işlemi hızlandırır). Koleksiyonlar için ise daha temiz ve hızlı olan `$collection->isNotEmpty()` metodu tercih edilmelidir.
