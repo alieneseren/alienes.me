@@ -1,0 +1,3 @@
+## 2024-08-12 - [Layout Query Optimization & Cache Invalidation]
+**Learning:** [Blade şablonlarında birden fazla model count/exists çağrısı varsa (örneğin menü görünürlüğü için), bunlar sayfa yüklenmelerinde N adet ayrı query yaratır. `count() > 0` yerine `exists()` kullanmak veritabanı performansını artırır (LIMIT 1 sebebiyle). Ayrıca bunları tek bir `Cache::remember` bloğuna toplayıp model `booted` (saved/deleted) eventleri ile geçersiz kılmak (invalidate), uygulama genelinde sıfır query yükü sağlar.]
+**Action:** [Tüm sayfalarda yüklenen master view veya layout dosyalarında statik sayımlar ve veritabanı varlık kontrolleri varsa, bunları mutlaka model bazlı event tetikleyicileri ile cache mekanizmasına al ve count() > 0 yerine exists() kullan.]
