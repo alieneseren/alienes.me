@@ -1,0 +1,3 @@
+## 2024-05-24 - Grouped Queries and Memory Collections
+**Learning:** Checking `$collection->count() > 0` on loaded Eloquent Collections forces a loop over the underlying array in PHP. Wrapping multiple static queries (like profile and experiences for a homepage) in a single `Cache::rememberForever` array reduces DB hits from 5 to 1 (when cached) and avoids the N+1 problem on the cache store itself.
+**Action:** When views depend on multiple static data models, group their fetch logic into an associative array, cache it as a single block, and prefer `$collection->isNotEmpty()` over `count() > 0` for in-memory collections.
