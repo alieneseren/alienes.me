@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
+    use \App\Traits\ClearsPortfolioCache;
 
     protected $fillable = [
         'full_name',
