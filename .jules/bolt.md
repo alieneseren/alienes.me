@@ -1,0 +1,3 @@
+## 2024-08-15 - Veritabanı ve Koleksiyon Sayım (Count) Optimizasyonları
+**Learning:** Laravel'de `count() > 0` sorgusu tüm veritabanı satırlarını saydığı ( `SELECT COUNT(*)` ) için büyük tablolarda gereksiz maliyet oluşturur. Aynı şekilde belleğe alınmış koleksiyonlarda (Collection) `$collection->count() > 0` kullanmak da nesneleri gereksiz yere baştan sona iterasyona sokar.
+**Action:** Sadece bir kaydın varlığını kontrol etmek istediğimizde veritabanı seviyesinde her zaman `exists()` ( `LIMIT 1` kullandığı için çok daha hızlıdır) metodunu kullanmalıyız. Bellek içi koleksiyonlarda (Collection) ise hem okunabilirliği artırmak hem de performansı korumak için `isNotEmpty()` metodunu tercih etmeliyiz.
