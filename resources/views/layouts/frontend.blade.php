@@ -12,15 +12,24 @@
     <title>@yield('title', 'Alienes.me - Portfolio')</title>
     
     @php
-        $profile = \App\Models\Profile::first();
-        $faviconUrl = $profile && $profile->github_avatar_url 
-            ? $profile->github_avatar_url 
-            : asset('favicon.ico');
-        
-        // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        $layoutData = \Illuminate\Support\Facades\Cache::remember('layout_data', 3600, function () {
+            $profile = \App\Models\Profile::first();
+            return [
+                'profile' => $profile,
+                'hasExperiences' => \App\Models\Experience::exists(),
+                'hasSkills' => \App\Models\Skill::exists(),
+                'hasProjects' => \App\Models\Project::exists(),
+                'hasCv' => \App\Models\Cv::where('is_published', true)->exists(),
+                'faviconUrl' => $profile && $profile->github_avatar_url ? $profile->github_avatar_url : asset('favicon.ico')
+            ];
+        });
+
+        $profile = $layoutData['profile'];
+        $faviconUrl = $layoutData['faviconUrl'];
+        $hasExperiences = $layoutData['hasExperiences'];
+        $hasSkills = $layoutData['hasSkills'];
+        $hasProjects = $layoutData['hasProjects'];
+        $hasCv = $layoutData['hasCv'];
     @endphp
     
     <!-- Favicon -->
@@ -79,7 +88,7 @@
                     @if($hasProjects)
                     <a href="{{ route('projects') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">Projeler</a>
                     @endif
-                    @if(\App\Models\Cv::where('is_published', true)->exists())
+                    @if($hasCv)
                     <a href="{{ route('cv.show') }}" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition">📄 CV</a>
                     @endif
                     <a href="https://games.alienes.me" class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition font-semibold">🎮 Oyunlar</a>
@@ -119,7 +128,7 @@
                 @if($hasProjects)
                 <a href="{{ route('projects') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">Projeler</a>
                 @endif
-                @if(\App\Models\Cv::where('is_published', true)->exists())
+                @if($hasCv)
                 <a href="{{ route('cv.show') }}" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600">📄 CV</a>
                 @endif
                 <a href="https://games.alienes.me" class="block text-gray-700 dark:text-gray-300 hover:text-primary-600 font-semibold">🎮 Oyunlar</a>
