@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Experience extends Model
 {
     use HasFactory;
+    use \App\Traits\ClearsPortfolioCache;
 
     protected $fillable = [
         'company',
