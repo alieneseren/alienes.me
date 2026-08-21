@@ -20,7 +20,8 @@ class SitemapController extends Controller
         $urls[] = ['loc' => URL::to('/contact'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.5'];
 
         // Study notes (if any)
-        $notes = StudyNote::where('is_active', true)->orderBy('updated_at', 'desc')->get();
+        // Optimizasyon: N+1 problemini çözmek için category ilişkisini eager load ediyoruz
+        $notes = StudyNote::with('category')->where('is_active', true)->orderBy('updated_at', 'desc')->get();
         foreach ($notes as $note) {
             $categorySlug = $note->category ? $note->category->slug : 'study';
             $urls[] = ['loc' => URL::to('/study/' . $categorySlug . '/' . $note->slug), 'lastmod' => $note->updated_at->toAtomString(), 'changefreq' => 'monthly', 'priority' => '0.6'];
