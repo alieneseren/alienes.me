@@ -1,0 +1,3 @@
+## 2025-02-23 - Koleksiyon ve Veritabanı Kontrolü Optimizasyonları
+**Learning:** `count() > 0` kullanımı in-memory Eloquent koleksiyonları için bellekte performans kaybına ve veritabanı sorgularında tüm satırların sayılmasına (aggregate) yol açar. Veritabanında kayıt olup olmadığını kontrol etmek için `exists()` kullanımı (çünkü bu `LIMIT 1` uygular) ve bellek içi (in-memory) koleksiyonlar için ise `isNotEmpty()` kullanmak çok daha hızlı ve belleği yormayan bir yöntemdir.
+**Action:** Layout veya View katmanında Eloquent koleksiyonlarının boş olup olmadığını kontrol ederken `count()` yerine her zaman `isNotEmpty()` veya doğrudan veritabanı üzerinden `exists()` kullanacağım.
