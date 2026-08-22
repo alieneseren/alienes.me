@@ -122,7 +122,8 @@
 </section>
 
 <!-- Experience Section -->
-@if($experiences->count() > 0)
+{{-- ⚡ Bolt: in-memory collection'lar için isNotEmpty(), count() > 0'dan daha verimlidir --}}
+@if($experiences->isNotEmpty())
 <section id="experience" class="py-20 bg-gray-50 dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -157,7 +158,8 @@
 @endif
 
 <!-- Education Section -->
-@if($educations->count() > 0)
+{{-- ⚡ Bolt: in-memory collection'lar için isNotEmpty(), count() > 0'dan daha verimlidir --}}
+@if($educations->isNotEmpty())
 <section id="education" class="py-20 bg-white dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -192,7 +194,8 @@
 @endif
 
 <!-- Skills Section -->
-@if($skills->count() > 0)
+{{-- ⚡ Bolt: in-memory collection'lar için isNotEmpty(), count() > 0'dan daha verimlidir --}}
+@if($skills->isNotEmpty())
 <section id="skills" class="py-20 bg-gray-50 dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -229,7 +232,8 @@
 @endif
 
 <!-- Projects Section -->
-@if($projects->count() > 0)
+{{-- ⚡ Bolt: in-memory collection'lar için isNotEmpty(), count() > 0'dan daha verimlidir --}}
+@if($projects->isNotEmpty())
 <section id="projects" class="py-20 bg-white dark:bg-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
