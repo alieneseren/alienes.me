@@ -1,0 +1,3 @@
+## 2025-02-12 - count() vs exists() and isNotEmpty() Performans Farkı
+**Learning:** Laravel/Eloquent ve Blade sisteminde `count() > 0` kullanmak veritabanında `SELECT COUNT(*)` çalıştırarak tüm tabloyu gereksiz yere sayar. Bunu engellemek için Model tabanlı yerlerde `exists()` kullanılarak `LIMIT 1` ile performans kazanılır. Collection (Controller'dan gelen) üzerinden sayım yapılırken `isNotEmpty()` kullanmak ise hem mikro performans artışı sağlar hem de daha temiz bir kod ortaya çıkartır.
+**Action:** Gelecekte, eğer bir koleksiyonun ya da veritabanı sorgusunun içeriği olup olmadığı sadece mantıksal(boolean) olarak denetleniyorsa, her zaman `count() > 0` yerine veritabanı aşamasında `exists()`, bellek aşamasında `isNotEmpty()` kullan.
