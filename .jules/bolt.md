@@ -1,0 +1,3 @@
+## 2024-05-18 - Blade Şablonlarında count() vs exists() Optimizasyonu
+**Learning:** Laravel uygulamasında genel layout (örneğin `frontend.blade.php`) her render edildiğinde veritabanından veri olup olmadığını kontrol etmek için `Model::count() > 0` kullanılıyordu. Bu yöntem, SQLite ve diğer SQL veritabanlarında tüm tabloyu (veya indeksini) saymak zorunda kalır (O(N) karmaşıklığı). Ayrıca memory'ye yüklenmiş koleksiyonlarda `$collection->count() > 0` yerine `$collection->isNotEmpty()` kullanmak daha semantiktir ve az da olsa işlem yükünü hafifletir.
+**Action:** Tüm tabloları saymak yerine varlık kontrolü gereken durumlarda doğrudan `Model::exists()` (veritabanı sorgularında O(1) maliyetle LIMIT 1 yapar) ve bellek içi koleksiyonlarda `isNotEmpty()` kullanılmalıdır.
