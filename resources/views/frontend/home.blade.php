@@ -126,7 +126,8 @@
     </section>
 
     <!-- Experience Section -->
-    @if($experiences->count() > 0)
+    {{-- ⚡ Bolt: Koleksiyon boş mu kontrolü için count() > 0 yerine isNotEmpty() kullanıldı (okunabilirlik ve mikro optimizasyon) --}}
+    @if($experiences->isNotEmpty())
     <section id="experience" class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Deneyimler</h2>
@@ -159,7 +160,8 @@
     @endif
 
     <!-- Education Section -->
-    @if($educations->count() > 0)
+    {{-- ⚡ Bolt: Koleksiyon boş mu kontrolü için count() > 0 yerine isNotEmpty() kullanıldı --}}
+    @if($educations->isNotEmpty())
     <section id="education" class="py-20 bg-white dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Eğitim</h2>
@@ -195,7 +197,8 @@
     @endif
 
     <!-- Skills Section -->
-    @if($skills->count() > 0)
+    {{-- ⚡ Bolt: Koleksiyon boş mu kontrolü için count() > 0 yerine isNotEmpty() kullanıldı --}}
+    @if($skills->isNotEmpty())
     <section id="skills" class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Yetenekler</h2>
@@ -230,7 +233,8 @@
     @endif
 
     <!-- Featured Projects Section -->
-    @if($featuredProjects->count() > 0)
+    {{-- ⚡ Bolt: Koleksiyon boş mu kontrolü için count() > 0 yerine isNotEmpty() kullanıldı --}}
+    @if($featuredProjects->isNotEmpty())
     <section id="projects" class="py-20 bg-white dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
