@@ -1,0 +1,4 @@
+
+## 2024-05-27 - [Laravel N+1 Optimization with SQLite Testing]
+**Learning:** SQLite'te N+1 sorgu optimizasyonu (her grup için en yüksek N kaydı getirme) yaparken `UNION ALL` (ORDER BY / LIMIT içeren subquery'lerle) kullanmak hatalara neden olur. Bunun yerine Eloquent ile `ROW_NUMBER() OVER(PARTITION BY...)` window fonksiyonunu (SQLite 3.25+ destekli) `fromSub` metodu içerisinde kullanmak uygulamanın yerel SQLite testlerinde sorunsuz çalışır ve mükemmel bir 1-sorgu optimizasyonu sağlar. Global Scope'ların (SoftDeletes gibi) sebep olacağı "Unknown column" hatalarını önlemek için alias olarak `(new static)->getTable()` kullanılmalıdır.
+**Action:** Gruplanmış N adet kayıt çekme operasyonlarında her zaman `selectRaw` içinde `ROW_NUMBER()` içeren subquery'yi `fromSub` metoduyla kullan ve test etmek için `test_query.php` tarzı betikler oluştur.
