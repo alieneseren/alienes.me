@@ -1,0 +1,3 @@
+## 2024-03-24 - Layout Optimizasyonunda exists() Kullanımı
+**Learning:** Blade layout dosyalarında veya view'larda Eloquent Modellerinin veritabanında var olup olmadığını kontrol etmek için `Model::count() > 0` kullanıldığında, veritabanı tüm satırları sayar (`SELECT COUNT(*)`). Bu durum büyük tablolarda gereksiz yavaşlamaya neden olur. Ayrıca yüklenmiş koleksiyonlarda `$collection->count() > 0` kullanımı tüm elemanların sayılmasını gerektirir, oysa `$collection->isNotEmpty()` daha performanslı ve okunaklıdır.
+**Action:** Gelecekte veritabanından yalnızca varlık kontrolü yapılacaksa `count() > 0` yerine daima `exists()` (bu `LIMIT 1` ile çalışarak ilk kayıtta aramayı durdurur) ve hali hazırda hafızaya yüklenmiş koleksiyonlar için ise `isNotEmpty()` kullanılmalıdır.
