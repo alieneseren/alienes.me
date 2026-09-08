@@ -1,0 +1,3 @@
+## 2024-05-19 - Laravel Blade Optimizasyonları ve Git Temizliği
+**Learning:** Laravel'de `Model::count() > 0` kullanmak, tüm tabloyu taradığı için yavaştır; yerine `Model::exists()` kullanmak performansı artırır. Ayrıca, görünüm (view) derlemelerini manuel olarak test ederken `storage/framework/views` dizininde oluşan cache dosyaları git'e yanlışlıkla eklenebilir ve bu dosyalar kesinlikle PR'a dahil edilmemelidir.
+**Action:** Koleksiyonlarda `count() > 0` yerine `isNotEmpty()` kullanılmalı, veritabanı sorgularında ise `exists()` tercih edilmelidir. Manuel derleme testlerinden sonra her zaman `git clean -fd storage/framework/views` ve `git restore --staged storage/framework/views` komutları ile gereksiz dosyalar temizlenmelidir.
