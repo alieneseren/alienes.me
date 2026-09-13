@@ -1,0 +1,3 @@
+## 2024-10-24 - Hızlı Veritabanı Kontrolleri ve Koleksiyon Optimizasyonu
+**Learning:** Laravel şablonlarında bir tablonun veya koleksiyonun boş olup olmadığını kontrol etmek için `count() > 0` kullanmak, gereksiz performans kaybına neden olur. Veritabanı sorguları için `count()`, tam tablo taraması (`SELECT COUNT(*)`) yaparken `exists()`, `LIMIT 1` ile çok daha hızlıdır. Hafızadaki Eloquent koleksiyonları için ise `$collection->count() > 0` yerine `$collection->isNotEmpty()` kullanmak hem daha hızlıdır hem de daha okunaklı bir kod sağlar.
+**Action:** Durum/Varlık kontrolü yapılan her yerde `count() > 0` arayarak, veritabanı sorguları için `exists()`, koleksiyonlar için `isNotEmpty()` kullanmaya öncelik ver.
