@@ -1,0 +1,3 @@
+## 2024-05-24 - Laravel Blade İçi Collection Kontrolü Optimizasyonu
+**Learning:** Laravel projelerinde, Blade şablonlarında bir tablo verisinin var olup olmadığını kontrol ederken sıklıkla `Model::count() > 0` kullanılıyor. Bu yaklaşım veritabanında tam tablo taramasına yol açar. Ayrıca, belleğe yüklenmiş Collection'lar üzerinde `$collection->count() > 0` kullanılması, basit bir dizi boyutu kontrolünden çok daha maliyetli (overhead) olan count metodunu tetikliyor.
+**Action:** Tablo üzerinden sorgu yaparken `exists()`, bellekteki (in-memory) Collection'lar üzerinde boş kontrolü yaparken ise `isNotEmpty()` metodunu kullanacağım. Bu, idiomatic ve performanslı olan yöntemdir.
