@@ -1,0 +1,3 @@
+## 2024-09-18 - Blade Şablonlarında count() Yerine exists() ve isNotEmpty() Kullanımı
+**Learning:** Blade şablonlarında Eloquent sorguları veya koleksiyonları üzerinde eleman varlığını kontrol etmek için `count() > 0` kullanmak performans kaybına neden olur. Veritabanı seviyesinde `count()` tüm satırları sayarken, `exists()` `LIMIT 1` kullanarak ilk eşleşmede döner. Koleksiyonlar için ise `count()` tüm koleksiyonu sayarken, `isNotEmpty()` doğrudan koleksiyonun boş olup olmadığını kontrol eder.
+**Action:** Şablonlarda ve denetleyicilerde eleman varlığını kontrol etmek için veritabanı sorgularında her zaman `exists()` (Model::exists()), bellekteki koleksiyonlarda ise `isNotEmpty()` ($collection->isNotEmpty()) kullanılmalıdır.
