@@ -1,0 +1,3 @@
+## 2025-02-15 - Laravel Blade View N+1 Veritabanı ve Koleksiyon Optimizasyonu
+**Learning:** Laravel şablonlarında bir tablonun boş olup olmadığını kontrol etmek için sıklıkla kullanılan `count() > 0` metodu, özellikle büyük tablolarda veritabanı üzerinde `SELECT COUNT(*)` sorgusu oluşturduğu için gereksiz performans kaybına neden olur. Benzer şekilde, zaten yüklenmiş (eager loaded) koleksiyonlar üzerinde `count() > 0` kullanmak da bellek üzerinde ufak da olsa ekstra işlem gerektirir.
+**Action:** Veritabanı sorguları için her zaman `LIMIT 1` kullanan ve bulduğu ilk kayıtta dönen `exists()` metodunu tercih etmeliyiz. Bellek-içi Eloquent koleksiyonları için ise hem daha okunaklı olan hem de doğrudan boşluk kontrolü yapan `isNotEmpty()` metodunu kullanmalıyız.
