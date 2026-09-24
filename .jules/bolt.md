@@ -1,0 +1,3 @@
+## 2024-09-24 - Eloquent Koleksiyonlarında ve Veritabanı Sorgularında count() > 0 Optimizasyonu
+**Learning:** Arayüz şablonlarında veri varlığını kontrol ederken, eğer veri zaten belleğe bir koleksiyon olarak yüklenmişse `$collection->count() > 0` yerine `$collection->isNotEmpty()` kullanmak daha verimlidir ve gereksiz overhead'i önler. Veritabanından doğrudan sorgu yaparken ise (örn. `Model::count() > 0`), tüm satırları saymak yerine `Model::exists()` kullanmak `LIMIT 1` sorgusu üreterek veritabanı performansını artırır.
+**Action:** Şablonlarda veya controller'larda veri varlığını kontrol ederken her zaman koleksiyonlar için `isNotEmpty()`, doğrudan veritabanı sorguları için `exists()` kullanacağım.
