@@ -1,0 +1,3 @@
+## 2024-05-18 - Blade Views'da Eloquent Collection'lar ile Gereksiz Yük
+**Learning:** Laravel Blade view dosyalarında, frontend.blade.php gibi dosyalarda doğrudan veritabanı sorguları (örn. `\App\Models\Experience::count() > 0`) yapılması ve `$collection->count() > 0` kullanılması performansı düşürüyor. `isNotEmpty()` kullanmak koleksiyonlar için daha iyi ve layout'ta veritabanı sorgusu yapmak yerine `exists()` kullanmak sorguyu hızlandırır, veya layout bazında optimize edilebilir.
+**Action:** `count() > 0` yerine koleksiyonlarda `isNotEmpty()`, veritabanı statik kontrollerinde `exists()` kullanacağım.
