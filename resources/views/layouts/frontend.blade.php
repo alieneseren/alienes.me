@@ -17,10 +17,18 @@
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
         
-        // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        // Check if sections have content (Optimized to use exists() and cached)
+        $sectionVisibility = \Illuminate\Support\Facades\Cache::remember('frontend_section_visibility', 3600, function () {
+            return [
+                'hasExperiences' => \App\Models\Experience::exists(),
+                'hasSkills' => \App\Models\Skill::exists(),
+                'hasProjects' => \App\Models\Project::exists(),
+            ];
+        });
+
+        $hasExperiences = $sectionVisibility['hasExperiences'];
+        $hasSkills = $sectionVisibility['hasSkills'];
+        $hasProjects = $sectionVisibility['hasProjects'];
     @endphp
     
     <!-- Favicon -->
