@@ -1,0 +1,3 @@
+## 2023-10-27 - N+1 Query Optimization and exists() usage
+**Learning:** Checking for existence of records using Eloquent's `count() > 0` is a common anti-pattern that fetches count of all records which is slower than checking if at least one record exists using `exists()`. Furthermore, doing these operations directly in the Blade layout causes unnecessary queries if not cached, but the immediate optimization is converting `count() > 0` to `exists()` to utilize `LIMIT 1`. In Blade, in-memory collections should use `isNotEmpty()` instead of `count() > 0`.
+**Action:** Replace `Model::count() > 0` with `Model::exists()` for database queries and `$collection->count() > 0` with `$collection->isNotEmpty()` for in-memory collections in Blade views to improve performance.
