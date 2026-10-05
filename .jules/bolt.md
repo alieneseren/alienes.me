@@ -1,0 +1,3 @@
+## 2024-05-30 - [Blade View'larda Count Anti-Pattern'ı]
+**Learning:** [Blade template'lerinde, varlık (existence) kontrolü yapmak için model sorgularında `count() > 0` ve koleksiyonlarda `$collection->count() > 0` kullanıldığı tespit edildi. Bu durum, veritabanında gereksiz bir sayım sorgusuna (LIMIT 1 kullanmak yerine) veya bellek içi koleksiyonlarda gereksiz bir yük oluşmasına sebep oluyor.]
+**Action:** [Blade template'lerinde doğrudan modelden sorgu yapıldığında `count() > 0` yerine `exists()` metodunu tercih etmeliyim. Yüklenmiş bellek içi koleksiyonlar için ise okunabilirliği artıran ve sayım işlemi yapmayan `isNotEmpty()` metodunu kullanmalıyım.]
