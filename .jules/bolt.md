@@ -1,0 +1,3 @@
+## 2024-06-11 - Layout dosyalarında count() yerine exists() kullanımı
+**Learning:** Sayfa layoutlarında (örn. `frontend.blade.php`) menü linklerini göstermek/gizlemek için yapılan veritabanı kayıt sayısı kontrollerinde (`count() > 0`) tüm satırların sayılması gereksiz bir performans yükü (N+1 veya genel gecikme) yaratabilir. `exists()` kullanmak, SQL'de `LIMIT 1` ile sadece bir kayıt olup olmadığını kontrol ettiği için çok daha verimlidir.
+**Action:** Koşullu render işlemleri için veritabanında en az bir kayıt olup olmadığını kontrol ederken her zaman `count() > 0` yerine Eloquent'in `exists()` metodunu kullanacağım.
