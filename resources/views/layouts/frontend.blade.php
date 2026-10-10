@@ -18,9 +18,10 @@
             : asset('favicon.ico');
         
         // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        // ⚡ Bolt: replace count() > 0 with exists() for better performance (LIMIT 1 instead of counting all rows)
+        $hasExperiences = \App\Models\Experience::exists();
+        $hasSkills = \App\Models\Skill::exists();
+        $hasProjects = \App\Models\Project::exists();
     @endphp
     
     <!-- Favicon -->
