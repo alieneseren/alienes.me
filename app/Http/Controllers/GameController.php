@@ -57,9 +57,26 @@ class GameController extends Controller
         $games = ['2048', 'snake', 'flappy-bird', 'memory-card', 'tic-tac-toe', 
                   'quiz', 'breakout', 'color-matcher', 'typing-speed', 'math-quiz'];
         
+        // ⚡ Bolt N+1 Optimizasyonu: SQL window function kullanarak tüm oyunların top 5 skorunu tek sorguda çektik
+        $subquery = GameScore::selectRaw('*, ROW_NUMBER() OVER(PARTITION BY game_name ORDER BY score DESC, created_at ASC) as row_num')
+            ->whereIn('game_name', $games);
+
+        $topScores = GameScore::fromSub($subquery, (new GameScore)->getTable())
+            ->where('row_num', '<=', 5)
+            ->get()
+            ->groupBy('game_name');
+
         $leaderboards = [];
         foreach ($games as $game) {
-            $leaderboards[$game] = GameScore::getTopScores($game, 5);
+            $gameScores = $topScores->get($game, collect());
+
+            // Formatın bozulmaması için geçici row_num attribute'unu temizliyoruz
+            $gameScores->transform(function ($item) {
+                unset($item->row_num);
+                return $item;
+            });
+
+            $leaderboards[$game] = $gameScores;
         }
 
         return response()->json([
