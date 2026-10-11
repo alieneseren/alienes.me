@@ -1,0 +1,3 @@
+## 2026-10-11 - [Optimize GameScore Leaderboards]
+**Learning:** `getTopScores` gibi N adet oyunu döngü içinde veritabanından çekmek N+1 problemine (ve fazladan sorgulara) yol açar. SQLite (test ortamı) ve MySQL modern window fonksiyonlarını `ROW_NUMBER() OVER()` destekler, böylece tüm skorlar tek sorguda alınabilir. Ancak, çok büyük tablolarda window function'lar tüm skorları hafızada sıralayabileceği için dikkat edilmelidir (eğer index kullanımı LIMIT pushdown yapmıyorsa).
+**Action:** Top-N group-by sorgularında, index ve window fonksiyonlarının yeteneklerini değerlendirerek, veritabanı yorulmadan N+1'i engelleyecek Subquery + Window Function kalıplarını kullanmaya devam et.
