@@ -18,9 +18,12 @@
             : asset('favicon.ico');
         
         // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        // ⚡ Bolt Optimizasyonu: Veritabanında tüm satırları saymak yerine (count() > 0),
+        // sadece bir kaydın var olup olmadığını kontrol eden daha performanslı exists() metodu kullanıldı.
+        // Bu sayede "SELECT count(*) FROM table" yerine "SELECT EXISTS(SELECT 1 FROM table LIMIT 1)" sorgusu çalıştırılır.
+        $hasExperiences = \App\Models\Experience::exists();
+        $hasSkills = \App\Models\Skill::exists();
+        $hasProjects = \App\Models\Project::exists();
     @endphp
     
     <!-- Favicon -->
