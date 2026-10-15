@@ -1,0 +1,3 @@
+## 2024-03-24 - Layout Optimizasyonu
+**Learning:** Laravel'de global layout dosyalarında (örneğin `resources/views/layouts/frontend.blade.php`), menü ögelerinin gösterimini kontrol etmek için statik modeller üzerinde `count() > 0` kullanıldığında, veritabanı her seferinde tablodaki tüm kayıtları sayar. Bu, her sayfa yüklemesinde gerçekleştiğinde gereksiz DB yükü ve N+1 benzeri sorunlar oluşturur.
+**Action:** Bir verinin olup olmadığını kontrol ederken daima `$model::exists()` kullan, bu şekilde veritabanı sorgusu `SELECT EXISTS(...)` yapısına dönüşür ve ilk kaydı bulduğunda taramayı bitirerek çok daha hızlı yanıt verir.
