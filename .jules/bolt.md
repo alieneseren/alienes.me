@@ -1,0 +1,3 @@
+## 2025-02-15 - Layout N+1 Query Optimization
+**Learning:** `resources/views/layouts/frontend.blade.php` runs `Experience::count()`, `Skill::count()`, and `Project::count()` directly in the layout, which is evaluated on almost every page load. `count() > 0` executes a full aggregate query `SELECT count(*)`, whereas `exists()` generates an optimized `SELECT exists(...)` query using `LIMIT 1`.
+**Action:** Replaced `count() > 0` with `exists()` inside the layout for all UI condition checks. Combined them into a single `Cache::rememberForever` associative array to eliminate recurring database hits. Added Observer/boot methods on `Experience`, `Skill`, and `Project` models to call `Cache::forget('layout_has_content')` on save/delete to prevent stale UI.
