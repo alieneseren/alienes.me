@@ -20,6 +20,17 @@ class Skill extends Model
         'proficiency' => 'integer',
     ];
 
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('layout_has_content');
+        });
+
+        static::deleted(function ($model) {
+            \Illuminate\Support\Facades\Cache::forget('layout_has_content');
+        });
+    }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('order')->orderBy('name');
