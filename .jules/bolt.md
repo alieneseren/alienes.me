@@ -1,0 +1,4 @@
+
+## 2024-10-21 - [Blade View'larda count() yerine exists() ve isNotEmpty() Kullanımı]
+**Learning:** Blade view'larda veya layout dosyalarında veritabanından gelen verilerin UI kararlarını (örneğin bir bölümün gösterilip gösterilmeyeceği) almak için `Model::count() > 0` kullanıldığında, veritabanındaki tüm satırları sayan ağır bir `COUNT(*)` sorgusu çalıştırılır. Halihazırda Controller'da yüklenmiş olan Collection verilerinde ise yine `$collection->count() > 0` gibi kullanımlar gereksiz bir sayım işlemi tetikler. Bu durum özellikle frontend layout'unda her sayfa yüklenmesinde performans darboğazı yaratabiliyor.
+**Action:** Veritabanında bir kaydın olup olmadığını kontrol etmek için yalnızca `LIMIT 1` kullanan ve doğrudan varlık kontrolü sağlayan `Model::exists()` metodunu tercih edeceğim. Koleksiyonlarda ise boşluk kontrolü için `isNotEmpty()` kullanacağım. Böylece veritabanı yükü ciddi oranda azalacak.
