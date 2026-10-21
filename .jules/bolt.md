@@ -1,0 +1,1 @@
+## 2024-05-24 - Layout Optimizasyonu\n**Learning:** Blade template içinde varlık kontrolü için `count() > 0` kullanılıyordu. Bu tüm tabloyu saymak demek.\n**Action:** Performans iyileştirmesi için `count() > 0` çağrıları `exists()` ile değiştirildi.
