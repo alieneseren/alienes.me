@@ -1,0 +1,3 @@
+## 2024-10-23 - View Optimization
+**Learning:** Checking for model existence in Blade layouts using `Model::count() > 0` instead of `Model::exists()` leads to performance issues by loading all count rows in queries when checking whether a section should be displayed. Additionally, using `Model::first()` repetitively inside a layout file, even when the model was already loaded in the controller (e.g. `HomeController`), causes an N+1 query issue since Blade doesn't share variables injected into the view properly unless explicitly done or using a View Composer.
+**Action:** Replace `$hasExperiences = \App\Models\Experience::count() > 0;` with `$hasExperiences = \App\Models\Experience::exists();` in layouts.
