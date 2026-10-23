@@ -12,15 +12,17 @@
     <title>@yield('title', 'Alienes.me - Portfolio')</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        // Reuse controller-injected profile if exists, else query
+        $profile = $profile ?? \App\Models\Profile::first();
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
         
         // Check if sections have content
-        $hasExperiences = \App\Models\Experience::count() > 0;
-        $hasSkills = \App\Models\Skill::count() > 0;
-        $hasProjects = \App\Models\Project::count() > 0;
+        // Optimize: use exists() instead of count() > 0 (LIMIT 1 instead of counting all rows)
+        $hasExperiences = \App\Models\Experience::exists();
+        $hasSkills = \App\Models\Skill::exists();
+        $hasProjects = \App\Models\Project::exists();
     @endphp
     
     <!-- Favicon -->

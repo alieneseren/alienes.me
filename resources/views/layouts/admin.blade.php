@@ -6,7 +6,8 @@
     <title>@yield('title', 'Admin Panel') - Alienes.me</title>
     
     @php
-        $profile = \App\Models\Profile::first();
+        // Reuse controller-injected profile if exists, else query
+        $profile = $profile ?? \App\Models\Profile::first();
         $faviconUrl = $profile && $profile->github_avatar_url 
             ? $profile->github_avatar_url 
             : asset('favicon.ico');
