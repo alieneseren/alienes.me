@@ -1,0 +1,3 @@
+## 2023-10-25 - [Layout Query Optimization]
+**Learning:** In Laravel Blade layouts (like `frontend.blade.php`), directly calling model static methods like `Profile::first()` or `Experience::count() > 0` bypasses controller data, leading to redundant DB queries and N+1-like performance issues. Also, `count() > 0` executes a full table count query, whereas `exists()` executes a much faster `LIMIT 1` query.
+**Action:** Replace `Model::count() > 0` with `Model::exists()` for existence checks. Use the null coalescing operator (`$var = $var ?? Model::first()`) to reuse variables that may have already been passed by the controller to avoid redundant queries.
