@@ -1,0 +1,3 @@
+## 2025-01-18 - Blade Layout Sorgu Optimizasyonu
+**Learning:** Laravel'de `count() > 0` kullanıldığında veritabanında `COUNT(*)` çalıştırılır. Bunun yerine `exists()` kullanmak sorguyu `LIMIT 1` ile sınırlandırır ve performansı artırır. Ayrıca layout dosyalarında `$profile = \App\Models\Profile::first();` ve CV yayın durumu kontrolü gibi sorgular birden çok kez veya controller'da zaten yapılmışken tekrar çalıştırılabiliyor.
+**Action:** Şablonlarda varlık kontrolleri için `count()` yerine `exists()` kullan. Controller'dan gönderilen değişkenleri `??` ile tekrar kullan ve view içi tekrarlı sorguları değişkene ata.
