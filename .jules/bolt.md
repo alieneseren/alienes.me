@@ -1,0 +1,3 @@
+## 2024-10-30 - [Performans İyileştirmesi] View Sorgu Optimizasyonu
+**Öğrenim:** Blade layout dosyalarında `count() > 0` kullanmak tüm tabloyu saydığı için verimsizdir ve aynı veritabanı sorgusunu (örn. Cv kontrolü) birden fazla yerde çağırmak mükerrer sorgulara neden olur. Ayrıca controller tarafından sağlanan değişkenlerin `??` ile kontrol edilerek tekrar veritabanından çekilmesinin önüne geçilmesi performansı artırır.
+**Eylem:** Layout dosyalarındaki `$collection->count() > 0` kontrolleri `exists()` ile değiştirildi, mükerrer sorgular bir değişkende toplanarak tek seferde çalıştırıldı ve controller'dan gelen verilerin tekrar çekilmesi önlendi.
