@@ -1,0 +1,3 @@
+## 2024-05-20 - [Avoid redundant queries in layout]
+**Learning:** `resources/views/layouts/frontend.blade.php` executes redundant database queries via `\App\Models\Profile::first()` and `\App\Models\...\count() > 0` directly in the view. Controllers like `HomeController` already fetch `$profile`, meaning the layout creates N+1 query issues by fetching the same data again on every page load.
+**Action:** Use null coalescing to reuse injected `$profile` (`$profile = $profile ?? \App\Models\Profile::first();`) and use `exists()` instead of `count() > 0` for static checks to utilize `LIMIT 1` for layout checks. Group and cache these static layout checks.
