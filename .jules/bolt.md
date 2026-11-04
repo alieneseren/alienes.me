@@ -1,0 +1,4 @@
+
+## 2025-02-21 - [Tekrarlayan Blade Layout Sorgularının Optimizasyonu]
+**Learning:** `resources/views/layouts/frontend.blade.php` gibi layout dosyalarında menülerin hem mobil hem de masaüstü versiyonları için (örneğin CV yayınlanma durumu) aynı veritabanı sorgusu tekrar edilebiliyor. Ayrıca model sayısına göre bölüm gösterme işlemlerinde `count() > 0` yerine `exists()` kullanmak sorgu performansını artırıyor (LIMIT 1 kuralı). Aynı şekilde, `Profile::first()` gibi model sorguları bir kez `@php` bloğunda controller'dan gelen değişken null coalescing ile kontrol edilerek (`$profile = $profile ?? \App\Models\Profile::first();`) çalıştırılmalıdır.
+**Action:** Tüm blade görünüm dosyalarında ve özellikle layout'larda, aynı inline veritabanı sorgusunu birden fazla kez çalıştırmaktan kaçınmalı, sorguyu bir kez `@php` bloğunda değişkene atayarak çoklu kullanıma sunmalıyım. Sayma işlemleri yerine `exists()` metodunu tercih etmeliyim.
