@@ -1,0 +1,4 @@
+
+## 2025-01-08 - Layout Veritabanı Sorguları Optimizasyonu
+**Öğrenilen:** Laravel Blade görünüm dosyaları (`resources/views/layouts/frontend.blade.php`), controller seviyesinde çoktan yüklenmiş modeller için tekrar sorgu (örn: `Profile::first()`) yapıyordu. Ayrıca kayıtların varlık kontrolü için `count() > 0` kullanılıyordu (bu, tablodaki tüm satırları sayar). Navigation'da CV'nin gösterilip gösterilmemesi için aynı exists() sorgusu mobilde ve masaüstünde ayrı ayrı çalıştırılıyordu.
+**Aksiyon:** Modeller için Null Coalescing (`$profile ?? Profile::first()`) kullanarak önbellekteki/controller'dan gelen veriyi değerlendir. Varlık (existence) kontrolleri için O(n) performansında tüm tabloları sayan `count() > 0` yerine, veritabanına `LIMIT 1` ile giden O(1) maliyetli `exists()` fonksiyonunu kullan. Çok kez kullanılan aynı sorguyu (`$hasCv`) ilk bloğunda `@php` içerisinde bir değişkene bağlayarak yeniden kullan.
