@@ -1,0 +1,4 @@
+
+## 2024-11-07 - [Frontend Layout Veritabanı Sorgularının Optimizasyonu]
+**Learning:** Blade layout dosyalarında `@php` blokları içinde yapılan `count() > 0` kontrolleri, özellikle birden fazla kez tekrarlanıyorsa ve tabloda çok kayıt varsa `exists()` kullanımına göre daha fazla veritabanı yüküne neden olur. Ayrıca controller tarafından sağlanan verilerin (örneğin `$profile`) view içinde tekrar sorgulanması gereksiz bir `N+1` vari problem yaratır.
+**Action:** View dosyalarında veritabanından bir kaydın var olup olmadığını kontrol ederken daima `exists()` kullanılmalıdır (`LIMIT 1`). Eğer bir veri controller'dan gelme ihtimali taşıyorsa (özellikle layout dosyalarında), `null coalescing` (`$var = $var ?? Model::first();`) operatörü kullanılarak gereksiz tekrarlı sorgulardan kaçınılmalıdır. Tekrarlanan kontroller (örn. mobile ve desktop menüler için) view'ın başında bir kez değerlendirilip değişkende saklanmalıdır.
