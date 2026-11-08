@@ -1,0 +1,3 @@
+## 2024-11-08 - Layout Blade Sorgu Optimizasyonu
+**Öğrenim:** Blade layout dosyalarındaki (frontend.blade.php) satır içi (inline) statik model kontrolleri `count() > 0` yerine `exists()` kullanarak daha verimli hale getirilebilir. Ayrıca, controller'dan zaten çekilmiş olan verileri yeniden sorgulamamak için null coalescing operatörü (`$profile = $profile ?? ...`) kullanılmalı ve birden fazla yerde kullanılan (örneğin menü ve mobil menü) `Cv::where('is_published', true)->exists()` gibi sorgular, `@php` bloğu içinde bir değişkene atanarak tekrarlı çalıştırılması önlenmelidir.
+**Aksiyon:** Herhangi bir layout görünümünü optimize ederken, önce controller tarafından hangi değişkenlerin enjekte edilebildiğini kontrol et ve mükerrer veritabanı sorgularından kaçın.
